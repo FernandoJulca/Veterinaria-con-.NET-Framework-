@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProyectoVeterinaria", "ProyectoVeterinaria\ProyectoVeterinaria.csproj", "{C30EBF45-E250-4698-815A-956B286C8546}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserInterface", "UserInterface", "{EBDF5522-8A88-49D5-B124-5C7DAA2A1062}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{5CA75727-2573-410D-9CD6-CDFA900DB0F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aplicacion", "Aplicacion", "{0F4B1AD7-6DF8-4C51-BC5B-E55DF5B7F804}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dominio", "Dominio", "{F016D311-B7C4-47B4-9285-40D58E958F49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructura", "Infraestructura", "{E02608BC-65DD-4908-890B-AE914A34F3C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C30EBF45-E250-4698-815A-956B286C8546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C30EBF45-E250-4698-815A-956B286C8546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C30EBF45-E250-4698-815A-956B286C8546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C30EBF45-E250-4698-815A-956B286C8546}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C30EBF45-E250-4698-815A-956B286C8546} = {5CA75727-2573-410D-9CD6-CDFA900DB0F9}
+		{5CA75727-2573-410D-9CD6-CDFA900DB0F9} = {EBDF5522-8A88-49D5-B124-5C7DAA2A1062}
+	EndGlobalSection
+EndGlobal
