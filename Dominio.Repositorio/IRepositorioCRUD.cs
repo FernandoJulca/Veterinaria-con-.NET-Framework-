@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.Repositorio
 {
-    public interface IRpositorioCRUD<T> where T : class
+    public interface IRepositorioCRUD<T> where T : class
     {
         string Agregar(T reg);
         string Actualizar(T reg);
