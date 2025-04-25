@@ -1,0 +1,29 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sdf
+*.cache
+*.log
+
+# Build results
+bin/
+obj/
+TestResults/
+*.ncb
+*.aps
+*.dbmdl
+*.bak
+
+# Rider
+.idea/
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+
+# Otros
+*.tmp
+*.DS_Store
+Thumbs.db
