@@ -9,12 +9,13 @@ namespace Dominio.Entidad.Entidad
 {
     public  class Producto
     {
-        [Display(Name = "Id Producto"),Required]public int IdProducto { get; set; }
-        [Display(Name = "Nombre"), Required] public string NombreProducto { get; set; }
-        [Display(Name = "Categoria"), Required] public int IdCategoria { get; set; }
-        [Display(Name = "Precio"), Required] public decimal Precio { get; set; }
-        [Display(Name = "Cantidad Disponible"), Required] public int Stock { get; set; }
-        [Display(Name = "Estado")]public int FlgEstado { get; set; }
+       public int IdProducto { get; set; }
+        public string NombreProducto { get; set; }
+       public int IdCategoria { get; set; }
+         public decimal Precio { get; set; }
+        public int Stock { get; set; }
+        
+        public int FlgEstado { get; set; }
 
     }
 }
