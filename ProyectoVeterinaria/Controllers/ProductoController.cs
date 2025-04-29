@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Aplicacion.Servicios;
 using Dominio.Entidad.Abstraccion;
 using Dominio.Entidad.Entidad;
 using Infraestructura.Data;
@@ -11,36 +13,53 @@ namespace ProyectoVeterinaria.Controllers
 {
     public class ProductoController : Controller
     {
-        ProductoDTO _producto = new ProductoDTO(); //no tan recomendado
-        CategoriaDTO _categoria = new CategoriaDTO();
-      
+        private readonly GestionProductos _gestionProductos = new GestionProductos();
+        
         // GET: Producto
         public async  Task<ActionResult> ListaProductos()
         {
-            var productos = await _producto.Listar();
-            var categorias = await _categoria.Listar();
-            
 
-            return View(productos);
+            var lista = await _gestionProductos.ObtenerListadoProductos();
+            return View(lista);
         }
 
-        [HttpGet] 
+        //CREATE
+        private readonly GestionCategoria _gestionCategoria = new GestionCategoria();
         public async Task<ActionResult> Create()
         {
-            
-            var categorias = await _categoria.Listar();
-
-            ViewBag.categorias = new SelectList(categorias, "IdCategoria", "NombreCategoria");
+            ViewBag.categorias = await _gestionCategoria.ListarCategoria();
+           
             return View(new Producto());
         }
 
+      
         [HttpPost]
+        
         public async Task<ActionResult> Create(Producto reg)
         {
-            var categorias = await _categoria.Listar();
-            ViewBag.mensaje = await _producto.Agregar(reg);
-            ViewBag.categorias = new SelectList(categorias, "IdCategoria", "NombreCategoria", reg.IdCategoria);
 
+
+            
+            ViewBag.mensaje = await _gestionProductos.AgregarProducto(reg);
+            ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
+
+            return View(reg);
+        }
+
+        //EDIT
+        public async Task<ActionResult> Edit(int id)
+        {
+            Producto reg = await _gestionProductos.BuscarProducto(id);
+            ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
+            return View(reg);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(Producto reg)
+        {
+            ViewBag.mensaje = await _gestionProductos.ActualizaProducto(reg);
+            ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
             return View(reg);
         }
     }

@@ -183,6 +183,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Producto\ListaProductos.cshtml" />
     <Content Include="Views\Producto\Create.cshtml" />
+    <Content Include="Views\Producto\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -216,6 +217,10 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Aplicacion.Servicios\Aplicacion.Servicios.csproj">
+      <Project>{b785314a-e764-4fe1-af59-0f48835cb757}</Project>
+      <Name>Aplicacion.Servicios</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dominio.Entidad\Dominio.Entidad.csproj">
       <Project>{24982948-0dd5-4516-8d2d-76356f38fd9d}</Project>
       <Name>Dominio.Entidad</Name>
