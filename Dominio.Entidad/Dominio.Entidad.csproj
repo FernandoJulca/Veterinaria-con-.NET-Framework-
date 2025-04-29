@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstraccion\IAnimal.cs" />
+    <Compile Include="Abstraccion\ICategoria.cs" />
     <Compile Include="Abstraccion\ICliente.cs" />
     <Compile Include="Abstraccion\IProducto.cs" />
     <Compile Include="Entidad\Animal.cs" />

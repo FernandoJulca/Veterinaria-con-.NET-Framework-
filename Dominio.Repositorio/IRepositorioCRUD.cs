@@ -8,8 +8,8 @@ namespace Dominio.Repositorio
 {
     public interface IRepositorioCRUD<T> where T : class
     {
-        string Agregar(T reg);
-        string Actualizar(T reg);
+        Task<string> Agregar(T reg);
+        Task<string> Actualizar(T reg);
 
         //T Buscar(string id);
     }

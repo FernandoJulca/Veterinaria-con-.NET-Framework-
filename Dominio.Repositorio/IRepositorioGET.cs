@@ -8,6 +8,8 @@ namespace Dominio.Repositorio
 {
     public interface IRepositorioGET<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> Listar();
+
     }
+
 }
