@@ -18,10 +18,11 @@
             <tr>
                 <th>@Html.DisplayNameFor(model => model.IdProducto)</th>
                 <th>@Html.DisplayNameFor(model => model.NombreProducto)</th>
-                <th>@Html.DisplayNameFor(model => model.IdCategoria)</th>
+                
                 <th>@Html.DisplayNameFor(model => model.Categoria)</th>
                 <th>@Html.DisplayNameFor(model => model.Precio)</th>
                 <th>@Html.DisplayNameFor(model => model.Stock)</th>
+                
                 <th>@Html.DisplayNameFor(model => model.NombreEstado)</th>
                 <th class="text-center">Acciones</th>
             </tr>
@@ -32,18 +33,17 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.IdProducto)</td>
                     <td>@Html.DisplayFor(modelItem => item.NombreProducto)</td>
-                    <td>@Html.DisplayFor(modelItem => item.IdCategoria)</td>
+                    
                     <td>@Html.DisplayFor(modelItem => item.Categoria)</td>
                     <td>@Html.DisplayFor(modelItem => item.Precio)</td>
                     <td>@Html.DisplayFor(modelItem => item.Stock)</td>
+                   
                     <td>@Html.DisplayFor(modelItem => item.NombreEstado)</td>
                     <td class="text-center">
-                        <a href="@Url.Action("Edit", new { id = item.IdProducto })" class="btn btn-sm btn-primary me-1">
+                        <a href="@Url.Action("Edit", new { id = item.IdProducto })" class="btn btn-sm btn-warning">
                             Editar
                         </a>
-                        <a href="@Url.Action("Details", new { id = item.IdProducto })" class="btn btn-sm btn-info me-1">
-                            Detalles
-                        </a>
+                        
                         <a href="@Url.Action("Delete", new { id = item.IdProducto })" class="btn btn-sm btn-danger">
                             Eliminar
                         </a>

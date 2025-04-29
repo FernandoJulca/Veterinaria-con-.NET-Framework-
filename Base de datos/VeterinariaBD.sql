@@ -212,3 +212,9 @@ BEGIN
 	WHERE IdProducto=@idprod
 END
 GO
+
+
+exec usp_elimina_productos 1
+go
+
+select * from PRODUCTO
