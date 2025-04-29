@@ -54,5 +54,10 @@ namespace Aplicacion.Servicios
         {
             return await _producto.Buscar(id);
         }
+
+        public async Task<string> EliminarProducto(int p)
+        {
+            return await _producto.Eliminar(p);
+        }
     }
 }

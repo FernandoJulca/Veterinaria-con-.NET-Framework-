@@ -62,5 +62,21 @@ namespace ProyectoVeterinaria.Controllers
             ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
             return View(reg);
         }
+
+        //DELETE
+        public async Task<ActionResult> Delete(int ? id = null)
+        {
+            var producto = await _gestionProductos.BuscarProducto(id.Value);   
+            
+            return View("Delete",producto);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            ViewBag.mensaje = await _gestionProductos.EliminarProducto(id);
+            var producto = await _gestionProductos.BuscarProducto(id);
+            return View("Delete",producto);
+        }
     }
 }
