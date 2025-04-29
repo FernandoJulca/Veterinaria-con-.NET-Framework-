@@ -11,6 +11,8 @@ namespace Dominio.Repositorio
         Task<string> Agregar(T reg);
         Task<string> Actualizar(T reg);
 
-        //T Buscar(string id);
+        Task<T> Buscar(int id);
+
+        Task<string> Eliminar(int id);
     }
 }

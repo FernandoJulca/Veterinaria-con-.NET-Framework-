@@ -132,7 +132,14 @@ CREATE TABLE DETALLEVENTA(
 );
 GO
 
-
+CREATE OR ALTER PROC usp_listar_estado
+AS
+BEGIN
+	SELECT
+	*
+	FROM ESTADO
+END
+GO
 
 CREATE OR ALTER PROC usp_listar_categoria
 AS
@@ -151,10 +158,11 @@ BEGIN
 	PROD.IdProducto,
 	PROD.Nombre,
 	CAT.IdCategoria,
-	CAT.Descripcion,
+	
 	PROD.Precio,
 	PROD.stock,
-	EST.Descripcion
+	EST.IdEstado
+	
 	FROM PRODUCTO PROD INNER JOIN CATEGORIA CAT
 	ON CAT.IdCategoria = PROD.Categoria INNER JOIN ESTADO EST
 	ON EST.IdEstado = PROD.flgEstado
@@ -204,3 +212,9 @@ BEGIN
 	WHERE IdProducto=@idprod
 END
 GO
+
+
+exec usp_elimina_productos 1
+go
+
+select * from PRODUCTO

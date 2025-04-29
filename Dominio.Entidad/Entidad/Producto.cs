@@ -15,7 +15,7 @@ namespace Dominio.Entidad.Entidad
          public decimal Precio { get; set; }
         public int Stock { get; set; }
         
-        public int FlgEstado { get; set; }
+        public int IdEstado { get; set; }
 
     }
 }

@@ -18,6 +18,6 @@ namespace Dominio.Entidad.Entidad
         [Display(Name = "Cantidad Disponible"), Required] public int Stock { get; set; }
         [Display(Name = "Id Estado")] public int IdEstado { get; set; }
 
-        [Display(Name = "Estado")]public string Estado { get; set; }
+        [Display(Name = "Estado")]public string NombreEstado { get; set; }
     }
 }

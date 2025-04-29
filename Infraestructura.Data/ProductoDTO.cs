@@ -14,9 +14,9 @@ namespace Infraestructura.Data
 {
     public class ProductoDTO : IProducto
     {
-        public async Task<IEnumerable<ListadoProductos>> Listar()
+        public async Task<IEnumerable<Producto>> Listar()
         {
-            List<ListadoProductos> productos = new List<ListadoProductos>();
+            List<Producto> productos = new List<Producto>();
             try
             {
                 using ( SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
@@ -28,15 +28,15 @@ namespace Infraestructura.Data
                         using (SqlDataReader dr = await cmd.ExecuteReaderAsync()) {
                             while ( await dr.ReadAsync())
                             {
-                                productos.Add(new ListadoProductos()
+                                productos.Add(new Producto()
                                 {
                                     IdProducto = dr.GetInt32(0),
                                     NombreProducto = dr.GetString(1),
                                     IdCategoria = dr.GetInt32(2),
-                                    Categoria = dr.GetString(3),
-                                    Precio = dr.GetDecimal(4),
-                                    Stock = dr.GetInt32(5),
-                                    Estado = dr.GetString(6)
+                                    Precio = dr.GetDecimal(3),
+                                    Stock = dr.GetInt32(4),
+                                    IdEstado = dr.GetInt32(5)
+
                                 });
 
                             }
@@ -61,10 +61,10 @@ namespace Infraestructura.Data
         public async Task<string> Agregar(Producto reg)
         {
             string mensaje = "";
-
-            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+            try
             {
-                try
+
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
                 {
                     await cnn.OpenAsync();
                     using (SqlCommand cmd = new SqlCommand("usp_insertar_productos", cnn))
@@ -82,17 +82,17 @@ namespace Infraestructura.Data
                         mensaje = $"se ha registrado el producto {reg.NombreProducto}";
                     }
                 }
-                catch (Exception ex)
-                {
-                    mensaje = ex.Message;
-                }
-                finally
-                {
-
-                     cnn.Close();
-
-                }
             }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error en la base de datos", ex);
+            }
+            catch (Exception ex) {
+
+                throw new Exception("Error al agregar", ex);
+            }
+                
+            
             return mensaje;
         }
 
@@ -100,10 +100,11 @@ namespace Infraestructura.Data
         {
             string mensaje = "";
 
-            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+            try
             {
-                try
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
                 {
+
                     await cnn.OpenAsync();
                     using (SqlCommand cmd = new SqlCommand("usp_actualiza_productos", cnn))
                     {
@@ -120,20 +121,59 @@ namespace Infraestructura.Data
                         mensaje = $"se ha actualizado el producto con el Id{reg.IdProducto}";
                     }
                 }
-                catch (Exception ex)
-                {
-                    mensaje = ex.Message;
-                }
-                finally
-                {
-
-                    cnn.Close();
-
-                }
             }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error en la base de datos", ex);
+            }
+            catch (Exception ex) {
+                throw new Exception("Error al actualizar", ex);
+            }
+
+          
             return mensaje;
         }
 
-       
+
+        public async Task<Producto> Buscar(int id)
+        {
+            var lista = await Listar();
+            var producto = lista.FirstOrDefault(x => x.IdProducto == id);
+
+            if (producto == null)
+                throw new Exception("Producto no encontrado");
+
+            return producto;
+        }
+
+
+        public async Task<string> Eliminar(int id)
+        {
+            string mensaje = "";
+            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+            {
+                try
+                {
+                    await cnn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("usp_elimina_productos", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@idprod", id);
+                        int i = await cmd.ExecuteNonQueryAsync();
+                        mensaje = $"Se ha eliminado el producto seleccionado";
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Error en la base de datos", ex);
+                }catch (Exception ex)
+                {
+                    throw new Exception("Error al eliminar", ex);
+                }
+               
+            }
+            return mensaje ;
+        }
     }
 }
