@@ -21,8 +21,9 @@ CREATE TABLE ESTADO(
 GO
 
 INSERT INTO ESTADO VALUES
-(1,'activo'),
-(2,'eliminado')
+(1,'Disponible'),
+(2,'Suspendido'),
+(3,'Agotado')
 GO
 
 CREATE TABLE CLIENTES(
@@ -33,7 +34,7 @@ CREATE TABLE CLIENTES(
 	Telefono nvarchar(20),
 	Correo nvarchar(50),
 	Direccion nvarchar(100),
-	flgEstado int foreign key references ESTADO(IdEstado)
+	flgEliminado bit
 );
 GO
 
@@ -51,7 +52,7 @@ CREATE TABLE ANIMALES(
 	Sexo char(1),
 	Edad int,
 	IdCliente int foreign key references CLIENTES(IdCliente),
-	flgEstado int foreign key references ESTADO(IdEstado)
+	flgEliminado bit
 );
 GO
 
@@ -62,7 +63,7 @@ CREATE TABLE ATENCIONES(
 	Diagnostico nvarchar(200),
 	Tratamiento nvarchar(200),
 	IdAnimal int foreign key references ANIMALES(IdAnimal),
-	flgEstado int foreign key references ESTADO(IdEstado)
+	flgEliminado bit
 );
 GO
 
@@ -83,37 +84,37 @@ GO
 
 CREATE TABLE PRODUCTO(
 	IdProducto int primary key,
+	Imagen varbinary(MAX),
 	Nombre nvarchar(50),
 	Categoria int foreign key references CATEGORIA(IdCategoria),
 	Precio decimal(10,2),
 	stock int,
-	flgEstado int foreign key references ESTADO(IdEstado)
+	flgEstado int foreign key references ESTADO(IdEstado),
+	flgEliminado bit
 );
 GO
 
-INSERT INTO PRODUCTO VALUES
-(1,'Antipulgas Frontline',1,30.00,50,1),
-(2,'Kit de Primeros Auxilios para Mascotas',1, 55.00,50,1),
-(3,'Pipetas Revolution',1, 25.00,50,1),
-(4,'Antiparasitario Interno Drontal Plus',1, 25.00,50,1),
-(5,'Alimento Royal Canin Gato Esterilizado',2, 35.00,50,1),
-(6,'Croquetas Hill’s Science Diet',2, 30.00,50,1),
-(7,'Golosinas Pedigree Dentastix',2, 25.00,50,1),
-(8,'Suplemento Nutri-Vet Multi-Vitamina',2, 25.00,50,1),
-(9,'Cama Acolchonada para Mascotas',3, 30.00,50,1),
-(10,'Jaula de Transporte Mediana',3, 25.00,50,1),
-(11,'Arnés de Paseo Ajustable',3,20.00,50,1),
-(12,'Comedero Doble de Acero Inoxidable',3, 15.00,50,1),
-(13,'Cepillo Dental para Perros y Gatos',4, 10.00,50,1),
-(14,'Shampoo Dermocanis',4, 25.00,50,1),
-(15,'Arena Sanitaria Aglomerante para Gatos',4, 20.00,50,1),
-(16,'Peine Quitapulgas de Acero',4, 10.00,50,1),
-(17,'Pelota de Goma para Perros',5, 8.00,50,1),
-(18,'Juguete Mordedor Dental',5, 12.00,50,1),
-(19,'Ratón de Peluche con Catnip',5, 18.00,50,1),
-(20,'Juguete Interactivo con Sonido',5, 16.00,50,1)
-GO
-
+INSERT INTO PRODUCTO (IdProducto, Imagen, Nombre, Categoria, Precio, Stock, flgEstado, flgEliminado) VALUES
+(1, NULL, 'Antipulgas Frontline', 1, 30.00, 50, 1, 0),
+(2, NULL, 'Kit de Primeros Auxilios para Mascotas', 1, 55.00, 50, 1, 0),
+(3, NULL, 'Pipetas Revolution', 1, 25.00, 50, 1, 0),
+(4, NULL, 'Antiparasitario Interno Drontal Plus', 1, 25.00, 50, 1, 0),
+(5, NULL, 'Alimento Royal Canin Gato Esterilizado', 2, 35.00, 50, 1, 0),
+(6, NULL, 'Croquetas Hill’s Science Diet', 2, 30.00, 50, 1, 0),
+(7, NULL, 'Golosinas Pedigree Dentastix', 2, 25.00, 50, 1, 0),
+(8, NULL, 'Suplemento Nutri-Vet Multi-Vitamina', 2, 25.00, 50, 1, 0),
+(9, NULL, 'Cama Acolchonada para Mascotas', 3, 30.00, 50, 1, 0),
+(10, NULL, 'Jaula de Transporte Mediana', 3, 25.00, 50, 1, 0),
+(11, NULL, 'Arnés de Paseo Ajustable', 3, 20.00, 50, 1, 0),
+(12, NULL, 'Comedero Doble de Acero Inoxidable', 3, 15.00, 50, 1, 0),
+(13, NULL, 'Cepillo Dental para Perros y Gatos', 4, 10.00, 50, 1, 0),
+(14, NULL, 'Shampoo Dermocanis', 4, 25.00, 50, 1, 0),
+(15, NULL, 'Arena Sanitaria Aglomerante para Gatos', 4, 20.00, 50, 1, 0),
+(16, NULL, 'Peine Quitapulgas de Acero', 4, 10.00, 50, 1, 0),
+(17, NULL, 'Pelota de Goma para Perros', 5, 8.00, 50, 1, 0),
+(18, NULL, 'Juguete Mordedor Dental', 5, 12.00, 50, 1, 0),
+(19, NULL, 'Ratón de Peluche con Catnip', 5, 18.00, 50, 1, 0),
+(20, NULL, 'Juguete Interactivo con Sonido', 5, 16.00, 50, 1, 0);
 
 CREATE TABLE VENTAS(
 	IdVenta int primary key,
@@ -136,7 +137,7 @@ CREATE OR ALTER PROC usp_listar_estado
 AS
 BEGIN
 	SELECT
-	*
+	IdEstado,Descripcion
 	FROM ESTADO
 END
 GO
@@ -145,7 +146,7 @@ CREATE OR ALTER PROC usp_listar_categoria
 AS
 BEGIN
 	SELECT
-	*
+	IdCategoria,Descripcion
 	FROM CATEGORIA
 END
 GO
@@ -157,14 +158,14 @@ BEGIN
 	SELECT
 	PROD.IdProducto,
 	PROD.Nombre,
+	PROD.Imagen,
 	CAT.IdCategoria,
-	
 	PROD.Precio,
 	PROD.stock,
-	EST.IdEstado
-	
-	FROM PRODUCTO PROD INNER JOIN CATEGORIA CAT
-	ON CAT.IdCategoria = PROD.Categoria INNER JOIN ESTADO EST
+	EST.IdEstado,
+	Prod.flgEliminado
+	FROM PRODUCTO PROD JOIN CATEGORIA CAT
+	ON CAT.IdCategoria = PROD.Categoria JOIN ESTADO EST
 	ON EST.IdEstado = PROD.flgEstado
 END
 GO
@@ -174,41 +175,48 @@ GO
 
 
 CREATE OR ALTER PROC usp_insertar_productos
-@nombre varchar(50),
-@categoria int,
-@precio decimal(10,2),
-@stock int,
-@flgEstado int
+@nombre VARCHAR(50),
+@imagen VARBINARY(MAX),
+@categoria INT,
+@precio DECIMAL(10,2),
+@stock INT,
+@flgEstado INT
 AS
 BEGIN
-	DECLARE @idprod int = isnull((select max (IdProducto) from PRODUCTO),0) + 1
-	INSERT INTO PRODUCTO VALUES
-	(@idprod,@nombre,@categoria,@precio,@stock,1)
+    DECLARE @idprod INT = ISNULL((SELECT MAX(IdProducto) FROM PRODUCTO), 0) + 1;
+
+    INSERT INTO PRODUCTO (IdProducto,Imagen,Nombre,Categoria,Precio,Stock,flgEstado,flgEliminado)
+    VALUES (@idprod,@imagen,@nombre,@categoria,@precio,@stock,@flgEstado,0);
 END
 GO
+
 
 
 CREATE OR ALTER PROC usp_actualiza_productos
 @idprod int,
-@nombre varchar(50),
-@categoria int,
-@precio decimal(10,2),
-@stock int
+@nombre VARCHAR(50),
+@imagen VARBINARY(MAX),
+@categoria INT,
+@precio DECIMAL(10,2),
+@stock INT,
+@flgEstado INT
 AS
 BEGIN
 	UPDATE PRODUCTO 
-	SET Nombre = @nombre, Categoria=@categoria,Precio=@precio,
-	stock=@stock
+	SET Nombre = @nombre, Imagen = @imagen,Categoria=@categoria,Precio=@precio,
+	stock=@stock, flgEstado = @flgEstado
 	WHERE IdProducto = @idprod
 END
 GO
+
+exec usp_actualiza_productos 1, 'Antipulgas Frontline', null, 3, 15.20, 10, 3
 
 CREATE OR ALTER PROC usp_elimina_productos
 @idprod int
 AS
 BEGIN
 	UPDATE PRODUCTO
-	SET flgEstado = 2
+	SET flgEliminado = 1
 	WHERE IdProducto=@idprod
 END
 GO
@@ -218,3 +226,15 @@ exec usp_elimina_productos 1
 go
 
 select * from PRODUCTO
+
+/* procedures del cliente */
+select * from CLIENTES
+GO
+
+CREATE OR ALTER PROC USP_LIST_CLIENTES
+AS
+	SELECT IdCliente, Nombre,Apellido, Documento,
+		Telefono,Correo,Direccion,flgEstado
+	FROM CLIENTES
+GO
+

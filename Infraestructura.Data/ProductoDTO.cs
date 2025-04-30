@@ -32,11 +32,12 @@ namespace Infraestructura.Data
                                 {
                                     IdProducto = dr.GetInt32(0),
                                     NombreProducto = dr.GetString(1),
-                                    IdCategoria = dr.GetInt32(2),
-                                    Precio = dr.GetDecimal(3),
-                                    Stock = dr.GetInt32(4),
-                                    IdEstado = dr.GetInt32(5)
-
+                                    Imagen = dr.IsDBNull(2) ? null : (byte[])dr[2],
+                                    IdCategoria = dr.GetInt32(3),
+                                    Precio = dr.GetDecimal(4),
+                                    Stock = dr.GetInt32(5),
+                                    IdEstado = dr.GetInt32(6),
+                                    flgEliminado = dr.GetBoolean(7)
                                 });
 
                             }

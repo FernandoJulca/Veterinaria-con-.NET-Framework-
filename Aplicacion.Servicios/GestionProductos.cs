@@ -31,12 +31,14 @@ namespace Aplicacion.Servicios
             {
                 IdProducto = p.IdProducto,
                 NombreProducto = p.NombreProducto,
+                Imagen = p.Imagen,
                 IdCategoria = p.IdCategoria,
                 Categoria = categorias.FirstOrDefault(c => c.IdCategoria == p.IdCategoria)?.NombreCategoria ?? "Sin categoria",
                 Precio = p.Precio,
                 Stock = p.Stock,
                 IdEstado = p.IdEstado,
-                NombreEstado = estados.FirstOrDefault(e => e.IdEstado == p.IdEstado)?.Descripcion ?? "Sin estado"
+                NombreEstado = estados.FirstOrDefault(e => e.IdEstado == p.IdEstado)?.Descripcion ?? "Sin estado",
+                flgEliminado = p.flgEliminado
             }).ToList();
         }
 

@@ -11,6 +11,7 @@ namespace Dominio.Entidad.Entidad
     {
         [Display(Name = "Id Producto"), Required] public int IdProducto { get; set; }
         [Display(Name = "Nombre"), Required] public string NombreProducto { get; set; }
+        public byte[] Imagen { get; set; }
         [Display(Name = "Id Categoria"), Required] public int IdCategoria { get; set; }
 
         [Display(Name = "Categoria")]public string Categoria { get; set; }
@@ -19,5 +20,6 @@ namespace Dominio.Entidad.Entidad
         [Display(Name = "Id Estado")] public int IdEstado { get; set; }
 
         [Display(Name = "Estado")]public string NombreEstado { get; set; }
+        public bool flgEliminado { get; set; }
     }
 }

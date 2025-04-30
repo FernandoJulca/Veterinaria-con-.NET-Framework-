@@ -11,11 +11,14 @@ namespace Dominio.Entidad.Entidad
     {
        public int IdProducto { get; set; }
         public string NombreProducto { get; set; }
-       public int IdCategoria { get; set; }
+        public byte[] Imagen { get; set; }
+
+        public int IdCategoria { get; set; }
          public decimal Precio { get; set; }
         public int Stock { get; set; }
         
         public int IdEstado { get; set; }
+        public bool flgEliminado { get; set; }
 
     }
 }

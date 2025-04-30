@@ -22,7 +22,12 @@ namespace ProyectoVeterinaria.Controllers
             var lista = await _gestionProductos.ObtenerListadoProductos();
             return View(lista);
         }
+        public async Task<ActionResult> ListaProductostwo()
+        {
 
+            var lista = await _gestionProductos.ObtenerListadoProductos();
+            return View(lista);
+        }
         //CREATE
         private readonly GestionCategoria _gestionCategoria = new GestionCategoria();
         public async Task<ActionResult> Create()
