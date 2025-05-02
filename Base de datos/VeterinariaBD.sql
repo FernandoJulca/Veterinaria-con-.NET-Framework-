@@ -160,13 +160,16 @@ BEGIN
 	PROD.Nombre,
 	PROD.Imagen,
 	CAT.IdCategoria,
+	CAt.Descripcion,
 	PROD.Precio,
 	PROD.stock,
 	EST.IdEstado,
+	EST.Descripcion,
 	Prod.flgEliminado
 	FROM PRODUCTO PROD JOIN CATEGORIA CAT
 	ON CAT.IdCategoria = PROD.Categoria JOIN ESTADO EST
 	ON EST.IdEstado = PROD.flgEstado
+	Where flgEliminado = 0
 END
 GO
 
@@ -185,12 +188,10 @@ AS
 BEGIN
     DECLARE @idprod INT = ISNULL((SELECT MAX(IdProducto) FROM PRODUCTO), 0) + 1;
 
-    INSERT INTO PRODUCTO (IdProducto,Imagen,Nombre,Categoria,Precio,Stock,flgEstado,flgEliminado)
-    VALUES (@idprod,@imagen,@nombre,@categoria,@precio,@stock,@flgEstado,0);
+    INSERT INTO PRODUCTO (IdProducto,Nombre,Imagen,Categoria,Precio,Stock,flgEstado,flgEliminado)
+    VALUES (@idprod,@nombre,@imagen,@categoria,@precio,@stock,@flgEstado,0);
 END
 GO
-
-
 
 CREATE OR ALTER PROC usp_actualiza_productos
 @idprod int,
@@ -210,6 +211,7 @@ END
 GO
 
 exec usp_actualiza_productos 1, 'Antipulgas Frontline', null, 3, 15.20, 10, 3
+go
 
 CREATE OR ALTER PROC usp_elimina_productos
 @idprod int
@@ -227,7 +229,7 @@ go
 
 select * from PRODUCTO
 
-/* procedures del cliente */
+/* procedures del cliente 
 select * from CLIENTES
 GO
 
@@ -236,5 +238,5 @@ AS
 	SELECT IdCliente, Nombre,Apellido, Documento,
 		Telefono,Correo,Direccion,flgEstado
 	FROM CLIENTES
-GO
+GO*/
 

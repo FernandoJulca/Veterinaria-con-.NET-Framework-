@@ -31,7 +31,7 @@ namespace Aplicacion.Servicios
             {
                 IdProducto = p.IdProducto,
                 NombreProducto = p.NombreProducto,
-                Imagen = p.Imagen,
+                ImagenBase64 = p.ImagenBase64,
                 IdCategoria = p.IdCategoria,
                 Categoria = categorias.FirstOrDefault(c => c.IdCategoria == p.IdCategoria)?.NombreCategoria ?? "Sin categoria",
                 Precio = p.Precio,

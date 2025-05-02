@@ -12,12 +12,15 @@ namespace Dominio.Entidad.Entidad
        public int IdProducto { get; set; }
         public string NombreProducto { get; set; }
         public byte[] Imagen { get; set; }
+        public string ImagenBase64{get; set; }
 
         public int IdCategoria { get; set; }
+        public string NombreCategoria { get; set; }
          public decimal Precio { get; set; }
         public int Stock { get; set; }
         
         public int IdEstado { get; set; }
+        public string NombreEstado { get; set; }
         public bool flgEliminado { get; set; }
 
     }

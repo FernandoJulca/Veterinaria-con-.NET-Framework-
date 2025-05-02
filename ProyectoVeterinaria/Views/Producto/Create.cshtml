@@ -1,68 +1,72 @@
 ﻿@model Dominio.Entidad.Entidad.Producto
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Crear Producto";
 }
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Producto</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NombreProducto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NombreProducto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-               @Html.DropDownList("IdCategoria", ViewBag.categorias as SelectList,new {@class ="form-select"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-     
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-                @Html.ActionLink("Retornar", "ListaProductos", null, new {@class = "btn btn-success"})
-            </div>
-        </div>
+<div class="card shadow-sm border-0 my-4">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0"><i class="fas fa-paw"></i> Nuevo Producto Veterinario</h5>
     </div>
-}
+    <div class="card-body p-4">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
 
-<div>
-   @ViewBag.mensaje
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+            <div class="row g-3">
+                <!-- Fila 1: Nombre y Categoría en una columna vertical -->
+                <div class="col-md-4">
+                    <label class="form-label"><i class="fas fa-tag"></i> Nombre</label>
+                    @Html.TextBoxFor(model => model.NombreProducto, new { @class = "form-control", placeholder = "Ej: Juguete para gatos" })
+                    @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger" })
+
+                    <label class="form-label mt-3"><i class="fas fa-list-alt"></i> Categoría</label>
+                    @Html.DropDownList("IdCategoria", ViewBag.categorias as SelectList, "-- Selecciona --", new { @class = "form-select" })
+                </div>
+
+                <!-- Fila 2: Precio y Stock en otra columna vertical -->
+                <div class="col-md-4">
+                    <label class="form-label"><i class="fas fa-dollar-sign"></i> Precio</label>
+                    @Html.TextBoxFor(model => model.Precio, new { @class = "form-control", placeholder = "0.00" })
+                    @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+
+                    <label class="form-label mt-3"><i class="fas fa-boxes"></i> Stock</label>
+                    @Html.TextBoxFor(model => model.Stock, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Fila 3: Imagen ocupando todo el ancho -->
+                <div class="col-md-4 text-center">
+                    <label class="form-label d-block"><i class="fas fa-image"></i> Imagen</label>
+                    <img id="preview" class="img-thumbnail d-block mx-auto mb-2" style="width:400px; height:250px; cursor: pointer;"
+                         src="@(string.IsNullOrEmpty(Model.ImagenBase64) ? "/ruta/imagen-default.png" : $"data:image/png;base64,{Model.ImagenBase64}")"
+                         onclick="document.getElementById('imagenInput').click()" onerror="this.onerror=null; this.src='/Imagenes/no-imagen.png';" />
+                    <input type="file" id="imagenInput" class="d-none" accept="image/*" />
+                    <input type="hidden" id="ImagenBase64" name="ImagenBase64" value="@Model.ImagenBase64" />
+
+                    <small class="text-muted">Haz clic en la imagen para escoger</small>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <input type="submit" value="Guardar" class="btn btn-success px-4" />
+                @Html.ActionLink("Cancelar", "ListaProductos", null, new { @class = "btn btn-secondary" })
+            </div>
+
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+        {
+            <div class="alert alert-info mt-3">
+                @ViewBag.mensaje
+            </div>
+        }
+    </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/JavaScripts/CrudJS")
+
 }

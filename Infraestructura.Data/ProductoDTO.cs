@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Dominio.Entidad.Abstraccion;
 using Dominio.Entidad.Entidad;
 using Dominio.Repositorio;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Infraestructura.Data
 {
@@ -28,16 +29,19 @@ namespace Infraestructura.Data
                         using (SqlDataReader dr = await cmd.ExecuteReaderAsync()) {
                             while ( await dr.ReadAsync())
                             {
+                                byte[] imagen = dr.IsDBNull(2) ? null : (byte[])dr[2];
                                 productos.Add(new Producto()
                                 {
                                     IdProducto = dr.GetInt32(0),
                                     NombreProducto = dr.GetString(1),
-                                    Imagen = dr.IsDBNull(2) ? null : (byte[])dr[2],
+                                    ImagenBase64 = imagen != null ? Convert.ToBase64String(imagen) : null,
                                     IdCategoria = dr.GetInt32(3),
-                                    Precio = dr.GetDecimal(4),
-                                    Stock = dr.GetInt32(5),
-                                    IdEstado = dr.GetInt32(6),
-                                    flgEliminado = dr.GetBoolean(7)
+                                    NombreCategoria = dr.GetString(4),
+                                    Precio = dr.GetDecimal(5),
+                                    Stock = dr.GetInt32(6),
+                                    IdEstado = dr.GetInt32(7),
+                                    NombreEstado = dr.GetString(8),
+                                    flgEliminado = dr.GetBoolean(9)
                                 });
 
                             }
@@ -71,9 +75,20 @@ namespace Infraestructura.Data
                     using (SqlCommand cmd = new SqlCommand("usp_insertar_productos", cnn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-
-
                         cmd.Parameters.AddWithValue("@nombre", reg.NombreProducto);
+                        byte[] imagenBytes = null;
+                        if (!string.IsNullOrEmpty(reg.ImagenBase64))
+                        {
+                            imagenBytes = Convert.FromBase64String(reg.ImagenBase64);
+                        }
+                        if (imagenBytes != null)
+                        {
+                            cmd.Parameters.Add("@imagen", SqlDbType.VarBinary).Value = imagenBytes;
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@imagen", SqlDbType.VarBinary).Value = DBNull.Value;
+                        }
                         cmd.Parameters.AddWithValue("@categoria", reg.IdCategoria);
                         cmd.Parameters.AddWithValue("@precio", reg.Precio);
                         cmd.Parameters.AddWithValue("@stock", reg.Stock);
@@ -113,10 +128,23 @@ namespace Infraestructura.Data
 
                         cmd.Parameters.AddWithValue("@idprod", reg.IdProducto);
                         cmd.Parameters.AddWithValue("@nombre", reg.NombreProducto);
+                        byte[] imagenBytes = null;
+                        if (!string.IsNullOrEmpty(reg.ImagenBase64))
+                        {
+                            imagenBytes = Convert.FromBase64String(reg.ImagenBase64);
+                        }
+                        if (imagenBytes != null)
+                        {
+                            cmd.Parameters.Add("@imagen", SqlDbType.VarBinary).Value = imagenBytes;
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@imagen", SqlDbType.VarBinary).Value = DBNull.Value;
+                        }
                         cmd.Parameters.AddWithValue("@categoria", reg.IdCategoria);
                         cmd.Parameters.AddWithValue("@precio", reg.Precio);
                         cmd.Parameters.AddWithValue("@stock", reg.Stock);
-
+                        cmd.Parameters.AddWithValue("@flgEstado", reg.IdEstado);
 
                         int i = await cmd.ExecuteNonQueryAsync();
                         mensaje = $"se ha actualizado el producto con el Id{reg.IdProducto}";

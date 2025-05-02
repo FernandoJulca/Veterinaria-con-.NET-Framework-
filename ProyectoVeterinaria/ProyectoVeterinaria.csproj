@@ -147,6 +147,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="imagenes\banner.png" />
     <Content Include="imagenes\logo.png" />
+    <Content Include="imagenes\no-imagen.png" />
+    <Content Include="JavaScripts\CrudJS.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -182,7 +184,7 @@
     <Content Include="Views\Producto\Create.cshtml" />
     <Content Include="Views\Producto\Edit.cshtml" />
     <Content Include="Views\Producto\Delete.cshtml" />
-    <Content Include="Views\Producto\ListaProductostwo.cshtml" />
+    <Content Include="Views\Producto\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

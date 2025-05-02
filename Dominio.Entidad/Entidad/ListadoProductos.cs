@@ -11,7 +11,7 @@ namespace Dominio.Entidad.Entidad
     {
         [Display(Name = "Id Producto"), Required] public int IdProducto { get; set; }
         [Display(Name = "Nombre"), Required] public string NombreProducto { get; set; }
-        public byte[] Imagen { get; set; }
+        public string ImagenBase64 {get;set;}
         [Display(Name = "Id Categoria"), Required] public int IdCategoria { get; set; }
 
         [Display(Name = "Categoria")]public string Categoria { get; set; }

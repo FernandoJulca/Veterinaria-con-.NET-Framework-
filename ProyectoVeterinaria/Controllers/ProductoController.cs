@@ -14,22 +14,18 @@ namespace ProyectoVeterinaria.Controllers
     public class ProductoController : Controller
     {
         private readonly GestionProductos _gestionProductos = new GestionProductos();
-        
-        // GET: Producto
-        public async  Task<ActionResult> ListaProductos()
-        {
-
-            var lista = await _gestionProductos.ObtenerListadoProductos();
-            return View(lista);
-        }
-        public async Task<ActionResult> ListaProductostwo()
-        {
-
-            var lista = await _gestionProductos.ObtenerListadoProductos();
-            return View(lista);
-        }
-        //CREATE
+        private readonly GestionEstados _gestionEstados = new GestionEstados();
         private readonly GestionCategoria _gestionCategoria = new GestionCategoria();
+
+        // GET: Producto
+        public async Task<ActionResult> ListaProductos()
+        {
+            var lista = await _gestionProductos.ObtenerListadoProductos();
+
+            return View(lista);
+        }
+
+        //CREATE
         public async Task<ActionResult> Create()
         {
             ViewBag.categorias = await _gestionCategoria.ListarCategoria();
@@ -37,25 +33,38 @@ namespace ProyectoVeterinaria.Controllers
             return View(new Producto());
         }
 
-      
+
         [HttpPost]
-        
         public async Task<ActionResult> Create(Producto reg)
         {
+            if (!string.IsNullOrEmpty(reg.ImagenBase64))
+            {
+                try
+                {
+                    reg.Imagen = Convert.FromBase64String(reg.ImagenBase64);
+                }
+                catch (FormatException)
+                {
+                    ModelState.AddModelError("ImagenBase64", "Formato de imagen inválido.");
+                }
+            }
 
+            if (ModelState.IsValid)
+            {
+                ViewBag.mensaje = await _gestionProductos.AgregarProducto(reg);
+            }
 
-            
-            ViewBag.mensaje = await _gestionProductos.AgregarProducto(reg);
             ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
-
             return View(reg);
         }
+
 
         //EDIT
         public async Task<ActionResult> Edit(int id)
         {
             Producto reg = await _gestionProductos.BuscarProducto(id);
             ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
+            ViewBag.estados = await _gestionEstados.Listar(reg);
             return View(reg);
 
         }
@@ -65,6 +74,7 @@ namespace ProyectoVeterinaria.Controllers
         {
             ViewBag.mensaje = await _gestionProductos.ActualizaProducto(reg);
             ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
+            ViewBag.estados = await _gestionEstados.Listar(reg);
             return View(reg);
         }
 
@@ -80,8 +90,14 @@ namespace ProyectoVeterinaria.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             ViewBag.mensaje = await _gestionProductos.EliminarProducto(id);
-            var producto = await _gestionProductos.BuscarProducto(id);
-            return View("Delete",producto);
+            return RedirectToAction("ListaProductos");
+        }
+
+        // DETAILS
+        public async Task<ActionResult> Details(int? id = null)
+        {
+            var producto = await _gestionProductos.BuscarProducto(id.Value);
+            return View(producto);
         }
     }
 }

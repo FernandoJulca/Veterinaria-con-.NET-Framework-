@@ -1,74 +1,84 @@
 ﻿@model Dominio.Entidad.Entidad.Producto
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar Producto";
 }
 
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Producto</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdProducto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdProducto, new { htmlAttributes = new { @class = "form-control",@readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.IdProducto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NombreProducto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NombreProducto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("IdCategoria", ViewBag.categorias as SelectList, new {@class = "form-select"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-       
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-                @Html.ActionLink("Retornar","ListaProductos",null,new {@class = "btn btn-success"})
-            </div>
-        </div>
+<div class="card shadow-sm border-0 my-4">
+    <div class="card-header bg-warning text-dark">
+        <h5 class="mb-0"><i class="fas fa-edit"></i> Editar Producto</h5>
     </div>
-}
+    <div class="card-body p-4">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
 
-<div>
-    @ViewBag.mensaje
+            <div class="row g-3">
+                <!-- Fila 1: 3 inputs en la primera columna -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-barcode"></i> Código</label>
+                        @Html.TextBoxFor(model => model.IdProducto, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-tag"></i> Nombre del Producto</label>
+                        @Html.TextBoxFor(model => model.NombreProducto, new { @class = "form-control", placeholder = "Ej: Suplemento para gatos" })
+                        @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-list-alt"></i> Categoría</label>
+                        @Html.DropDownList("IdCategoria", ViewBag.categorias as SelectList, "-- Selecciona --", new { @class = "form-select" })
+                    </div>
+                </div>
+
+                <!-- Fila 2: 3 inputs en la segunda columna -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-toggle-on"></i> Estado</label>
+                        @Html.DropDownList("IdEstado", ViewBag.estados as SelectList, "-- Selecciona --", new { @class = "form-select" })
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-dollar-sign"></i> Precio</label>
+                        @Html.TextBoxFor(model => model.Precio, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-boxes"></i> Stock</label>
+                        @Html.TextBoxFor(model => model.Stock, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- Fila 3: Imagen en la tercera columna, ocupando toda la fila -->
+                <div class="col-md-4 text-center">
+                    <label class="form-label d-block"><i class="fas fa-image"></i> Imagen</label>
+                    <img id="preview" class="img-thumbnail d-block mx-auto mb-2" style="width:400px; height:250px; cursor: pointer;"
+                         src="@(string.IsNullOrEmpty(Model.ImagenBase64) ? "/ruta/imagen-default.png" : $"data:image/png;base64,{Model.ImagenBase64}")"
+                         onclick="document.getElementById('imagenInput').click()" onerror="this.onerror=null; this.src='/Imagenes/no-imagen.png';"/>
+                    <input type="file" id="imagenInput" class="d-none" accept="image/*" />
+                    <input type="hidden" id="ImagenBase64" name="ImagenBase64" value="@Model.ImagenBase64" />
+
+                    <small class="text-muted">Haz clic en la imagen para cambiarla</small>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <input type="submit" value="Guardar Cambios" class="btn btn-warning px-4 text-dark" />
+                @Html.ActionLink("Cancelar", "ListaProductos", null, new { @class = "btn btn-secondary" })
+            </div>
+
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+        {
+            <div class="alert alert-info mt-3">
+                @ViewBag.mensaje
+            </div>
+        }
+    </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/JavaScripts/CrudJS")
 }
