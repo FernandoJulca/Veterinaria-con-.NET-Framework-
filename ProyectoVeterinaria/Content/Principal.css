@@ -36,6 +36,7 @@
         color: white !important; /* Letras blancas */
         text-decoration: none;
         font-size: 18px;
+        padding: 8px 12px;
     }
 
         /* Opcional: que cambien de color al pasar el mouse */
@@ -50,4 +51,245 @@
     background-image: url('~/imagenes/tu-banner.jpg'); /* Cambia por tu imagen */
     background-size: cover;
     background-position: center;
+}
+
+/*Boton agendar cita*/
+/* Botón especial para agendar cita en el navbar */
+.boton-agendar {
+    background-color: #6A0DAD;
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+    .boton-agendar:hover {
+        background-color: #5a0ca5;
+    }
+
+
+/*main*/
+
+.container-main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.section-title {
+    text-align: center;
+    color: #6a1b9a; /* morado */
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #eee;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2); /* sombra morada */
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.veterinarios-section .card-rounded {
+    background: white;
+    border: 1px solid #eee;
+    padding: 20px;
+    width: 220px;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2);
+    transition: transform 0.3s;
+}
+
+.card-rounded:hover {
+    transform: translateY(-5px);
+}
+
+.card-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.sede-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.sede-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.sede-details {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+}
+
+/*Footer*/
+.footer {
+    background-color: #6a1b9a; /* morado */
+    color: white;
+    padding: 30px 0;
+    margin-top: 40px;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+}
+
+.footer-text p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.footer-social {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+    filter: brightness(0) invert(1); /* para que los íconos blancos si son negros */
+    transition: transform 0.3s;
+}
+
+    .social-icon:hover {
+        transform: scale(1.2);
+    }
+
+    /*Nosotros*/
+
+.intro-text {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: #444;
+}
+
+.mvv-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.mvv-card {
+    background: white;
+    border: 1px solid #eee;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2);
+    border-radius: 15px;
+}
+
+.especialidades-section .card {
+    width: 200px;
+}
+
+.veterinarios-nosotros .card-rounded {
+    width: 220px;
+}
+
+.frase-final {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: #6a1b9a;
+}
+
+/*Sedes*/
+/* ============== SECCION SEDES =========== */
+.sedes {
+    padding: 60px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.intro-sedes h1 {
+    font-size: 2.5rem;
+    color: #6A0DAD;
+    margin-bottom: 10px;
+}
+
+.intro-sedes p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.lista-sedes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.sede-card {
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 300px;
+    padding: 20px;
+    text-align: left;
+}
+
+.sede-imagen {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.sede-card h2 {
+    color: #6A0DAD;
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.sede-card p {
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
 }

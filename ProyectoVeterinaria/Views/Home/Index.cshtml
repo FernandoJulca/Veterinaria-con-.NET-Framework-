@@ -2,32 +2,68 @@
     ViewBag.Title = "Home Page";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+<main class="container-main">
+
+    <!-- Sección de Servicios -->
+    <section id="servicios" class="servicios-section">
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <div class="cards-container">
+            <div class="card">
+                <img src="~/imagenes/consulta.png" alt="Consulta médica" class="card-icon" />
+                <h3>Consulta Médica</h3>
+            </div>
+            <div class="card">
+                <img src="~/imagenes/vacunacion.png" alt="Vacunación" class="card-icon" />
+                <h3>Vacunación</h3>
+            </div>
+            <div class="card">
+                <img src="~/imagenes/cirugia.png" alt="Cirugías" class="card-icon" />
+                <h3>Cirugías</h3>
+            </div>
+            <div class="card">
+                <img src="~/imagenes/banio.png" alt="Peluquería y Baño" class="card-icon" />
+                <h3>Peluquería y Baño</h3>
+            </div>
+            <div class="card">
+                <img src="~/imagenes/emergencia.png" alt="Emergencias 24/7" class="card-icon" />
+                <h3>Emergencias 24/7</h3>
+            </div>
+        </div>
     </section>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
-    </div>
+    <!-- Sección de Veterinarios -->
+    <section id="veterinarios" class="veterinarios-section">
+        <h2 class="section-title">Nuestro Equipo Veterinario</h2>
+        <div class="cards-container">
+            <div class="card-rounded">
+                <img src="~/imagenes/veterinario1.png" alt="Dr. Juan Pérez" class="card-photo" />
+                <h3>Dr. Juan Pérez</h3>
+                <p>Especialista en Cirugía</p>
+            </div>
+            <div class="card-rounded">
+                <img src="~/imagenes/veterinario2.png" alt="Dra. María López" class="card-photo" />
+                <h3>Dra. María López</h3>
+                <p>Especialista en Dermatología</p>
+            </div>
+            <div class="card-rounded">
+                <img src="~/imagenes/veterinario3.png" alt="Dr. Carlos Díaz" class="card-photo" />
+                <h3>Dr. Carlos Díaz</h3>
+                <p>Especialista en Emergencias</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Sede Principal -->
+    <section id="sedes" class="sede-section">
+        <h2 class="section-title">Nuestra Sede Principal</h2>
+        <div class="sede-info">
+            <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <div class="sede-details">
+                <p><strong>Dirección:</strong> Av. Principal 123, Ciudad</p>
+                <p><strong>Teléfono:</strong> (01) 123-4567</p>
+                <p><strong>Horario:</strong> Lunes a Sábado de 9:00 a.m. - 8:00 p.m.</p>
+            </div>
+        </div>
+    </section>
+
 </main>
