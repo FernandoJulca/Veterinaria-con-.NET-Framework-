@@ -81,3 +81,89 @@ textarea {
         height: 100%;
         display: block; /* Para quitar espacio blanco debajo de la imagen */
     }
+
+
+.container-main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.section-title {
+    text-align: center;
+    color: #6a1b9a; /* morado */
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #eee;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2); /* sombra morada */
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.veterinarios-section .card-rounded {
+    background: white;
+    border: 1px solid #eee;
+    padding: 20px;
+    width: 220px;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2);
+    transition: transform 0.3s;
+}
+
+.card-rounded:hover {
+    transform: translateY(-5px);
+}
+
+.card-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.sede-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.sede-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.sede-details {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+}

@@ -38,6 +38,59 @@ CREATE TABLE CLIENTES(
 );
 GO
 
+CREATE TABLE SERVICIOS(
+	IdServicios int primary key,
+	Descripcion nvarchar(30)
+);
+
+INSERT INTO SERVICIOS VALUES
+(1,'Consulta Medica'),
+(2, 'Vacunacion'),
+(3,'Cirugias'),
+(4,'Servicio de peluqueria'),
+(5,'Ecografias'),
+(6,'Limpieza dental'),
+(7,'Rehabilitacion'),
+(8,'Alojamiento')
+GO
+
+CREATE TABLE VETERINARIOS(
+	IdVeterinario int primary key,
+	Nombre nvarchar(25),
+	Apellido nvarchar(30),
+	Especialidad nvarchar(50)
+);
+GO
+
+INSERT INTO VETERINARIOS VALUES
+(1,'Luis', 'Garcia','Cirugia veterinaria'),
+(2,'Ana','Martinez','Diagnostico en ecografias'),
+(3,'Eduardo', 'Lopez','Diagnostico y tratamiento de enfermades cronicas'),
+(4,'Valeria','Sanchez','Fisioterapia y rehabilitacion'),
+(5,'Andres','Ramirez','Vacunacion y despacitacion'),
+(6,'Carlos','Rodriguez','Odontologo veterinario'),
+(7,'Laura','Hernandez','Peluqueria, corte y cuidado estetico'),
+(8,'Jose','Gomez','Cirugia veterinaria'),
+(9,'Mariana','Perez','Cirugia y esterilizacion'),
+(10,'Isabel','Flores','Oncologia veterinaria')
+GO
+
+
+
+CREATE TABLE SEDES (
+	IdSedes int primary key,
+	Nombre nvarchar(25),
+	Direccion nvarchar(50),
+	Telefono nvarchar(10)
+);
+GO
+
+INSERT INTO SEDES VALUES
+(1,'Sede Principal','Jr. Camana C/ Av. Bolivia 148','12345685'),
+(2,'Sede Norte','Av. Universitaria 7895-7817, Comas 15314','10547856'),
+(3,'Sede Sur','Av. Guardia Civil Sur, Lima 15056','25489645')
+GO
+
 CREATE TABLE ESPECIE(
 	IdEspecie int primary key,
 	Descripcion nvarchar(50)
@@ -132,6 +185,12 @@ CREATE TABLE DETALLEVENTA(
 	Precio decimal(10,2)
 );
 GO
+
+
+
+
+
+
 
 CREATE OR ALTER PROC usp_listar_estado
 AS

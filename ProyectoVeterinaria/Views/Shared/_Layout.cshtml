@@ -15,11 +15,13 @@
             <img src="~/imagenes/logo.png" class="logo">
             <ul class="navbar-links">
                 <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                <li>@Html.ActionLink("Nosotros", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Nosotros", "Nosotros", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                 <li>@Html.ActionLink("Productos", "ListaProductos", "Producto", new { area = "" }, new { @class = "nav-link" })</li>
-                <li>@Html.ActionLink("Servicios", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                <li>@Html.ActionLink("Sedes", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                <li>@Html.ActionLink("Veterinarios", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Sedes", "Sedes", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>
+                    @Html.ActionLink("Agendar Cita", "Contact", "Home", new { area = "" }, new { @class = "nav-link boton-agendar" })
+                </li>
+
             </ul>
         </div>
     </nav>
@@ -30,9 +32,20 @@
     <div class="container">
         @RenderBody()
         <hr />
-        <footer>
-           
+        <footer class="footer">
+            <div class="container footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 Miau&Guau. Todos los derechos reservados.</p>
+                    <p>Amamos cuidar de tus mejores amigos.</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#" target="_blank"><img src="~/imagenes/facebook.png" alt="Facebook" class="social-icon" /></a>
+                    <a href="#" target="_blank"><img src="~/imagenes/instagram.png" alt="Instagram" class="social-icon" /></a>
+                    <a href="#" target="_blank"><img src="~/imagenes/whatsapp.png" alt="WhatsApp" class="social-icon" /></a>
+                </div>
+            </div>
         </footer>
+
     </div>
 
     @Scripts.Render("~/bundles/jquery")
