@@ -2,9 +2,57 @@
 @{
     ViewBag.Title = "Nosotros";
 }
+<style>
+    .mision-vision-valores {
+        margin: 4rem 0;
+        text-align: center;
+        padding: 0 1rem;
+    }
 
+    .mvv-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+    }
 
+    .mvv-card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        padding: 2rem 1.5rem;
+        width: 280px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
+        .mvv-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+    .mvv-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #43a047;
+    }
+
+    .mvv-card h3 {
+        font-size: 1.4rem;
+        color: #6a1b9a;
+        margin-bottom: 0.8rem;
+    }
+
+    .mvv-card p {
+        font-size: 0.95rem;
+        color: #555;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+</style>
 <main class="container">
 
     <!-- Introducción -->
@@ -18,43 +66,47 @@
 
     <!-- Misión, Visión y Valores -->
     <section class="mision-vision-valores">
+        <h2 class="section-title">Misión, Visión y Valores</h2>
         <div class="mvv-cards">
             <div class="mvv-card">
+                <div class="mvv-icon">🎯</div>
                 <h3>Misión</h3>
-                <p>Ofrecer servicios veterinarios integrales y de excelencia, asegurando el bienestar y salud de cada mascota.</p>
+                <p>
+                    Ofrecer servicios veterinarios integrales y de excelencia, asegurando el bienestar y salud de cada mascota.
+                </p>
             </div>
             <div class="mvv-card">
+                <div class="mvv-icon">🌟</div>
                 <h3>Visión</h3>
-                <p>Ser la clínica veterinaria líder en cuidado animal, reconocida por nuestra calidad humana y profesionalismo.</p>
+                <p>
+                    Ser la clínica veterinaria líder en cuidado animal, reconocida por nuestra calidad humana y profesionalismo.
+                </p>
             </div>
             <div class="mvv-card">
+                <div class="mvv-icon">❤️</div>
                 <h3>Valores</h3>
-                <p>Compromiso, pasión, respeto por la vida, ética profesional y amor por los animales.</p>
+                <p>
+                    Compromiso, pasión, respeto por la vida, ética profesional y amor por los animales.
+                </p>
             </div>
         </div>
     </section>
 
-  
+
+
 
     <!-- Veterinarios -->
     <section class="veterinarios-nosotros">
         <h2 class="section-title">Conoce a Nuestro Equipo</h2>
         <div class="cards-container">
-            <div class="card-rounded">
-                <img src="~/imagenes/veterinario1.png" alt="Dr. Juan Pérez" class="card-photo" />
-                <h3>Dr. Juan Pérez</h3>
-                <p>Especialista en Cirugía y Traumatología</p>
-            </div>
-            <div class="card-rounded">
-                <img src="~/imagenes/veterinario2.png" alt="Dra. María López" class="card-photo" />
-                <h3>Dra. María López</h3>
-                <p>Especialista en Dermatología</p>
-            </div>
-            <div class="card-rounded">
-                <img src="~/imagenes/veterinario3.png" alt="Dr. Carlos Díaz" class="card-photo" />
-                <h3>Dr. Carlos Díaz</h3>
-                <p>Especialista en Emergencias</p>
-            </div>
+            @foreach (var veterinario in ViewBag.veterinarios)
+            {
+                <div class="card-rounded">
+                    <img src="~/imagenes/Veterinarios/V@(veterinario.IdVeterinario).jpg" alt="@veterinario.Nombre" class="card-photo" />
+                    <h3>@veterinario.Nombre</h3>
+                    <p>@veterinario.Especialidad</p>
+                </div>
+            }
         </div>
     </section>
 

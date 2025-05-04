@@ -1,47 +1,42 @@
-﻿/* Set padding to keep content from hitting the edges */
+﻿/*=======================
+  GENERAL STYLES
+=======================*/
+
+body {
+    font-family: 'Comic Sans MS', 'Segoe UI', cursive, sans-serif; /* Letra juguetona */
+    background-color: #fefefe;
+    color: #333;
+}
+
 .body-content {
     margin-top: 15px;
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
 }
 
+.dl-horizontal dt {
+    white-space: normal;
+}
 
+/*=======================
+  NAVBAR
+=======================*/
 
-/* Estilo para el navbar */
 .navbar {
-    background-color: purple; /* Fondo morado */
+    background-color: #7B1FA2; /* Morado veterinario */
     position: relative;
     z-index: 10;
     width: 100%;
     padding: 10px 20px;
 }
 
-/*.container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}*/
 
-/* Logo alineado a la izquierda */
-.logo {
-    height: 50px; /* Ajusta el tamaño del logo */
-}
-
-/* Menú alineado a la derecha */
 .navbar-links {
     list-style: none;
     display: flex;
@@ -49,39 +44,41 @@ textarea {
     padding: 0;
 }
 
-    /* Cada enlace */
     .navbar-links li {
         margin-left: 20px;
     }
 
-    /* Estilo para los links */
     .navbar-links .nav-link {
-        color: white !important; /* Letras blancas */
+        color: white !important;
         text-decoration: none;
         font-size: 18px;
+        font-weight: bold;
     }
 
-        /* Opcional: que cambien de color al pasar el mouse */
         .navbar-links .nav-link:hover {
-            color: lightgray;
+            color: #FFD700; /* Dorado amigable */
         }
 
-/* Para que el banner abarque todo el ancho */
+/*=======================
+  BANNER
+=======================*/
+
 .banner {
-    
     width: 100%;
     height: 900px;
     margin: 0;
     padding: 0;
 }
 
-
     .banner img {
         width: 100%;
         height: 100%;
-        display: block; /* Para quitar espacio blanco debajo de la imagen */
+        display: block;
     }
 
+/*=======================
+  CONTAINER MAIN
+=======================*/
 
 .container-main {
     max-width: 1200px;
@@ -91,79 +88,229 @@ textarea {
 
 .section-title {
     text-align: center;
-    color: #6a1b9a; /* morado */
-    margin-bottom: 20px;
-    font-size: 2rem;
+    color: #6a1b9a;
+    margin: 25px 0 50px;
+    font-weight: bold;
+    font-size: 2.5rem;
+    font-family: 'Comic Sans MS', cursive;
+}
+
+/*=======================
+  SERVICIOS
+=======================*/
+
+.servicios-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.servicio-card {
+    flex: 0 0 auto;
+    width: 220px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', cursive;
+}
+
+    .servicio-card img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    .servicio-card h3 {
+        margin: 10px;
+        font-size: 1.5rem;
+        color: #5d1049;
+    }
+
+/*=======================
+  VETERINARIOS
+=======================*/
+
+.veterinarios-section {
+    padding: 50px 20px;
+    text-align: center;
 }
 
 .cards-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
 }
 
-.card {
+.card-rounded {
     background: white;
-    border: 1px solid #eee;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     padding: 20px;
-    width: 200px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2); /* sombra morada */
-    border-radius: 10px;
-    transition: transform 0.3s;
+    width: 250px;
+    transition: transform 0.3s ease;
+    font-family: 'Segoe UI', cursive;
 }
 
-    .card:hover {
+    .card-rounded:hover {
         transform: translateY(-5px);
     }
 
-.card-icon {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 10px;
-}
-
-.veterinarios-section .card-rounded {
-    background: white;
-    border: 1px solid #eee;
-    padding: 20px;
-    width: 220px;
-    text-align: center;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2);
-    transition: transform 0.3s;
-}
-
-.card-rounded:hover {
-    transform: translateY(-5px);
-}
-
 .card-photo {
-    width: 100px;
-    height: 100px;
+    width: 100%;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 10px;
+    height: 200px;
 }
 
+.btn-card {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+/*=======================
+  SEDES
+=======================*/
 .sede-section {
-    margin-top: 40px;
-    text-align: center;
+    padding: 3rem 1rem;
+    border-radius: 8px;
 }
 
-.sede-info {
+.sede-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.map-container {
+    flex: 1 1 400px;
+    min-width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .sede-details {
-    background: #f9f9f9;
-    padding: 20px;
+    flex: 1 1 300px;
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sede-nombre {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #34495e;
+}
+
+.label {
+    font-weight: bold;
+    color: #555;
+}
+
+.btn-ver-sedes {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1.2rem;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+    .btn-ver-sedes:hover {
+        background-color: #0056b3;
+    }
+
+
+/*=======================
+  SEDES SECUNDARIAS
+=======================*/
+
+/* Sección encabezado */
+.sedes-hero {
+    text-align: center;
+    padding: 2rem 1rem;
     border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Grid de sedes */
+.sedes-list {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sedes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* Tarjeta individual */
+.sede-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+    .sede-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+.sede-img {
     width: 100%;
-    max-width: 600px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.sede-info {
+    padding: 1rem 1.2rem;
     text-align: left;
+    flex: 1;
+}
+
+.sede-name {
+    font-size: 1.3rem;
+    color: #6a1b9a;
+    margin-bottom: 0.5rem;
+}
+
+.sede-info p {
+    margin: 0.3rem 0;
+    color: #444;
+}
+
+.label {
+    font-weight: 600;
+    color: #6a1b9a;
+    margin-right: 5px;
 }

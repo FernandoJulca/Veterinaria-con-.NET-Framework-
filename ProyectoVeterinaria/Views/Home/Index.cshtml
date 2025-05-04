@@ -1,69 +1,73 @@
-﻿@{
+﻿@using Dominio.Entidad.Entidad;
+@{
+    dynamic sedePrincipal = null;
+    foreach (var sede in ViewBag.sedes)
+    {
+        if (sede.IdSede == 1)
+        {
+            sedePrincipal = sede;
+            break;
+        }
+    }
     ViewBag.Title = "Home Page";
 }
 
 <main class="container-main">
 
     <!-- Sección de Servicios -->
-    <section id="servicios" class="servicios-section">
+    <section id="servicios" class="servicios-section my-3">
         <h2 class="section-title">Nuestros Servicios</h2>
-        <div class="cards-container">
-            <div class="card">
-                <img src="~/imagenes/consulta.png" alt="Consulta médica" class="card-icon" />
-                <h3>Consulta Médica</h3>
-            </div>
-            <div class="card">
-                <img src="~/imagenes/vacunacion.png" alt="Vacunación" class="card-icon" />
-                <h3>Vacunación</h3>
-            </div>
-            <div class="card">
-                <img src="~/imagenes/cirugia.png" alt="Cirugías" class="card-icon" />
-                <h3>Cirugías</h3>
-            </div>
-            <div class="card">
-                <img src="~/imagenes/banio.png" alt="Peluquería y Baño" class="card-icon" />
-                <h3>Peluquería y Baño</h3>
-            </div>
-            <div class="card">
-                <img src="~/imagenes/emergencia.png" alt="Emergencias 24/7" class="card-icon" />
-                <h3>Emergencias 24/7</h3>
-            </div>
+        <div class="servicios-container">
+            @foreach (var servicio in ViewBag.servicios)
+            {
+                <div class="servicio-card">
+                    <img src="~/imagenes/Servicios/S@(servicio.IdServicio).jpg" alt="@servicio.Descripcion" />
+                    <h3>@servicio.Descripcion</h3>
+                </div>
+            }
         </div>
     </section>
 
     <!-- Sección de Veterinarios -->
-    <section id="veterinarios" class="veterinarios-section">
+    <section id="veterinarios" class="veterinarios-section my-3">
         <h2 class="section-title">Nuestro Equipo Veterinario</h2>
         <div class="cards-container">
-            <div class="card-rounded">
-                <img src="~/imagenes/veterinario1.png" alt="Dr. Juan Pérez" class="card-photo" />
-                <h3>Dr. Juan Pérez</h3>
-                <p>Especialista en Cirugía</p>
-            </div>
-            <div class="card-rounded">
-                <img src="~/imagenes/veterinario2.png" alt="Dra. María López" class="card-photo" />
-                <h3>Dra. María López</h3>
-                <p>Especialista en Dermatología</p>
-            </div>
-            <div class="card-rounded">
-                <img src="~/imagenes/veterinario3.png" alt="Dr. Carlos Díaz" class="card-photo" />
-                <h3>Dr. Carlos Díaz</h3>
-                <p>Especialista en Emergencias</p>
-            </div>
+            @foreach (var veterinario in ((IEnumerable<dynamic>)ViewBag.veterinarios).Take(4))
+            {
+                <div class="card-rounded">
+                    <img src="~/imagenes/Veterinarios/V@(veterinario.IdVeterinario).jpg" alt="@veterinario.Nombre" class="card-photo" />
+                    <h3>@veterinario.Nombre</h3>
+                    <p>@veterinario.Especialidad</p>
+                </div>
+            }
         </div>
     </section>
 
-    <!-- Sección de Sede Principal -->
-    <section id="sedes" class="sede-section">
-        <h2 class="section-title">Nuestra Sede Principal</h2>
-        <div class="sede-info">
-            <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            <div class="sede-details">
-                <p><strong>Dirección:</strong> Av. Principal 123, Ciudad</p>
-                <p><strong>Teléfono:</strong> (01) 123-4567</p>
-                <p><strong>Horario:</strong> Lunes a Sábado de 9:00 a.m. - 8:00 p.m.</p>
+    @if (sedePrincipal != null)
+    {
+        <section id="sede-principal" class="sede-section">
+            <h2 class="section-title">Nuestra Sede Principal</h2>
+            <div class="sede-container">
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=..."
+                            width="100%"
+                            height="300"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+                <div class="sede-details">
+                    <h4 class="sede-nombre">@sedePrincipal.Nombre</h4>
+                    <p><span class="label">Dirección:</span> @sedePrincipal.Direccion</p>
+                    <p><span class="label">Teléfono:</span> @sedePrincipal.Telefono</p>
+                    <a href="@Url.Action("Sedes","Home")" class="btn-ver-sedes">Ver más Sedes</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+    }
 
 </main>

@@ -71,6 +71,9 @@
     <Compile Include="GestionCategoria.cs" />
     <Compile Include="GestionEstados.cs" />
     <Compile Include="GestionProductos.cs" />
+    <Compile Include="GestionSedes.cs" />
+    <Compile Include="GestionServicios.cs" />
+    <Compile Include="GestionVeterinarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

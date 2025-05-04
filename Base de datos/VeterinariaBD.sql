@@ -75,8 +75,6 @@ INSERT INTO VETERINARIOS VALUES
 (10,'Isabel','Flores','Oncologia veterinaria')
 GO
 
-
-
 CREATE TABLE SEDES (
 	IdSedes int primary key,
 	Nombre nvarchar(25),
@@ -186,12 +184,6 @@ CREATE TABLE DETALLEVENTA(
 );
 GO
 
-
-
-
-
-
-
 CREATE OR ALTER PROC usp_listar_estado
 AS
 BEGIN
@@ -286,16 +278,22 @@ GO
 exec usp_elimina_productos 1
 go
 
-select * from PRODUCTO
 
-/* procedures del cliente 
-select * from CLIENTES
-GO
-
-CREATE OR ALTER PROC USP_LIST_CLIENTES
+/* Procedures index*/
+CREATE OR ALTER PROC usp_list_veterinarios
 AS
-	SELECT IdCliente, Nombre,Apellido, Documento,
-		Telefono,Correo,Direccion,flgEstado
-	FROM CLIENTES
-GO*/
+	SELECT IdVeterinario, Nombre,Apellido, Especialidad
+	FROM VETERINARIOS
+Go
 
+CREATE OR ALTER PROC usp_list_servicios
+AS
+	SELECT Top 5 IdServicios, Descripcion
+	FROM SERVICIOS
+Go
+
+CREATE OR ALTER PROC usp_list_sedes
+AS
+	SELECT IdSedes, Nombre, Direccion, Telefono
+	FROM SEDES
+Go
