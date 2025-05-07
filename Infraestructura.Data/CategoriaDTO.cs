@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dominio.Entidad.Entidad;
+using Dominio.Entidad.Abstraccion;
 
 namespace Infraestructura.Data
 {
-    public class CategoriaDTO
+    public class CategoriaDTO :ICategoria
     {
         public async Task<IEnumerable<Categoria>> Listar()
         {
