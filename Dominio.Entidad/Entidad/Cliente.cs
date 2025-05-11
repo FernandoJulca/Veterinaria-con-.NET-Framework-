@@ -15,7 +15,11 @@ namespace Dominio.Entidad.Entidad
         [Display(Name = "DNI"), Required] public string Documento { get; set; }
         [Display(Name = "Teléfono"), Required] public string Telefono { get; set; }
         [Display(Name = "Correo"), Required] public string Correo { get; set; }
+        [Display(Name = "Contraseña"), Required] public string Contrasenia { get; set; }
+
         [Display(Name = "Dirección"), Required] public string Direccion { get; set; }
+        [Display(Name = "Tipo"), Required] public string Tipo { get; set; }
+
         [Display(Name = "Estado"), Required] public int FlgEstado { get; set; }
 
     }

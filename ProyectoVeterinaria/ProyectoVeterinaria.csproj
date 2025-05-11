@@ -110,6 +110,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -137,6 +138,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="imagenes\banner.png" />
+    <Content Include="imagenes\banner_1.jpg" />
+    <Content Include="imagenes\banner_2.jpg" />
+    <Content Include="imagenes\banner_3.jpg" />
     <Content Include="imagenes\facebook-logo.png" />
     <Content Include="imagenes\logo.png" />
     <Content Include="imagenes\no-imagen.png" />
@@ -200,6 +204,8 @@
     <Content Include="Views\Producto\Delete.cshtml" />
     <Content Include="Views\Producto\Details.cshtml" />
     <Content Include="Views\Home\Sedes.cshtml" />
+    <Content Include="Views\Usuario\IniciarSesion.cshtml" />
+    <Content Include="Views\Usuario\Registro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

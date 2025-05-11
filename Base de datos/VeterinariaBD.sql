@@ -26,17 +26,34 @@ INSERT INTO ESTADO VALUES
 (3,'Agotado')
 GO
 
-CREATE TABLE CLIENTES(
-	IdCliente int primary key,
-	Nombre nvarchar(50),
-	Apellido nvarchar(50),
-	Documento char(8),
-	Telefono nvarchar(20),
-	Correo nvarchar(50),
-	Direccion nvarchar(100),
-	flgEliminado bit
+CREATE TABLE CLIENTES (
+    IdCliente INT PRIMARY KEY,
+    Nombre NVARCHAR(50),
+    Apellido NVARCHAR(50),
+    Documento CHAR(8),
+    Telefono NVARCHAR(20),
+    Correo NVARCHAR(50),
+    Contrasenia NVARCHAR(50),
+    Direccion NVARCHAR(100),
+    Tipo CHAR(1) CHECK (Tipo IN ('C', 'A')),
+    flgEliminado BIT
 );
 GO
+
+INSERT INTO CLIENTES (IdCliente, Nombre, Apellido, Documento, Telefono, Correo, Contrasenia, Direccion, Tipo, flgEliminado)
+VALUES (1, 'Ana', 'Ramirez', '12345678', '987654321', 'ana.ramirez@mail.com', 'Pass@123', 'Calle 123, Lima', 'A', 0);
+
+INSERT INTO CLIENTES (IdCliente, Nombre, Apellido, Documento, Telefono, Correo, Contrasenia, Direccion, Tipo, flgEliminado)
+VALUES (2, 'Luis', 'Garcia', '87654321', '912345678', 'luis.garcia@mail.com', 'Seguro#2024', 'Av. Los Pinos 456', 'A', 0);
+
+INSERT INTO CLIENTES (IdCliente, Nombre, Apellido, Documento, Telefono, Correo, Contrasenia, Direccion, Tipo, flgEliminado)
+VALUES (3, 'Maria', 'Fernandez', '11223344', '998877665', 'maria.f@mail.com', 'Clave!789', 'Jr. Las Flores 789', 'C', 0);
+
+INSERT INTO CLIENTES (IdCliente, Nombre, Apellido, Documento, Telefono, Correo, Contrasenia, Direccion, Tipo, flgEliminado)
+VALUES (4, 'Carlos', 'Quispe', '44556677', '911223344', 'carlosq@mail.com', 'MiClaveSegura', 'Pasaje Central 321', 'C', 0);
+
+INSERT INTO CLIENTES (IdCliente, Nombre, Apellido, Documento, Telefono, Correo, Contrasenia, Direccion, Tipo, flgEliminado)
+VALUES (5, 'Lucia', 'Mendoza', '55667788', '900112233', 'lucia.m@mail.com', 'Lucia#2025', 'Avenida America 654', 'C', 0);
 
 CREATE TABLE SERVICIOS(
 	IdServicios int primary key,
@@ -297,3 +314,18 @@ AS
 	SELECT IdSedes, Nombre, Direccion, Telefono
 	FROM SEDES
 Go
+
+/* Procedures de session */
+CREATE OR ALTER PROC usp_iniciar_session
+	@Correo NVARCHAR(50),
+    @Contrasenia NVARCHAR(50)
+AS
+BEGIN
+	Select IdCliente, Nombre,Apellido,Documento,Telefono,
+		Correo,Contrasenia,Direccion,Tipo
+	from CLIENTES
+	where Correo = @Correo And Contrasenia = @Contrasenia
+END
+GO
+
+exec usp_iniciar_session 'ana.ramirez@mail.com', 'Pass@123'

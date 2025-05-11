@@ -10,9 +10,7 @@ namespace Dominio.Repositorio
     {
         Task<string> Agregar(T reg);
         Task<string> Actualizar(T reg);
-
         Task<T> Buscar(int id);
-
         Task<string> Eliminar(int id);
     }
 }
