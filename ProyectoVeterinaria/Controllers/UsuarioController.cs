@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Aplicacion.Servicios;
+using Dominio.Entidad.Entidad;
 
 namespace ProyectoVeterinaria.Controllers
 {
@@ -21,27 +22,60 @@ namespace ProyectoVeterinaria.Controllers
         public async Task<ActionResult> IniciarSesion(string correo, string contrasenia)
         {
             var cliente = await _gestionClientes.IniciarSesion(correo, contrasenia);
+
             if (cliente == null)
             {
-                ModelState.AddModelError("", "Correo o contraseña incorrectos.");
+                TempData["ErrorMessage"] = "Usuario o contraseña incorrectos.";
                 return View();
             }
 
             Session["ClienteId"] = cliente.IdCliente;
             Session["ClienteNombre"] = cliente.NombreCliente;
+            Session["ClienteTipo"] = cliente.Tipo;
 
-            return RedirectToAction("Index", "Home");  
+            TempData["GoodMessage"] = $"{cliente.NombreCliente} ingresado con éxito";
+
+            if (cliente.Tipo == "A")
+            {
+                return RedirectToAction("Index", "Admin"); 
+            }
+            else if (cliente.Tipo == "C")
+            {
+                return RedirectToAction("Index", "Home"); 
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Tipo de usuario no reconocido.";
+                return RedirectToAction("IniciarSesion", "Usuario");
+            }
         }
+
         public ActionResult CerrarSesion()
         {
-            Session.Clear();          
-            Session.Abandon();       
-            return RedirectToAction("Index", "Home"); 
+            Session.Clear();
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Registro()
         {
             return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> Registro(Cliente c)
+        {
+            string cliente = await _gestionClientes.RegistrarCliente(c);
+            if (cliente.Contains("correctamente"))
+            {
+                TempData["GoodMessage"] = cliente;
+                return RedirectToAction("IniciarSesion", "Usuario");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = cliente;
+                return View();
+            }
+            
         }
     }
 }

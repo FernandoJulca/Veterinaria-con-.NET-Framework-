@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dominio.Entidad.Abstraccion;
 using Dominio.Entidad.Entidad;
+using System.Data;
 
 namespace Infraestructura.Data
 {
@@ -14,7 +16,7 @@ namespace Infraestructura.Data
     {
         public async Task<Cliente> IniciarSesion(string correo,string contrasenia)
         {
-            Cliente cli = new Cliente();
+            Cliente cli = null;
             string message = "";
             try
             {
@@ -23,7 +25,7 @@ namespace Infraestructura.Data
                     await cnn.OpenAsync();
                     using(SqlCommand cmd = new SqlCommand("usp_iniciar_session", cnn))
                     {
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@Correo", correo);
                         cmd.Parameters.AddWithValue("@Contrasenia", contrasenia);
 
@@ -53,6 +55,39 @@ namespace Infraestructura.Data
                 message = ex.Message;
             }
             return cli;
+        }
+
+        public async Task<string> RegistrarCliente(Cliente c)
+        {
+            string mensaje = "";
+            try
+            {
+                using(SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                {
+                    await cnn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("usp_registrar_usuario", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Nombre", c.NombreCliente);
+                        cmd.Parameters.AddWithValue("@Apellido", c.ApellidoCliente);
+                        cmd.Parameters.AddWithValue("@Documento", c.Documento);
+                        cmd.Parameters.AddWithValue("@Telefono", c.Telefono);
+                        cmd.Parameters.AddWithValue("@Correo", c.Correo);
+                        cmd.Parameters.AddWithValue("@Contrasenia", c.Contrasenia);
+                        cmd.Parameters.AddWithValue("@Direccion", c.Direccion);
+                        var mensajeParam = cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 255);
+                        mensajeParam.Direction = ParameterDirection.Output;
+
+                        await cmd.ExecuteNonQueryAsync();
+                        mensaje = mensajeParam.Value.ToString();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                mensaje = ex.Message;
+            }
+            return mensaje;
         }
 
         public Task<IEnumerable<Cliente>> Listar()
