@@ -1,12 +1,14 @@
 ﻿@model Dominio.Entidad.Entidad.Producto
 
 @{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Productos";
     ViewBag.Title = "Editar Producto";
 }
 
 <div class="card shadow-sm border-0 my-4">
     <div class="card-header bg-warning text-dark">
-        <h5 class="mb-0"><i class="fas fa-edit"></i> Editar Producto</h5>
+        <h2><i class="fas fa-edit"></i> Editar Producto</h2>
     </div>
     <div class="card-body p-4">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -54,7 +56,9 @@
                 <div class="col-md-4 text-center">
                     <label class="form-label d-block"><i class="fas fa-image"></i> Imagen</label>
                     <img id="preview" class="img-thumbnail d-block mx-auto mb-2" style="width:400px; height:250px; cursor: pointer;"
-                         src="@(string.IsNullOrEmpty(Model.ImagenBase64) ? "/ruta/imagen-default.png" : $"data:image/png;base64,{Model.ImagenBase64}")"
+                         src="@(string.IsNullOrEmpty(Model.ImagenBase64)
+            ? $"/imagenes/Productos/P{Model.IdProducto}.jpg"
+            : $"data:image/png;base64,{Model.ImagenBase64}")"
                          onclick="document.getElementById('imagenInput').click()" onerror="this.onerror=null; this.src='/Imagenes/no-imagen.png';"/>
                     <input type="file" id="imagenInput" class="d-none" accept="image/*" />
                     <input type="hidden" id="ImagenBase64" name="ImagenBase64" value="@Model.ImagenBase64" />

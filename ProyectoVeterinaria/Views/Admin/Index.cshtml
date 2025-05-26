@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+   var usuario = Session["ClienteNombre"] ?? "Admin";
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="row g-4">
+    <div>
+        <h2>Bienvenido @usuario, al Panel de Administración 🐶</h2>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-primary shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Productos</h5>
+                <p class="card-text">Administra todos los productos disponibles.</p>
+                <a href="@Url.Action("ListaProductos", "AdminProducto")" class="btn btn-light btn-sm">Ver productos</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Categorías</h5>
+                <p class="card-text">Organiza los productos por categorías.</p>
+                <a href="#" class="btn btn-light btn-sm">Ver categorías</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-warning shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Clientes</h5>
+                <p class="card-text">Visualiza la lista de usuarios registrados.</p>
+                <a href="#" class="btn btn-light btn-sm">Ver clientes</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Pedidos</h5>
+                <p class="card-text">Revisa los pedidos realizados por los clientes.</p>
+                <a href="#" class="btn btn-light btn-sm">Ver pedidos</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr class="my-5" />
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h4>Estadísticas rápidas</h4>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Total de productos
+                <span class="badge bg-primary rounded-pill">120</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Total de clientes
+                <span class="badge bg-success rounded-pill">45</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Pedidos pendientes
+                <span class="badge bg-warning rounded-pill">8</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-md-6">
+        <h4 class="mb-3">Acciones rápidas</h4>
+        <a href="@Url.Action("Create", "AdminProducto")" class="btn btn-outline-primary w-100 mb-2">➕ Registrar nuevo producto</a>
+        <a href="#" class="btn btn-outline-success w-100 mb-2">📁 Crear nueva categoría</a>
+        <a href="#" class="btn btn-outline-warning w-100">📦 Gestionar pedidos</a>
+    </div>
+</div>

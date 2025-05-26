@@ -1,0 +1,32 @@
+﻿@{
+    var categorias = ViewBag.categorias as List<Dominio.Entidad.Entidad.Categoria>;
+    ViewBag.Title = "Productos";
+}
+<main class="container">
+    <section class="intro-section">
+        <h2 class="section-title">Productos para tu Mascota</h2>
+        <p class="intro-text">
+            Descubre nuestra selección de productos diseñados para cuidar, alimentar y consentir a tu compañero peludo.
+            Desde juguetes y accesorios hasta alimentos de alta calidad, tenemos todo lo que tu mascota necesita para vivir feliz y saludable.
+        </p>
+    </section>
+
+    <div class="row mb-5">
+        <!-- Categorías: 100% en móviles, 25% en md+ -->
+        <div class="col-12 col-md-3 mb-3 mb-md-0">
+            <button class="button-categorias w-100" data-filter="all" data-id="0">Todas</button>
+            @foreach (var cat in categorias)
+            {
+                <button class="button-categorias w-100" data-id="@cat.IdCategoria">@cat.NombreCategoria</button>
+            }
+
+        </div>
+        <div class="col-12 col-md-9">
+            <div class="row g-4" id="productos-listado">
+            </div>
+            <div class="d-flex justify-content-center mt-4" id="paginacion">
+            </div>
+        </div>
+    </div>
+</main>
+<script src="~/JavaScripts/Productos.js"></script>

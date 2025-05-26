@@ -1,0 +1,67 @@
+﻿/*=======================
+  VARIABLES DE COLORES
+=======================*/
+:root {
+    --color-morado: #7B1FA2;
+    --white-color: #f1f1f1;
+    --black-color: #0d1117;
+    --color-dorado: #F5D547;
+    --color-gris: #ccc;
+    --color-negro: rgba(33, 37, 41);
+    --color-verde-menta: #27ae60;
+}
+/*=======================
+  PRINCIPALES
+=======================*/
+body {
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    background-color: #7B1FA2;
+    color: white;
+    min-height: 100vh;
+    padding-top: 20px;
+}
+
+    .sidebar a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 12px 20px;
+    }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #F5D547;
+            color: black;
+            font-weight: bold;
+        }
+
+.topbar {
+    border-bottom: 1px solid #ddd;
+}
+/* paginacion */
+.button-paginado {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid var(--color-gris);
+    background-color: var(--white-color);
+    color: var(--black-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+    .button-paginado:hover {
+        background-color: var(--color-verde-menta);
+        color: var(--white-color);
+        border-color: var(--color-verde-menta);
+        transform: scale(1.05);
+    }
+.pagina-activa {
+    background-color: var(--color-morado);
+    color: white;
+    border-color: var(--color-morado);
+}
+

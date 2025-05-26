@@ -19,5 +19,9 @@ namespace Aplicacion.Servicios
         {
             return await clienteDTO.IniciarSesion(correo, contrasenia);
         }
+
+        public async Task<string> RegistrarCliente(Cliente c){
+            return await clienteDTO.RegistrarCliente(c);
+        }
     }
 }

@@ -18,6 +18,11 @@ namespace Aplicacion.Servicios
             _categoria = new CategoriaDTO();
         }
 
+        public async Task<List<Categoria>> ListarCategoriaCliente()
+        {
+            return (List<Categoria>)await _categoria.Listar();
+        }
+
         public async Task<SelectList> ListarCategoria()
         {
             IEnumerable<Categoria> categorias = await _categoria.Listar();

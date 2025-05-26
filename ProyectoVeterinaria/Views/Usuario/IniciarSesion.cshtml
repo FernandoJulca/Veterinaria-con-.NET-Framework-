@@ -24,14 +24,12 @@
         }
 
     label {
-        font-weight: bold;
         color: #6A0DAD;
     }
 
     .btn {
         background-color: #6A0DAD;
         color: white;
-        font-weight: bold;
     }
 
         .btn:hover {
@@ -57,7 +55,6 @@
 
     .link {
         color: #6A0DAD;
-        font-weight: bold;
     }
 
         .link:hover {
@@ -80,7 +77,7 @@
         }
 </style>
 
-<div class="d-flex overflow-hidden vh-100" style="background-color: #7B1FA2;">
+<div class="d-flex overflow-hidden vh-100" style="background-color: #ccc;">
     <div class="logo-container position-absolute d-inline-flex align-items-center ml-3 mt-3">
         <a href="@Url.Action("Index", "Home")"
            class="logo-link d-flex justify-content-center align-items-center ml-4" style="text-decoration: none;">
@@ -136,6 +133,7 @@
         </div>
     </div>
 </div>
+@Html.Partial("_SweetAlert")
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
@@ -149,6 +147,7 @@
         });
     });
 </script>
+
 <script>
     const toggleContrasenia = document.getElementById('toggleContrasenia');
     const ContraseniaField = document.getElementById('Contrasenia');

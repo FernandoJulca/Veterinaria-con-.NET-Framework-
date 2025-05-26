@@ -1,12 +1,14 @@
 ﻿@model Dominio.Entidad.Entidad.Producto
 
 @{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Productos";
     ViewBag.Title = "Crear Producto";
 }
 
 <div class="card shadow-sm border-0 my-4">
     <div class="card-header bg-success text-white">
-        <h5 class="mb-0"><i class="fas fa-paw"></i> Nuevo Producto Veterinario</h5>
+        <h2><i class="fas fa-paw"></i> Nuevo Producto Veterinario</h2>
     </div>
     <div class="card-body p-4">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))

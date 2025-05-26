@@ -18,86 +18,40 @@ namespace ProyectoVeterinaria.Controllers
         private readonly GestionCategoria _gestionCategoria = new GestionCategoria();
 
         // GET: Producto
-        public async Task<ActionResult> ListaProductos()
+        public async Task<ActionResult> Productos()
         {
-            var lista = await _gestionProductos.ObtenerListadoProductos();
-
-            return View(lista);
+            ViewBag.categorias = await _gestionCategoria.ListarCategoriaCliente();
+            return View();
         }
 
-        //CREATE
-        public async Task<ActionResult> Create()
+        public async Task<JsonResult> ListarProductosPorCategoria(int id, int page = 1, int pageSize = 12)
         {
-            ViewBag.categorias = await _gestionCategoria.ListarCategoria();
-           
-            return View(new Producto());
-        }
+            List<Dominio.Entidad.Entidad.ListadoProductos> productos;
 
-
-        [HttpPost]
-        public async Task<ActionResult> Create(Producto reg)
-        {
-            if (!string.IsNullOrEmpty(reg.ImagenBase64))
+            if (id == 0)
             {
-                try
-                {
-                    reg.Imagen = Convert.FromBase64String(reg.ImagenBase64);
-                }
-                catch (FormatException)
-                {
-                    ModelState.AddModelError("ImagenBase64", "Formato de imagen inválido.");
-                }
+                productos = await _gestionProductos.ObtenerListadoProductos();
+            }
+            else
+            {
+                productos = await _gestionProductos.ListarProductosPorCategoria(id);
             }
 
-            if (ModelState.IsValid)
+            var totalProductos = productos.Count;
+            var totalPaginas = (int)Math.Ceiling((double)totalProductos / pageSize);
+
+            var productosPaginados = productos
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return Json(new
             {
-                ViewBag.mensaje = await _gestionProductos.AgregarProducto(reg);
-            }
-
-            ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
-            return View(reg);
+                productos = productosPaginados,
+                totalPaginas,
+                paginaActual = page
+            }, JsonRequestBehavior.AllowGet);
         }
-
-
-        //EDIT
-        public async Task<ActionResult> Edit(int id)
-        {
-            Producto reg = await _gestionProductos.BuscarProducto(id);
-            ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
-            ViewBag.estados = await _gestionEstados.Listar(reg);
-            return View(reg);
-
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Edit(Producto reg)
-        {
-            ViewBag.mensaje = await _gestionProductos.ActualizaProducto(reg);
-            ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
-            ViewBag.estados = await _gestionEstados.Listar(reg);
-            return View(reg);
-        }
-
-        //DELETE
-        public async Task<ActionResult> Delete(int ? id = null)
-        {
-            var producto = await _gestionProductos.BuscarProducto(id.Value);   
-            
-            return View("Delete",producto);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Delete(int id)
-        {
-            ViewBag.mensaje = await _gestionProductos.EliminarProducto(id);
-            return RedirectToAction("ListaProductos");
-        }
-
-        // DETAILS
-        public async Task<ActionResult> Details(int? id = null)
-        {
-            var producto = await _gestionProductos.BuscarProducto(id.Value);
-            return View(producto);
-        }
+   
     }
 }

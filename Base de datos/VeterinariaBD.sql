@@ -219,6 +219,30 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER PROC usp_listar_productos_x_categoria
+	@idCategoria int
+AS
+BEGIN
+SELECT
+	PROD.IdProducto,
+	PROD.Nombre,
+	PROD.Imagen,
+	CAT.IdCategoria,
+	CAt.Descripcion,
+	PROD.Precio,
+	PROD.stock,
+	EST.IdEstado,
+	EST.Descripcion,
+	Prod.flgEliminado
+	FROM PRODUCTO PROD JOIN CATEGORIA CAT
+	ON CAT.IdCategoria = PROD.Categoria JOIN ESTADO EST
+	ON EST.IdEstado = PROD.flgEstado
+	Where CAT.IdCategoria = @idCategoria And flgEliminado = 0
+END
+GO
+
+exec usp_listar_productos_x_categoria 3
+go
 
 CREATE OR ALTER PROC usp_listar_productos_mantenimiento
 AS
@@ -329,3 +353,32 @@ END
 GO
 
 exec usp_iniciar_session 'ana.ramirez@mail.com', 'Pass@123'
+GO
+
+CREATE OR ALTER PROC usp_registrar_usuario
+    @Nombre NVARCHAR(50),
+    @Apellido NVARCHAR(50),
+    @Documento CHAR(8),
+    @Telefono NVARCHAR(20),
+    @Correo NVARCHAR(50),
+    @Contrasenia NVARCHAR(50),
+	@Direccion NVARCHAR(100),
+	@Mensaje varchar(255) OUTPUT
+AS
+BEGIN
+	IF EXISTS (SELECT 1 FROM CLIENTES WHERE Documento = @Documento)
+		BEGIN
+			SET @Mensaje = 'El Nro Documento ya existe en el sistema';
+			Return;
+		END
+	ELSE
+		BEGIN
+			DECLARE @IdCliente INT = ISNULL((SELECT MAX(IdCliente) FROM CLIENTES), 0) + 1;
+			INSERT INTO CLIENTES(IdCliente,Nombre,Apellido,Documento,Telefono,Correo,Contrasenia,Direccion,Tipo,flgEliminado)
+			VALUES(@IdCliente,@Nombre,@Apellido,@Documento,@Telefono,@Correo,@Contrasenia,@Direccion,'C',0)
+			SET @Mensaje = 'Usuario registrado correctamente'
+		END
+END
+GO
+
+select * from CLIENTES
