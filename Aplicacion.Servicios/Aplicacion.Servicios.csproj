@@ -70,11 +70,15 @@
   <ItemGroup>
     <Compile Include="GestionCategoria.cs" />
     <Compile Include="GestionClientes.cs" />
+    <Compile Include="GestionEspecialidad.cs" />
+    <Compile Include="GestionEspecie.cs" />
     <Compile Include="GestionEstados.cs" />
     <Compile Include="GestionProductos.cs" />
+    <Compile Include="GestionRaza.cs" />
     <Compile Include="GestionSedes.cs" />
     <Compile Include="GestionServicios.cs" />
-    <Compile Include="GestionVeterinarios.cs" />
+    <Compile Include="GestionVenta.cs" />
+    <Compile Include="GestionVeterinario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

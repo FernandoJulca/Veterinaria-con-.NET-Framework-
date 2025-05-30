@@ -34,5 +34,25 @@ namespace Aplicacion.Servicios
             IEnumerable<Categoria> categorias = await _categoria.Listar();
             return new SelectList(categorias, "IdCategoria", "NombreCategoria",reg.IdCategoria);
         }
+
+        public async Task<string> Actualizar(Categoria reg)
+        {
+            return await _categoria.Actualizar(reg);
+        }
+
+        public async Task<string> Agregar(Categoria reg)
+        {
+            return await _categoria.Agregar(reg);
+        }
+
+        public async Task<Categoria> Buscar(int id)
+        {
+            return await _categoria.Buscar(id);
+        }
+
+        public async Task<string> Eliminar(int id)
+        {
+            return await _categoria.Eliminar(id);
+        }
     }
 }

@@ -1,0 +1,59 @@
+﻿@model Dominio.Entidad.Entidad.Raza
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Razas";
+    ViewBag.Title = "Editar Raza";
+}
+
+<h2 class="mb-4"><i class="fas fa-edit text-warning"></i> Editar Raza</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Modificar datos</h5>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.IdRaza, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(model => model.IdRaza, new { @class = "form-control", @readonly = "readonly" })
+                <div>
+                    @Html.ValidationMessageFor(model => model.IdRaza, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="mb-3">
+                @Html.Label("IdEspecie", "Especie", htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.DropDownList("IdEspecie", ViewBag.especies as SelectList, "-- Selecciona una especie --", new { @class = "form-select" })
+                <div>
+                    @Html.ValidationMessageFor(model => model.IdEspecie, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.NombreRaza, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(model => model.NombreRaza, new { @class = "form-control", placeholder = "Nombre de la Raza" })
+                <div>
+                    @Html.ValidationMessageFor(model => model.NombreRaza, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-white text-end">
+            <a href="@Url.Action("ListaRaza")" class="btn btn-secondary me-2">
+                <i class="fas fa-arrow-left"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Guardar Cambios
+            </button>
+        </div>
+    </div>
+}
+@if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.mensaje
+    </div>
+}

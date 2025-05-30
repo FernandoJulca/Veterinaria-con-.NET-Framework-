@@ -31,9 +31,10 @@ namespace ProyectoVeterinaria.Controllers
 
             Session["ClienteId"] = cliente.IdCliente;
             Session["ClienteNombre"] = cliente.NombreCliente;
+            Session["ClienteApellido"] = cliente.ApellidoCliente;
             Session["ClienteTipo"] = cliente.Tipo;
 
-            TempData["GoodMessage"] = $"{cliente.NombreCliente} ingresado con éxito";
+            TempData["GoodMessage"] = $"{cliente.NombreCliente} {cliente.ApellidoCliente} ingresado con éxito";
 
             if (cliente.Tipo == "A")
             {

@@ -1,0 +1,38 @@
+﻿@model Dominio.Entidad.Entidad.Servicio
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Servicios";
+    ViewBag.Title = "Crear Servicio";
+}
+
+<div class="card shadow-sm border-0 my-4">
+    <div class="card-header bg-success text-white">
+        <h2><i class="fas fa-paw"></i> Nuevo Servicio Veterinario</h2>
+    </div>
+    <div class="card-body p-4">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label"><i class="fas fa-clipboard-list"></i> Descripción</label>
+                @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control", placeholder = "Ej: Consulta general, vacunación..." })
+                <div>
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <input type="submit" value="Guardar" class="btn btn-success px-4" />
+                @Html.ActionLink("Volver a la lista", "ListaServicio", null, new { @class = "btn btn-secondary" })
+            </div>
+        }
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.mensaje
+    </div>
+}

@@ -1,0 +1,61 @@
+﻿@model Dominio.Entidad.Entidad.Sede
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Sedes";
+    ViewBag.Title = "Eliminar Sede";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-danger rounded shadow-sm">
+    <h2 class="m-0 text-white">
+        <i class="fas fa-trash-alt me-2"></i>Eliminar Sede
+    </h2>
+</div>
+
+<div class="alert alert-warning rounded shadow-sm">
+    <h4 class="alert-heading">¿Estás seguro?</h4>
+    <p>Esta acción es irreversible y eliminará permanentemente la sede.</p>
+    <hr />
+    <p class="mb-0">Por favor, confirma para continuar.</p>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <dl class="row">
+
+            <dt class="col-sm-3 fw-bold">ID</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.IdSede)</dd>
+
+            <dt class="col-sm-3 fw-bold">Nombre</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Nombre)</dd>
+
+            <dt class="col-sm-3 fw-bold">Imagen</dt>
+            <dd class="col-sm-9">
+                <img src="@(string.IsNullOrEmpty(Model.ImagenBase64)
+                                ? $"/imagenes/Sedes/S{Model.IdSede}.jpg"
+                                : $"data:image/png;base64,{Model.ImagenBase64}")"
+                     alt="Imagen de sede"
+                     class="img-thumbnail"
+                     style="max-width: 350px; height: auto; object-fit: cover;"
+                     onerror="this.onerror=null; this.src='/imagenes/no-imagen.png';" />
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">Dirección</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Direccion)</dd>
+
+            <dt class="col-sm-3 fw-bold">Teléfono</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Telefono)</dd>
+
+        </dl>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="d-flex gap-2">
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+        @Html.ActionLink("Cancelar", "ListaSede", null, new { @class = "btn btn-secondary" })
+    </div>
+}

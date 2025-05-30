@@ -1,0 +1,70 @@
+﻿@model Dominio.Entidad.Entidad.Sede
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Sedes";
+    ViewBag.Title = "Crear Sede";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="fas fa-plus-circle text-primary"></i> Crear Sede</h2>
+    <a href="@Url.Action("ListaSede")" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Volver al listado
+    </a>
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Formulario de Sede</h4>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el nombre de la sede" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.Label("Imagen", htmlAttributes: new { @class = "form-label fw-bold d-block" })
+                <img id="preview" class="img-thumbnail mb-2 d-block mx-auto" style="width: 300px; height: 200px; object-fit: cover; cursor: pointer;"
+                     src="@(string.IsNullOrEmpty(Model.ImagenBase64) ? "/imagenes/no-imagen.png" : $"data:image/png;base64,{Model.ImagenBase64}")"
+                     onclick="document.getElementById('imagenInput').click()" onerror="this.onerror=null; this.src='/imagenes/no-imagen.png';" />
+                <input type="file" id="imagenInput" class="d-none" accept="image/*" onchange="convertImageToBase64(this)" />
+                <input type="hidden" id="ImagenBase64" name="ImagenBase64" value="@Model.ImagenBase64" />
+                <small class="text-muted d-block text-center">Haz clic en la imagen para subir una nueva</small>
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese la dirección" } })
+                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese el teléfono" } })
+                @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Guardar Sede
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.mensaje
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/JavaScripts/CrudJS")
+}

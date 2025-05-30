@@ -142,7 +142,7 @@ namespace Infraestructura.Data
                         cmd.Parameters.AddWithValue("@flgEstado", 1);
 
                         int i = await cmd.ExecuteNonQueryAsync();
-                        mensaje = $"se ha registrado el producto {reg.NombreProducto}";
+                        mensaje = $"El producto '{reg.NombreProducto}' ha sido registrado correctamente.";
                     }
                 }
             }
@@ -194,7 +194,7 @@ namespace Infraestructura.Data
                         cmd.Parameters.AddWithValue("@flgEstado", reg.IdEstado);
 
                         int i = await cmd.ExecuteNonQueryAsync();
-                        mensaje = $"se ha actualizado el producto con el Id{reg.IdProducto}";
+                        mensaje = $"El Producto '{reg.NombreProducto}' ha sido actualizado correctamente.";
                     }
                 }
             }
@@ -237,7 +237,7 @@ namespace Infraestructura.Data
 
                         cmd.Parameters.AddWithValue("@idprod", id);
                         int i = await cmd.ExecuteNonQueryAsync();
-                        mensaje = $"Se ha eliminado el producto seleccionado";
+                        mensaje = "El producto ha sido eliminado correctamente.";
                     }
                 }
                 catch (SqlException ex)

@@ -1,0 +1,38 @@
+﻿@model Dominio.Entidad.Entidad.Especialidad
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Especialidades";
+    ViewBag.Title = "Detalle de Especialidad";
+}
+
+<h2 class="mb-4"><i class="fas fa-info-circle text-info"></i> Detalle de Especialidad</h2>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4 fw-bold text-secondary">
+                @Html.DisplayNameFor(model => model.IdEspecialidad)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.IdEspecialidad)
+            </dd>
+
+            <dt class="col-sm-4 fw-bold text-secondary">
+                @Html.DisplayNameFor(model => model.NombreEspecialidad)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.NombreEspecialidad)
+            </dd>
+        </dl>
+    </div>
+
+    <div class="card-footer bg-white text-end">
+        <a href="@Url.Action("Edit", new { id = Model.IdEspecialidad })" class="btn btn-outline-warning me-2">
+            <i class="fas fa-edit"></i> Editar
+        </a>
+        <a href="@Url.Action("ListaEspecialidad")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+    </div>
+</div>

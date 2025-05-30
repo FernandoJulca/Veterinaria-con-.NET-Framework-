@@ -13,7 +13,9 @@
             @foreach (var sede in ViewBag.sedes)
             {
                 <div class="sede-card">
-                    <img src="~/imagenes/Sedes/S@(sede.IdSede).jpg" alt="@sede.Nombre" class="sede-img" />
+                    <img src="@(string.IsNullOrEmpty(sede.ImagenBase64)
+            ? $"/imagenes/Sedes/S{sede.IdSede}.jpg"
+            : $"data:image/png;base64,{sede.ImagenBase64}")" alt="@sede.Nombre" class="sede-img" />
                     <div class="sede-info">
                         <h4 class="sede-name">@sede.Nombre</h4>
                         <p><span class="label">Dirección:</span> @sede.Direccion</p>

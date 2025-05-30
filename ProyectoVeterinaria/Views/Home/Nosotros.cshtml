@@ -102,7 +102,9 @@
             @foreach (var veterinario in ViewBag.veterinarios)
             {
                 <div class="card-rounded">
-                    <img src="~/imagenes/Veterinarios/V@(veterinario.IdVeterinario).jpg" alt="@veterinario.Nombre" class="card-photo" />
+                    <img src="@(string.IsNullOrEmpty(veterinario.ImagenBase64)
+            ? $"/imagenes/Veterinarios/V{veterinario.IdVeterinario}.jpg"
+            : $"data:image/png;base64,{veterinario.ImagenBase64}")" alt="@veterinario.Nombre" class="card-photo" />
                     <h3>@veterinario.Nombre</h3>
                     <p>@veterinario.Especialidad</p>
                 </div>

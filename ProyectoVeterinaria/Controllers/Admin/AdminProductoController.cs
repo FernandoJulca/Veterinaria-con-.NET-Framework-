@@ -28,7 +28,7 @@ namespace ProyectoVeterinaria.Controllers.Admin
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
-            return View(productosPaginados);
+            return View("~/Views/Admin/AdminProducto/ListaProductos.cshtml",productosPaginados);
         }
 
         //CREATE
@@ -36,11 +36,12 @@ namespace ProyectoVeterinaria.Controllers.Admin
         {
             ViewBag.categorias = await _gestionCategoria.ListarCategoria();
 
-            return View(new Producto());
+            return View("~/Views/Admin/AdminProducto/Create.cshtml",new Producto());
         }
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Producto reg)
         {
             if (!string.IsNullOrEmpty(reg.ImagenBase64))
@@ -57,11 +58,12 @@ namespace ProyectoVeterinaria.Controllers.Admin
 
             if (ModelState.IsValid)
             {
-                ViewBag.mensaje = await _gestionProductos.AgregarProducto(reg);
+                TempData["GoodMessage"] = await _gestionProductos.AgregarProducto(reg);
+                return RedirectToAction("ListaProductos");
             }
 
             ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
-            return View(reg);
+            return View("~/Views/Admin/AdminProducto/Create.cshtml",reg);
         }
 
 
@@ -71,17 +73,17 @@ namespace ProyectoVeterinaria.Controllers.Admin
             Producto reg = await _gestionProductos.BuscarProducto(id);
             ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
             ViewBag.estados = await _gestionEstados.Listar(reg);
-            return View(reg);
+            return View("~/Views/Admin/AdminProducto/Edit.cshtml", reg);
 
         }
 
         [HttpPost]
         public async Task<ActionResult> Edit(Producto reg)
         {
-            ViewBag.mensaje = await _gestionProductos.ActualizaProducto(reg);
+            TempData["GoodMessage"] = await _gestionProductos.ActualizaProducto(reg);
             ViewBag.categorias = await _gestionCategoria.ListarCategoriaPost(reg);
             ViewBag.estados = await _gestionEstados.Listar(reg);
-            return View(reg);
+            return RedirectToAction("ListaProductos");
         }
 
         //DELETE
@@ -89,13 +91,13 @@ namespace ProyectoVeterinaria.Controllers.Admin
         {
             var producto = await _gestionProductos.BuscarProducto(id.Value);
 
-            return View("Delete", producto);
+            return View("~/Views/Admin/AdminProducto/Delete.cshtml", producto);
         }
 
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
-            ViewBag.mensaje = await _gestionProductos.EliminarProducto(id);
+            TempData["GoodMessage"] = await _gestionProductos.EliminarProducto(id);
             return RedirectToAction("ListaProductos");
         }
 
@@ -103,7 +105,7 @@ namespace ProyectoVeterinaria.Controllers.Admin
         public async Task<ActionResult> Details(int? id = null)
         {
             var producto = await _gestionProductos.BuscarProducto(id.Value);
-            return View(producto);
+            return View("~/Views/Admin/AdminProducto/Details.cshtml", producto);
         }
     }
 }

@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Dominio.Entidad.Abstraccion;
 using Dominio.Entidad.Entidad;
-using System.Data;
 
 namespace Infraestructura.Data
 {
@@ -89,10 +88,43 @@ namespace Infraestructura.Data
             }
             return mensaje;
         }
-
-        public Task<IEnumerable<Cliente>> Listar()
+        public async Task<IEnumerable<Cliente>> Listar()
         {
-            throw new NotImplementedException();
+            List<Cliente> list = new List<Cliente>();
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                {
+                    await cnn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("usp_listar_cliente", cnn))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                list.Add(new Cliente()
+                                {
+                                    IdCliente = reader.GetInt32(0),
+                                    NombreCliente = reader.GetString(1),
+                                    ApellidoCliente = reader.GetString(2),
+                                    Documento = reader.GetString(3),
+                                    Telefono = reader.GetString(4),
+                                    Correo = reader.GetString(5),
+                                    Contrasenia = reader.GetString(6),
+                                    Direccion = reader.GetString(7)
+                                });
+                            }
+                            reader.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar clientes", ex);
+            }
+            return list;
         }
     }
 }
