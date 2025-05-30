@@ -15,31 +15,31 @@
         {
             @Html.AntiForgeryToken()
 
-            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
-
             <div class="row g-3">
-                <!-- Fila 1: Nombre y Categoría en una columna vertical -->
                 <div class="col-md-4">
                     <label class="form-label"><i class="fas fa-tag"></i> Nombre</label>
                     @Html.TextBoxFor(model => model.NombreProducto, new { @class = "form-control", placeholder = "Ej: Juguete para gatos" })
-                    @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger" })
-
+                    <div>
+                        @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger" })
+                    </div>
                     <label class="form-label mt-3"><i class="fas fa-list-alt"></i> Categoría</label>
                     @Html.DropDownList("IdCategoria", ViewBag.categorias as SelectList, "-- Selecciona --", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.IdCategoria, "", new { @class = "text-danger" })
                 </div>
 
-                <!-- Fila 2: Precio y Stock en otra columna vertical -->
                 <div class="col-md-4">
                     <label class="form-label"><i class="fas fa-dollar-sign"></i> Precio</label>
                     @Html.TextBoxFor(model => model.Precio, new { @class = "form-control", placeholder = "0.00" })
-                    @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
-
+                    <div>
+                        @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+                    </div>
                     <label class="form-label mt-3"><i class="fas fa-boxes"></i> Stock</label>
                     @Html.TextBoxFor(model => model.Stock, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                    <div>
+                        @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                    </div>
                 </div>
 
-                <!-- Fila 3: Imagen ocupando todo el ancho -->
                 <div class="col-md-4 text-center">
                     <label class="form-label d-block"><i class="fas fa-image"></i> Imagen</label>
                     <img id="preview" class="img-thumbnail d-block mx-auto mb-2" style="width:400px; height:250px; cursor: pointer;"

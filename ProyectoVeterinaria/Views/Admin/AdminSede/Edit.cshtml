@@ -1,0 +1,89 @@
+﻿@model Dominio.Entidad.Entidad.Sede
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Sedes";
+    ViewBag.Title = "Editar Sede";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-edit text-primary"></i> Editar Sede</h2>
+    <a href="@Url.Action("ListaSede")" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Volver al listado
+    </a>
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+            <div class="mb-3 row">
+                @Html.LabelFor(m => m.IdSede, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.EditorFor(m => m.IdSede, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                @Html.LabelFor(m => m.Nombre, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.EditorFor(m => m.Nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese nombre de la sede", required = "required" } })
+                    @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mb-4 row">
+                <label class="col-sm-2 col-form-label fw-bold">Imagen</label>
+                <div class="col-sm-10 text-center">
+                    <label class="form-label d-block"><i class="fas fa-image"></i> Imagen</label>
+                    <img id="preview" class="img-thumbnail d-block mx-auto mb-2" style="width:400px; height:250px; cursor: pointer;"
+                         src="@(string.IsNullOrEmpty(Model.ImagenBase64)
+? $"/imagenes/Sedes/S{Model.IdSede}.jpg"
+: $"data:image/png;base64,{Model.ImagenBase64}")"
+                         onclick="document.getElementById('imagenInput').click()" onerror="this.onerror=null; this.src='/Imagenes/no-imagen.png';" />
+                    <input type="file" id="imagenInput" class="d-none" accept="image/*" />
+                    <input type="hidden" id="ImagenBase64" name="ImagenBase64" value="@Model.ImagenBase64" />
+
+                    <small class="text-muted">Haz clic en la imagen para cambiarla</small>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                @Html.LabelFor(m => m.Direccion, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.EditorFor(m => m.Direccion, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese dirección", required = "required" } })
+                    @Html.ValidationMessageFor(m => m.Direccion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                @Html.LabelFor(m => m.Telefono, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.EditorFor(m => m.Telefono, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese teléfono", required = "required" } })
+                    @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.mensaje
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/JavaScripts/CrudJS")
+}

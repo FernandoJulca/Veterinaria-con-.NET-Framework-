@@ -18,7 +18,7 @@
     <section id="servicios" class="servicios-section my-3">
         <h2 class="section-title">Nuestros Servicios</h2>
         <div class="servicios-container">
-            @foreach (var servicio in ViewBag.servicios)
+            @foreach (var servicio in ((IEnumerable<dynamic>)ViewBag.servicios).Take(5))
             {
                 <div class="servicio-card">
                     <img src="~/imagenes/Servicios/S@(servicio.IdServicio).jpg" alt="@servicio.Descripcion" />
@@ -35,7 +35,9 @@
             @foreach (var veterinario in ((IEnumerable<dynamic>)ViewBag.veterinarios).Take(4))
             {
                 <div class="card-rounded">
-                    <img src="~/imagenes/Veterinarios/V@(veterinario.IdVeterinario).jpg" alt="@veterinario.Nombre" class="card-photo" />
+                    <img src="@(string.IsNullOrEmpty(veterinario.ImagenBase64)
+            ? $"/imagenes/Veterinarios/V{veterinario.IdVeterinario}.jpg"
+            : $"data:image/png;base64,{veterinario.ImagenBase64}")" alt="@veterinario.Nombre" class="card-photo" />
                     <h3>@veterinario.Nombre</h3>
                     <p>@veterinario.Especialidad</p>
                 </div>

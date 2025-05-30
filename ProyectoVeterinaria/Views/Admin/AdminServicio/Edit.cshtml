@@ -1,0 +1,44 @@
+﻿@model Dominio.Entidad.Entidad.Servicio
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Servicios";
+    ViewBag.Title = "Editar Servicio";
+}
+
+<div class="card shadow-sm border-0 my-4">
+    <div class="card-header bg-warning text-dark">
+        <h2><i class="fas fa-edit"></i> Editar Servicio</h2>
+    </div>
+    <div class="card-body p-4">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+            @Html.HiddenFor(model => model.IdServicio)
+
+            <div class="mb-3">
+                <label class="form-label fw-bold"><i class="fas fa-hashtag"></i> Código de Servicio</label>
+                <input class="form-control" value="@Model.IdServicio" disabled />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold"><i class="fas fa-clipboard-list"></i> Descripción</label>
+                @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control", placeholder = "Ej: Consulta general, desparasitación..." })
+            <div>
+                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            </div>            </div>
+
+
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+                <a href="@Url.Action("ListaServicio")" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancelar
+                </a>
+            </div>
+        }
+    </div>
+</div>

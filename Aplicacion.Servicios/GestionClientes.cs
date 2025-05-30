@@ -23,5 +23,10 @@ namespace Aplicacion.Servicios
         public async Task<string> RegistrarCliente(Cliente c){
             return await clienteDTO.RegistrarCliente(c);
         }
+
+        public async Task<IEnumerable<Cliente>> Listar()
+        {
+            return await clienteDTO.Listar();
+        }
     }
 }

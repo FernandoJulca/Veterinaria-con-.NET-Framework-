@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Dominio.Entidad.Entidad.Veterinario>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Veterinarios";
+    ViewBag.Title = "Lista de Veterinario";
+}
+
+<div class="d-flex justify-content-between mb-3">
+    <div aria-label="Paginación de Veterinario" class="mt-3">
+        <div class="pagination justify-content-center gap-1">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <button type="button"
+                        class="btn btn-sm mx-1 btn-pagina button-paginado @(i == ViewBag.CurrentPage ? "pagina-activa" : "")"
+                        onclick="window.location='@Url.Action("ListaVeterinario", new { page = i })'">
+                    @i
+                </button>
+            }
+        </div>
+    </div>
+    <div class="d-flex align-items-center">
+        <a href="@Url.Action("Create")" class="btn btn-outline-success">
+            <i class="fas fa-user-plus"></i> Agregar Veterinario
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle shadow-sm rounded">
+        <thead class="table-success text-center">
+            <tr>
+                <th><i class="fas fa-id-badge"></i><br />@Html.DisplayNameFor(model => model.IdVeterinario)</th>
+                <th><i class="fas fa-user"></i><br />@Html.DisplayNameFor(model => model.Nombre)</th>
+                <th><i class="fas fa-user-tag"></i><br />@Html.DisplayNameFor(model => model.Apellido)</th>
+                <th><i class="fas fa-camera-retro"></i><br />Imagen</th>
+                <th><i class="fas fa-stethoscope"></i><br />@Html.DisplayNameFor(model => model.Especialidad)</th>
+                <th><i class="fas fa-tools"></i><br />Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@item.IdVeterinario</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Apellido</td>
+                    <td class="text-center">
+                        <img src="@(string.IsNullOrEmpty(item.ImagenBase64)
+            ? $"/imagenes/Veterinarios/V{item.IdVeterinario}.jpg"
+            : $"data:image/png;base64,{item.ImagenBase64}")"
+                             class="img-thumbnail"
+                             style="width: 120px; height: 100px;"
+                             onerror="this.onerror=null; this.src='/Imagenes/no-imagen.png';" />
+                    </td>
+                    <td>@item.Especialidad</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("Edit", new { id = item.IdVeterinario })" class="btn btn-sm btn-outline-primary me-1" title="Editar">
+                            <i class="fas fa-pen-to-square"></i>
+                        </a>
+                        <a href="@Url.Action("Details", new { id = item.IdVeterinario })" class="btn btn-sm btn-outline-info me-1" title="Detalles">
+                            <i class="fas fa-circle-info"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = item.IdVeterinario })" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

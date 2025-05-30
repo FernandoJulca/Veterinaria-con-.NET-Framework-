@@ -8,7 +8,7 @@ using Dominio.Repositorio;
 
 namespace Dominio.Entidad.Abstraccion
 {
-    public interface IVeterinario : IRepositorioGET<Veterinario>
+    public interface IVeterinario : IRepositorioGET<Veterinario>, IRepositorioCRUD<Veterinario>
     {
     }
 }

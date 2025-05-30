@@ -1,0 +1,45 @@
+﻿@model Dominio.Entidad.Entidad.Categoria
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Categorias";
+    ViewBag.Title = "Crear Categoría";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="fas fa-plus-circle text-success"></i> Crear Categoría</h2>
+    <a href="@Url.Action("ListaCategoria")" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Volver al listado
+    </a>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Formulario de Categoría</h4>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.NombreCategoria, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.EditorFor(model => model.NombreCategoria, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese nombre de categoría" } })
+                <div>
+                    @Html.ValidationMessageFor(model => model.NombreCategoria, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+}
+@if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.mensaje
+    </div>
+}

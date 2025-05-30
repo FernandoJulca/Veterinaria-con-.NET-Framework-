@@ -10,7 +10,7 @@ namespace ProyectoVeterinaria.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly GestionVeterinarios gestionVeterinarios = new GestionVeterinarios();
+        private readonly GestionVeterinario gestionVeterinarios = new GestionVeterinario();
         private readonly GestionServicios gestionServicios = new GestionServicios();
         private readonly GestionSedes gestionSedes = new GestionSedes();
 

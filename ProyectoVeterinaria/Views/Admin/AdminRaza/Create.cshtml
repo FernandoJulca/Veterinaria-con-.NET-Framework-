@@ -1,0 +1,56 @@
+﻿@model Dominio.Entidad.Entidad.Raza
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Razas";
+    ViewBag.Title = "Agregar Raza";
+}
+
+<h2 class="mb-4 text-success">
+    <i class="fas fa-plus-circle"></i> Nueva Raza
+</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="card-title mb-4 text-muted">
+                <i class="fas fa-paw"></i> Información de la Raza
+            </h5>
+
+            <div class="mb-3">
+                @Html.Label("IdEspecie", "Especie", htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.DropDownList("IdEspecie", ViewBag.especies as SelectList, "-- Selecciona una especie --", new { @class = "form-select" })
+                <div>
+                    @Html.ValidationMessageFor(model => model.IdEspecie, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.NombreRaza, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(model => model.NombreRaza, new { @class = "form-control", placeholder = "Ej. Labrador, Persa, etc." })
+                <div>
+                    @Html.ValidationMessageFor(model => model.NombreRaza, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-white text-end">
+            <a href="@Url.Action("ListaRaza")" class="btn btn-outline-secondary me-2">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Guardar Raza
+            </button>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+{
+    <div class="alert alert-info mt-4">
+        <i class="fas fa-info-circle"></i> @ViewBag.mensaje
+    </div>
+}

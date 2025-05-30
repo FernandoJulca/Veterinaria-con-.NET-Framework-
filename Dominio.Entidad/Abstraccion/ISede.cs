@@ -8,7 +8,7 @@ using Dominio.Repositorio;
 
 namespace Dominio.Entidad.Abstraccion
 {
-    public interface ISede : IRepositorioGET<Sede>
+    public interface ISede : IRepositorioGET<Sede>, IRepositorioCRUD<Sede>
     {
     }
 }
