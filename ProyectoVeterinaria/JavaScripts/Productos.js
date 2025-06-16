@@ -16,11 +16,15 @@
                     html = '<div class="col-12"><p class="text-center">No se encontraron productos.</p></div>';
                 } else {
                     productos.forEach(function (producto) {
+                        const src = producto.ImagenBase64
+                            ? `data:image/png;base64,${producto.ImagenBase64}`
+                            : `/imagenes/Productos/P${producto.IdProducto}.jpg`;
                         html += `
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3 producto-item">
     <div class="card h-100 shadow-sm border-0 rounded-4">
-        <img src="/imagenes/Productos/P${producto.IdProducto}.jpg" class="card-img-top rounded-top-4" alt="${producto.NombreProducto}" style="object-fit: cover; height: 200px;">
-
+<img src="${src}" class="card-img-top rounded-top-4" alt="${producto.NombreProducto}"
+                     style="object-fit: cover; height: 200px;"
+                     onerror="this.onerror=null; this.src='/imagenes/no-imagen.png';">
         <div class="card-body d-flex flex-column px-3">
             <h5 class="card-title text-center text-secondary fw-bold" style="font-family: 'Comic Sans MS', cursive;">
                 🐾 ${producto.NombreProducto}

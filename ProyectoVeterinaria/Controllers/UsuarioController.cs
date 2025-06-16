@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Aplicacion.Servicios;
+using Dominio.Entidad.Abstraccion;
 using Dominio.Entidad.Entidad;
 
 namespace ProyectoVeterinaria.Controllers
@@ -77,6 +78,23 @@ namespace ProyectoVeterinaria.Controllers
                 return View();
             }
             
+        }
+
+        public async Task<ActionResult> Perfil()
+        {
+            int clienteId = (int)Session["ClienteId"];
+            var historialCompra = await _gestionClientes.HistorialCompras(clienteId);
+            var cliente = await _gestionClientes.ObtenerCliente(clienteId);
+
+            if (cliente == null)
+            {
+                TempData["ErrorMessage"] = "No se encontró el perfil del usuario.";
+                return RedirectToAction("IniciarSesion", "Usuario");
+            }
+
+            ViewBag.Cliente = cliente;
+            ViewBag.HistorialCompras = historialCompra;
+            return View();
         }
     }
 }

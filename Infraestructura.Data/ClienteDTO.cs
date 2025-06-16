@@ -56,6 +56,48 @@ namespace Infraestructura.Data
             return cli;
         }
 
+        public async Task<Cliente> ObtenerCliente(int idCliente)
+        {
+            Cliente cli = null;
+            string message = "";
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                {
+                    await cnn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("usp_obtener_cliente", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
+
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                cli = new Cliente()
+                                {
+                                    IdCliente = reader.GetInt32(0),
+                                    NombreCliente = reader.GetString(1),
+                                    ApellidoCliente = reader.GetString(2),
+                                    Documento = reader.GetString(3),
+                                    Telefono = reader.GetString(4),
+                                    Correo = reader.GetString(5),
+                                    Contrasenia = reader.GetString(6),
+                                    Direccion = reader.GetString(7),
+                                    Tipo = reader.GetString(8)
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
+            return cli;
+        }
+
         public async Task<string> RegistrarCliente(Cliente c)
         {
             string mensaje = "";
@@ -125,6 +167,56 @@ namespace Infraestructura.Data
                 throw new Exception("Error al listar clientes", ex);
             }
             return list;
+        }
+
+        public async Task<List<Venta>> HistorialCompras(int idCliente)
+        {
+            List<Venta> historia = new List<Venta>();
+            try
+            {
+                using(SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                {
+                    await cnn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("usp_historial_compras", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
+                        using(SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while(await reader.ReadAsync())
+                            {
+                                int idVenta = reader.GetInt32(reader.GetOrdinal("IdVenta"));
+                                var venta = historia.FirstOrDefault(v => v.IdVenta == idVenta);
+                                if (venta == null)
+                                {
+                                    venta = new Venta
+                                    {
+                                        IdVenta = idVenta,
+                                        Fecha = reader.GetDateTime(reader.GetOrdinal("Fecha")),
+                                        Total = reader.GetDecimal(reader.GetOrdinal("Total")),
+                                        Detalles = new List<DetalleVenta>()
+                                    };
+                                    historia.Add(venta);
+                                }
+
+                                var detalle = new DetalleVenta
+                                {
+                                    idDetalleVenta = reader.GetInt32(reader.GetOrdinal("IdDetalle")),
+                                    nombreProducto = reader.GetString(reader.GetOrdinal("Nombre")),
+                                    precio = reader.GetDecimal(reader.GetOrdinal("Precio")),
+                                    cantidad = reader.GetInt32(reader.GetOrdinal("cantidad"))
+                                };
+                                venta.Detalles.Add(detalle);
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Error al listar el historial", ex);
+            }
+            return historia;
         }
     }
 }

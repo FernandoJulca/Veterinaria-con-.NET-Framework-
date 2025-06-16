@@ -28,5 +28,15 @@ namespace Aplicacion.Servicios
         {
             return await clienteDTO.Listar();
         }
+
+        public async Task<List<Venta>> HistorialCompras(int idCliente)
+        {
+            return await clienteDTO.HistorialCompras(idCliente);
+        }
+
+        public async Task<Cliente> ObtenerCliente(int idCliente)
+        {
+            return await clienteDTO.ObtenerCliente(idCliente);
+        }
     }
 }

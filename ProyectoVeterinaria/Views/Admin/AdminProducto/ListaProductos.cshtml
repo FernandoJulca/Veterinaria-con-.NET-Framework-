@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Dominio.Entidad.Entidad.ListadoProductos>
+﻿@using Dominio.Entidad.Entidad
 
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -6,6 +6,47 @@
     ViewBag.Title = "Lista de Productos";
 }
 
+<form method="get" action="@Url.Action("ListaProductos")" class="row g-3 align-items-end my-3">
+    <div class="col-md-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Buscar por nombre" value="@ViewBag.FiltroNombre" />
+    </div>
+
+    <div class="col-md-3">
+        <label for="categoria" class="form-label">Categoría</label>
+        <select id="categoria" name="categoria" class="form-select">
+            <option value="">Todas</option>
+            @foreach (var cat in ViewBag.Categorias as List<Categoria>)
+            {
+                <option value="@cat.IdCategoria" @(ViewBag.FiltroCategoria == cat.IdCategoria ? "selected" : "")>
+                    @cat.NombreCategoria
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <label for="precioMin" class="form-label">Precio mínimo</label>
+        <input type="number" id="precioMin" name="precioMin" min="0.00" step="0.01" class="form-control" placeholder="0.00" value="@ViewBag.FiltroPrecioMin" />
+    </div>
+
+    <div class="col-md-2">
+        <label for="precioMax" class="form-label">Precio máximo</label>
+        <input type="number" id="precioMax" name="precioMax" step="0.01" min="0.00" class="form-control" placeholder="0.00" value="@ViewBag.FiltroPrecioMax" />
+    </div>
+
+    <div class="col-md-1 d-grid">
+        <button type="submit" class="btn btn-primary w-100" title="Buscar">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+
+    <div class="col-md-1 d-grid">
+        <a href="@Url.Action("ListaProductos")" class="btn btn-secondary w-100" title="Limpiar filtros">
+            <i class="fas fa-eraser"></i>
+        </a>
+    </div>
+</form>
 <div class="d-flex justify-content-between mb-3">
     <div aria-label="Paginación de productos" class="mt-3">
         <div class="pagination justify-content-center gap-1">
@@ -13,91 +54,113 @@
             {
                 <button type="button"
                         class="btn btn-sm mx-1 btn-pagina button-paginado @(i == ViewBag.CurrentPage ? "pagina-activa" : "")"
-                        onclick="window.location='@Url.Action("ListaProductos", new { page = i })'">
+                        onclick="window.location='@Url.Action("ListaProductos", new {
+                page = i,
+                nombre = ViewBag.FiltroNombre,
+                categoria = ViewBag.FiltroCategoria,
+                precioMin = ViewBag.FiltroPrecioMin,
+                precioMax = ViewBag.FiltroPrecioMax
+            })'">
                     @i
                 </button>
             }
+
         </div>
     </div>
     <div class="d-flex align-items-center">
         <a href="@Url.Action("Create")" class="btn btn-outline-success">
             <i class="fas fa-plus-circle"></i> Agregar Producto
         </a>
+        <a href="@Url.Action("GenerarReporte", new {
+    nombre = ViewBag.FiltroNombre,
+    categoria = ViewBag.FiltroCategoria,
+    precioMin = ViewBag.FiltroPrecioMin,
+    precioMax = ViewBag.FiltroPrecioMax
+})" class="btn btn-outline-danger ms-2">
+            <i class="fas fa-file-pdf"></i> Descargar PDF
+        </a>
     </div>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-hover table-bordered align-middle shadow-sm rounded">
-        <thead class="table-success text-center">
-            <tr>
-                <th><i class="fas fa-barcode"></i><br />@Html.DisplayNameFor(model => model.IdProducto)</th>
-                <th><i class="fas fa-tag"></i><br />@Html.DisplayNameFor(model => model.NombreProducto)</th>
-                <th><i class="fas fa-image"></i><br />Imagen</th>
-                <th><i class="fas fa-folder-open"></i><br />@Html.DisplayNameFor(model => model.Categoria)</th>
-                <th><i class="fas fa-dollar-sign"></i><br />@Html.DisplayNameFor(model => model.Precio)</th>
-                <th><i class="fas fa-boxes"></i><br />@Html.DisplayNameFor(model => model.Stock)</th>
-                <th><i class="fas fa-toggle-on"></i><br />@Html.DisplayNameFor(model => model.NombreEstado)</th>
-                <th><i class="fas fa-cogs"></i><br />Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+@if (Model.Count == 0)
+{
+    <div class="alert alert-warning text-center" role="alert">
+        No se encontraron productos que coincidan con los criterios de búsqueda.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle shadow-sm rounded">
+            <thead class="table-success text-center">
                 <tr>
-                    <td class="text-center">@item.IdProducto</td>
-                    <td>@item.NombreProducto</td>
-                    <td class="text-center">
-                        <img src="@(string.IsNullOrEmpty(item.ImagenBase64)
-            ? $"/imagenes/Productos/P{item.IdProducto}.jpg"
-            : $"data:image/png;base64,{item.ImagenBase64}")"
-                             class="img-thumbnail"
-                             style="width: 120px; height: 100px;"
-                             onerror="this.onerror=null; this.src='/Imagenes/no-imagen.png';" />
-
-
-                    </td>
-                    <td>@item.Categoria</td>
-                    <td>$@item.Precio.ToString("N2")</td>
-                    <td>@item.Stock</td>
-                    <td class="text-center">
-                        @switch (item.NombreEstado)
-                        {
-                            case "Disponible":
-                                <span class="badge bg-success">
-                                    <i class="fas fa-check-circle"></i> Disponible
-                                </span>
-                                break;
-                            case "Suspendido":
-                                <span class="badge bg-warning text-dark">
-                                    <i class="fas fa-exclamation-triangle"></i> Suspendido
-                                </span>
-                                break;
-                            case "Agotado":
-                                <span class="badge bg-danger">
-                                    <i class="fas fa-times-circle"></i> Agotado
-                                </span>
-                                break;
-                            default:
-                                <span class="badge bg-secondary">
-                                    <i class="fas fa-question-circle"></i> Desconocido
-                                </span>
-                                break;
-                        }
-                    </td>
-
-                    <td class="text-center">
-                        <a href="@Url.Action("Edit", new { id = item.IdProducto })" class="btn btn-sm btn-outline-warning me-1" title="Editar">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="@Url.Action("Details", new { id = item.IdProducto })" class="btn btn-sm btn-outline-info me-1" title="Detalles">
-                            <i class="fas fa-info-circle"></i>
-                        </a>
-                        <a href="@Url.Action("Delete", new { id = item.IdProducto })" class="btn btn-sm btn-outline-danger" title="Eliminar">
-                            <i class="fas fa-trash-alt"></i>
-                        </a>
-                    </td>
+                    <th><i class="fas fa-barcode"></i><br />Id Producto</th>
+                    <th><i class="fas fa-tag"></i><br />Nombre</th>
+                    <th><i class="fas fa-image"></i><br />Imagen</th>
+                    <th><i class="fas fa-folder-open"></i><br />Categoria</th>
+                    <th><i class="fas fa-dollar-sign"></i><br />Precio</th>
+                    <th><i class="fas fa-boxes"></i><br />Stock</th>
+                    <th><i class="fas fa-toggle-on"></i><br />Estado</th>
+                    <th><i class="fas fa-cogs"></i><br />Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">@item.IdProducto</td>
+                        <td>@item.NombreProducto</td>
+                        <td class="text-center">
+                            <img src="@(string.IsNullOrEmpty(item.ImagenBase64)
+                    ? $"/imagenes/Productos/P{item.IdProducto}.jpg"
+                    : $"data:image/png;base64,{item.ImagenBase64}")"
+                                 class="img-thumbnail"
+                                 style="width: 120px; height: 100px;"
+                                 onerror="this.onerror=null; this.src='/Imagenes/no-imagen.png';" />
+                        </td>
+                        <td>@item.Categoria</td>
+                        <td>$@item.Precio.ToString("N2")</td>
+                        <td>@item.Stock</td>
+                        <td class="text-center">
+                            @switch (item.NombreEstado)
+                            {
+                                case "Disponible":
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle"></i> Disponible
+                                    </span>
+                                    break;
+                                case "Suspendido":
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fas fa-exclamation-triangle"></i> Suspendido
+                                    </span>
+                                    break;
+                                case "Agotado":
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-times-circle"></i> Agotado
+                                    </span>
+                                    break;
+                                default:
+                                    <span class="badge bg-secondary">
+                                        <i class="fas fa-question-circle"></i> Desconocido
+                                    </span>
+                                    break;
+                            }
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Edit", new { id = item.IdProducto })" class="btn btn-sm btn-outline-warning me-1" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Details", new { id = item.IdProducto })" class="btn btn-sm btn-outline-info me-1" title="Detalles">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                            <a href="@Url.Action("Delete", new { id = item.IdProducto })" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
