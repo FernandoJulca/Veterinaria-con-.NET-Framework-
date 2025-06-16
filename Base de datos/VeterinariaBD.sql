@@ -752,7 +752,6 @@ BEGIN
 END
 GO
 
-
 /*FILTROS PROCEDURES PRODUCTO*/
 CREATE OR ALTER PROC usp_buscar_producto_nombre
 	@nombre varchar(50)
