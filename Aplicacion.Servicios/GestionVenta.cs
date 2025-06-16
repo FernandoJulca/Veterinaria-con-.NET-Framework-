@@ -20,5 +20,10 @@ namespace Aplicacion.Servicios
         {
             return await _Venta.ListarPorMes();
         }
+
+        public async Task<string> AgregarVenta(int idCliente, List<Carro> carrito)
+        {
+            return await _Venta.AgregarVenta(idCliente,carrito);
+        }
     }
 }

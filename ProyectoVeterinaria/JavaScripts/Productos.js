@@ -32,9 +32,10 @@
 
             <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
                 <span class="fw-bold text-success fs-6">S/. ${producto.Precio.toFixed(2)}</span>
-                <a href="/Producto/AgregarCarrito/${producto.IdProducto}" class="btn btn-sm btn-outline-primary rounded-pill">
-                    Comprar
-                </a>
+                <a href="/Carro/AgregarAlCarrito/${producto.IdProducto}" class="btn btn-sm btn-outline-primary rounded-pill">
+    Comprar
+</a>
+
             </div>
         </div>
     </div>
