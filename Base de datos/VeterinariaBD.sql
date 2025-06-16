@@ -257,10 +257,11 @@ INSERT INTO PRODUCTO (IdProducto, Imagen, Nombre, Categoria, Precio, Stock, flgE
 (18, NULL, 'Juguete Mordedor Dental', 5, 12.00, 50, 1, 0),
 (19, NULL, 'Ratón de Peluche con Catnip', 5, 18.00, 50, 1, 0),
 (20, NULL, 'Juguete Interactivo con Sonido', 5, 16.00, 50, 1, 0);
+go
 
 CREATE TABLE VENTAS(
 	IdVenta int primary key,
-	Fecha datetime,
+	Fecha datetime not null default getdate(),
 	Total decimal(10,2),
 	IdCliente int foreign key references CLIENTES(IdCliente)
 );
@@ -270,8 +271,8 @@ CREATE TABLE DETALLEVENTA(
 	IdDetalle int primary key,
 	IdVenta int foreign key references VENTAS(IdVenta),
 	IdProducto int foreign key references PRODUCTO(IdProducto),
-	Cantidad int,
-	Precio decimal(10,2)
+	Cantidad int not null,
+	Precio decimal(10,2) not null
 );
 GO
 
@@ -721,6 +722,85 @@ BEGIN
 	WHERE IdRaza = @IdRaza
 END
 GO
+
+/* PROCEDURES DE VENTA */
+
+CREATE OR ALTER PROC usp_agregar_venta
+@IdVenta int output,
+@Total decimal(10,2),
+@IdCliente int
+AS
+BEGIN
+	SET @IdVenta  = ISNULL((SELECT MAX(IdVenta) FROM VENTAS), 0) + 1;
+	INSERT INTO VENTAS(IdVenta,Fecha,Total,IdCliente) Values
+	(@IdVenta,GETDATE(),@Total,@IdCliente)
+END
+GO
+
+
+CREATE OR ALTER PROC usp_agregar_detalle_venta
+
+@IdVenta int,
+@IdProducto int,
+@Cantidad int,
+@Precio decimal(10,2)
+AS
+BEGIN
+	DECLARE @IdDetalle INT = ISNULL((SELECT MAX(IdDetalle) FROM DETALLEVENTA), 0) + 1;
+	INSERT INTO DETALLEVENTA(IdDetalle,IdVenta,IdProducto,Cantidad,Precio) Values
+	(@IdDetalle,@IdVenta,@IdProducto,@Cantidad,@Precio)
+END
+GO
+
+
+/*FILTROS PROCEDURES PRODUCTO*/
+CREATE OR ALTER PROC usp_buscar_producto_nombre
+	@nombre varchar(50)
+AS
+BEGIN
+	SELECT
+	PROD.IdProducto,
+	PROD.Nombre,
+	PROD.Imagen,
+	CAT.IdCategoria,
+	CAt.Descripcion,
+	PROD.Precio,
+	PROD.stock,
+	EST.IdEstado,
+	EST.Descripcion,
+	Prod.flgEliminado
+	FROM PRODUCTO PROD JOIN CATEGORIA CAT
+	ON CAT.IdCategoria = PROD.Categoria JOIN ESTADO EST
+	ON EST.IdEstado = PROD.flgEstado
+	WHERE PROD.Nombre LIKE '%' + @nombre+ '%'
+	AND PROD.flgEliminado = 0
+END
+GO
+
+CREATE OR ALTER PROC usp_productos_entre_precios
+	@preciomin decimal(10,2),
+	@preciomax decimal(10,2)
+AS
+BEGIN
+	SELECT
+	PROD.IdProducto,
+	PROD.Nombre,
+	PROD.Imagen,
+	CAT.IdCategoria,
+	CAt.Descripcion,
+	PROD.Precio,
+	PROD.stock,
+	EST.IdEstado,
+	EST.Descripcion,
+	Prod.flgEliminado
+	FROM PRODUCTO PROD JOIN CATEGORIA CAT
+	ON CAT.IdCategoria = PROD.Categoria JOIN ESTADO EST
+	ON EST.IdEstado = PROD.flgEstado
+	WHERE PROD.Precio BETWEEN @preciomin AND @preciomax
+	AND PROD.flgEliminado = 0
+END
+GO
+
 /*Probando dashboard*/
 INSERT INTO VENTAS (IdVenta, Fecha, Total, IdCliente) VALUES
 (1, '2025-01-15', 120.50, 3),
@@ -759,3 +839,48 @@ BEGIN
 	ORDER BY Mes;
 END
 GO
+
+/*Perfil de cliente*/
+CREATE OR ALTER PROC usp_historial_compras
+	@idCliente int
+AS
+	BEGIN
+		Select v.IdVenta,V.Fecha,v.Total,d.IdDetalle, p.Nombre,p.Precio,
+		d.cantidad from VENTAS V
+		join DETALLEVENTA D on v.IdVenta = d.IdVenta
+		join PRODUCTO P on d.IdProducto = p.IdProducto
+		Where v.IdCliente = @idCliente
+	END
+GO
+
+CREATE OR ALTER PROC usp_obtener_cliente
+	@idCliente int
+AS
+BEGIN
+	Select IdCliente, Nombre,Apellido,Documento,Telefono,
+		Correo,Contrasenia,Direccion,Tipo
+	from CLIENTES
+	where IdCliente = @idCliente 
+END
+GO
+
+exec usp_historial_compras 5
+exec usp_obtener_cliente 5
+
+/*CREATE OR ALTER PROC usp_historial_reservas pendiente
+	@idCliente int
+AS
+	BEGIN
+		Select v.IdVenta,V.Fecha,v.Total,d.IdDetalle, p.Nombre,p.Precio,
+		d.cantidad from VENTAS V
+		join DETALLEVENTA D on v.IdVenta = d.IdVenta
+		join PRODUCTO P on d.IdProducto = p.IdProducto
+		Where v.IdCliente = @idCliente
+	END
+GO*/
+
+select * from ATENCIONES
+select * from ventas
+select * from detalleVenta
+select * from PRODUCTO
+select * from clientes
