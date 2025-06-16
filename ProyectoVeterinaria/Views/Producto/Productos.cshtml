@@ -2,6 +2,15 @@
     var categorias = ViewBag.categorias as List<Dominio.Entidad.Entidad.Categoria>;
     ViewBag.Title = "Productos";
 }
+
+@if (TempData["mensaje"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @TempData["mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <main class="container">
     <section class="intro-section">
         <h2 class="section-title">Productos para tu Mascota</h2>
@@ -30,3 +39,4 @@
     </div>
 </main>
 <script src="~/JavaScripts/Productos.js"></script>
+<script src="~/JavaScripts/Carro.js"></script>

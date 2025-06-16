@@ -49,5 +49,63 @@ namespace Infraestructura.Data
             }
             return Ventas;
         }
+
+
+        public async Task<string> AgregarVenta(int idCliente, List<Carro> carrito)
+        {
+            string mensaje = "";
+            using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+            {
+                await cn.OpenAsync();
+                SqlTransaction tr = cn.BeginTransaction();
+
+                try
+                {
+                    // 1. Insertar Venta
+                    SqlCommand cmd = new SqlCommand("usp_agregar_venta", cn, tr);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    decimal total = carrito.Sum(c => c.SubTotal);
+                    cmd.Parameters.AddWithValue("@Total", total);
+                    cmd.Parameters.AddWithValue("@IdCliente", idCliente);
+
+                    SqlParameter paramId = new SqlParameter("@IdVenta", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(paramId);
+
+                    await cmd.ExecuteNonQueryAsync();
+                    int idVenta = (int)paramId.Value;
+
+                    // 2. Insertar Detalles
+                    foreach (var item in carrito)
+                    {
+                        SqlCommand cmdDetalle = new SqlCommand("usp_agregar_detalle_venta", cn, tr);
+                        cmdDetalle.CommandType = CommandType.StoredProcedure;
+
+                        cmdDetalle.Parameters.AddWithValue("@IdVenta", idVenta);
+                        cmdDetalle.Parameters.AddWithValue("@IdProducto", item.IdProducto);
+                        cmdDetalle.Parameters.AddWithValue("@Cantidad", item.Cantidad);
+                        cmdDetalle.Parameters.AddWithValue("@Precio", item.Precio);
+
+                        await cmdDetalle.ExecuteNonQueryAsync();
+                    }
+
+                    tr.Commit();
+                    mensaje = $"Venta registrada con éxito";
+                }
+                catch (Exception ex)
+                {
+                    tr.Rollback();
+                    mensaje = "Error al registrar venta: " + ex.Message;
+                }
+            }
+
+            return mensaje;
+        }
     }
+
+
+   
 }

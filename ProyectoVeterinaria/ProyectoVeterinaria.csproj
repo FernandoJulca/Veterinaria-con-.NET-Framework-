@@ -117,6 +117,7 @@
     <Compile Include="Controllers\Admin\AdminSedeController.cs" />
     <Compile Include="Controllers\Admin\AdminServicioController.cs" />
     <Compile Include="Controllers\Admin\AdminVeterinarioController.cs" />
+    <Compile Include="Controllers\CarroController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -198,6 +199,7 @@
     <Content Include="imagenes\Veterinarios\V9.jpg" />
     <Content Include="imagenes\x-logo.png" />
     <Content Include="imagenes\youtube-logo.png" />
+    <Content Include="JavaScripts\Carro.js" />
     <Content Include="JavaScripts\CrudJS.js" />
     <Content Include="JavaScripts\Index.js" />
     <Content Include="JavaScripts\IndexAdminJS.js" />
@@ -280,6 +282,8 @@
     <Content Include="Views\Admin\AdminVeterinario\Edit.cshtml" />
     <Content Include="Views\Admin\AdminVeterinario\ListaVeterinario.cshtml" />
     <Content Include="Views\Admin\ListaCliente.cshtml" />
+    <Content Include="Views\Carro\ProcesarCompra.cshtml" />
+    <Content Include="Views\Carro\Mensaje.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

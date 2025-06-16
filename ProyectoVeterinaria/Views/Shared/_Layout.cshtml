@@ -23,7 +23,7 @@
         <div class="centrar nav-container" id="menu">
             <a href="#" class="nav-item" data-toggle="modal" data-target="#carritoModal">
                 <i class="fa-solid fa-cart-shopping"></i>
-                <span id="cart-item-count" class="counter-items">0</span>
+                <span id="count-items" class="counter-items"></span>
             </a>
             <a href="@Url.Action("Index", "Home")" class="nav-item">Inicio</a>
             <a href="@Url.Action("Nosotros", "Home")" class="nav-item">Nosotros</a>
@@ -64,7 +64,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <a href="@Url.Action("ConfirmSale", "Compra")" class="btn ">Proceder al Pago</a>
+                    <a href="@Url.Action("ProcesarCompra", "Carro")" class="btn ">Proceder al Pago</a>
                 </div>
             </div>
         </div>
@@ -138,6 +138,7 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="~/JavaScripts/Index.js"></script>
+    <script src="~/JavaScripts/Carro.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -10,5 +10,7 @@ namespace Dominio.Entidad.Abstraccion
     public interface IVenta
     {
        Task<IEnumerable<Venta>> ListarPorMes();
+
+        Task<string> AgregarVenta(int idCliente, List<Carro> carrito);
     }
 }
