@@ -721,6 +721,55 @@ BEGIN
 	WHERE IdRaza = @IdRaza
 END
 GO
+
+/*FILTROS PROCEDURES PRODUCTO*/
+CREATE OR ALTER PROC usp_buscar_producto_nombre
+	@nombre varchar(50)
+AS
+BEGIN
+	SELECT
+	PROD.IdProducto,
+	PROD.Nombre,
+	PROD.Imagen,
+	CAT.IdCategoria,
+	CAt.Descripcion,
+	PROD.Precio,
+	PROD.stock,
+	EST.IdEstado,
+	EST.Descripcion,
+	Prod.flgEliminado
+	FROM PRODUCTO PROD JOIN CATEGORIA CAT
+	ON CAT.IdCategoria = PROD.Categoria JOIN ESTADO EST
+	ON EST.IdEstado = PROD.flgEstado
+	WHERE PROD.Nombre LIKE '%' + @nombre+ '%'
+	AND PROD.flgEliminado = 0
+END
+GO
+
+CREATE OR ALTER PROC usp_productos_entre_precios
+	@preciomin decimal(10,2),
+	@preciomax decimal(10,2)
+AS
+BEGIN
+	SELECT
+	PROD.IdProducto,
+	PROD.Nombre,
+	PROD.Imagen,
+	CAT.IdCategoria,
+	CAt.Descripcion,
+	PROD.Precio,
+	PROD.stock,
+	EST.IdEstado,
+	EST.Descripcion,
+	Prod.flgEliminado
+	FROM PRODUCTO PROD JOIN CATEGORIA CAT
+	ON CAT.IdCategoria = PROD.Categoria JOIN ESTADO EST
+	ON EST.IdEstado = PROD.flgEstado
+	WHERE PROD.Precio BETWEEN @preciomin AND @preciomax
+	AND PROD.flgEliminado = 0
+END
+GO
+
 /*Probando dashboard*/
 INSERT INTO VENTAS (IdVenta, Fecha, Total, IdCliente) VALUES
 (1, '2025-01-15', 120.50, 3),
@@ -759,3 +808,48 @@ BEGIN
 	ORDER BY Mes;
 END
 GO
+
+/*Perfil de cliente*/
+CREATE OR ALTER PROC usp_historial_compras
+	@idCliente int
+AS
+	BEGIN
+		Select v.IdVenta,V.Fecha,v.Total,d.IdDetalle, p.Nombre,p.Precio,
+		d.cantidad from VENTAS V
+		join DETALLEVENTA D on v.IdVenta = d.IdVenta
+		join PRODUCTO P on d.IdProducto = p.IdProducto
+		Where v.IdCliente = @idCliente
+	END
+GO
+
+CREATE OR ALTER PROC usp_obtener_cliente
+	@idCliente int
+AS
+BEGIN
+	Select IdCliente, Nombre,Apellido,Documento,Telefono,
+		Correo,Contrasenia,Direccion,Tipo
+	from CLIENTES
+	where IdCliente = @idCliente 
+END
+GO
+
+exec usp_historial_compras 5
+exec usp_obtener_cliente 5
+
+/*CREATE OR ALTER PROC usp_historial_reservas pendiente
+	@idCliente int
+AS
+	BEGIN
+		Select v.IdVenta,V.Fecha,v.Total,d.IdDetalle, p.Nombre,p.Precio,
+		d.cantidad from VENTAS V
+		join DETALLEVENTA D on v.IdVenta = d.IdVenta
+		join PRODUCTO P on d.IdProducto = p.IdProducto
+		Where v.IdCliente = @idCliente
+	END
+GO*/
+
+select * from ATENCIONES
+select * from ventas
+select * from detalleVenta
+select * from PRODUCTO
+select * from clientes

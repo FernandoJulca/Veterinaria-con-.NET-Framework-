@@ -110,6 +110,105 @@ namespace Infraestructura.Data
             return productos;
         }
 
+        public async Task<IEnumerable<Producto>> ListarPorNombre(string nombre)
+        {
+            List<Producto> productos = new List<Producto>();
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                {
+                    await cnn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("usp_buscar_producto_nombre", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@nombre", nombre);
+                        using (SqlDataReader dr = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await dr.ReadAsync())
+                            {
+                                byte[] imagen = dr.IsDBNull(2) ? null : (byte[])dr[2];
+                                productos.Add(new Producto()
+                                {
+                                    IdProducto = dr.GetInt32(0),
+                                    NombreProducto = dr.GetString(1),
+                                    ImagenBase64 = imagen != null ? Convert.ToBase64String(imagen) : null,
+                                    IdCategoria = dr.GetInt32(3),
+                                    NombreCategoria = dr.GetString(4),
+                                    Precio = dr.GetDecimal(5),
+                                    Stock = dr.GetInt32(6),
+                                    IdEstado = dr.GetInt32(7),
+                                    NombreEstado = dr.GetString(8),
+                                    flgEliminado = dr.GetBoolean(9)
+                                });
+
+                            }
+                        }
+                    }
+
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error en la base de datos", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar productos", ex);
+            }
+            return productos;
+        }
+
+        public async Task<IEnumerable<Producto>> ListarEntrePrecios(decimal preciomin, decimal preciomax)
+        {
+            List<Producto> productos = new List<Producto>();
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                {
+                    await cnn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("usp_productos_entre_precios", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@preciomin", preciomin);
+                        cmd.Parameters.AddWithValue("@preciomax", preciomax);
+                        using (SqlDataReader dr = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await dr.ReadAsync())
+                            {
+                                byte[] imagen = dr.IsDBNull(2) ? null : (byte[])dr[2];
+                                productos.Add(new Producto()
+                                {
+                                    IdProducto = dr.GetInt32(0),
+                                    NombreProducto = dr.GetString(1),
+                                    ImagenBase64 = imagen != null ? Convert.ToBase64String(imagen) : null,
+                                    IdCategoria = dr.GetInt32(3),
+                                    NombreCategoria = dr.GetString(4),
+                                    Precio = dr.GetDecimal(5),
+                                    Stock = dr.GetInt32(6),
+                                    IdEstado = dr.GetInt32(7),
+                                    NombreEstado = dr.GetString(8),
+                                    flgEliminado = dr.GetBoolean(9)
+                                });
+
+                            }
+                        }
+                    }
+
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error en la base de datos", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar productos", ex);
+            }
+            return productos;
+        }
+
         public async Task<string> Agregar(Producto reg)
         {
             string mensaje = "";

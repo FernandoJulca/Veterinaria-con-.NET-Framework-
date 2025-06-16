@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "Mi Perfil";
+    var usuario = ViewBag.Cliente;
+    var compras = ViewBag.HistorialCompras as List<Dominio.Entidad.Entidad.Venta>;
+}
+
+<style>
+    /* Estilos personalizados */
+    .perfil-heading {
+        border-left: 5px solid #0d6efd;
+        padding-left: 15px;
+        margin-bottom: 1rem;
+    }
+
+    .historial-heading {
+        border-left: 5px solid #198754;
+        padding-left: 15px;
+        margin-bottom: 1rem;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+    }
+
+    .section-divider {
+        border-bottom: 2px solid #dee2e6;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+    }
+
+    .btn-toggle {
+        transition: background-color 0.3s;
+    }
+
+        .btn-toggle:hover {
+            background-color: #157347;
+            color: white;
+        }
+</style>
+
+<main class="container my-5">
+
+    <!-- Información del Usuario -->
+    <section class="section-divider">
+        <h2 class="perfil-heading text-primary">👤 Mi Perfil</h2>
+        <dl class="row">
+            <dt class="col-sm-3">Nombre completo:</dt>
+            <dd class="col-sm-9 text-dark">@usuario.NombreCliente @usuario.ApellidoCliente</dd>
+
+            <dt class="col-sm-3">Correo:</dt>
+            <dd class="col-sm-9 text-dark">@usuario.Correo</dd>
+
+            <dt class="col-sm-3">Teléfono:</dt>
+            <dd class="col-sm-9 text-dark">@usuario.Telefono</dd>
+
+            <dt class="col-sm-3">Dirección:</dt>
+            <dd class="col-sm-9 text-dark">@usuario.Direccion</dd>
+        </dl>
+        <div class="mt-3">
+            <a href="@Url.Action("EditarPerfil", "Cuenta")" class="btn btn-primary me-2">Editar Perfil</a>
+            <a href="@Url.Action("CambiarPassword", "Cuenta")" class="btn btn-secondary">Cambiar Contraseña</a>
+        </div>
+    </section>
+
+    <!-- Historial de Compras -->
+    <section>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="historial-heading text-success">🛒 Historial de Compras</h3>
+            <button class="btn btn-outline-success btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistorial">
+                Ver / Ocultar
+            </button>
+        </div>
+
+        <div class="collapse" id="collapseHistorial">
+            @if (compras != null && compras.Count > 0)
+            {
+                foreach (var venta in compras)
+                {
+                    <div class="mb-4">
+                        <div class="border-bottom pb-2 mb-2">
+                            <h5 class="text-info mb-1">📅 Compra del @venta.Fecha.ToString("dd/MM/yyyy")</h5>
+                            <span class="text-muted fw-semibold">💵 Total: <span class="text-dark">S/.@venta.Total.ToString("0.00")</span></span>
+                        </div>
+
+                        <table class="table table-sm table-bordered table-striped align-middle">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Cantidad</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detalle in venta.Detalles)
+                                {
+                                    <tr>
+                                        <td>@detalle.nombreProducto</td>
+                                        <td>S/. @((detalle.precio / detalle.cantidad).ToString("0.00"))</td>
+                                        <td>@detalle.cantidad</td>
+                                        <td>S/. @detalle.precio.ToString("0.00")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No tienes compras registradas.</p>
+            }
+        </div>
+    </section>
+
+</main>

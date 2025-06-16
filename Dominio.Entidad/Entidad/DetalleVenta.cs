@@ -11,6 +11,7 @@ namespace Dominio.Entidad.Entidad
         public int idDetalleVenta { get; set; }
         public int idVenta { get; set; }
         public int idProducto { get; set; }
+        public string nombreProducto { get; set; }
         public int cantidad { get; set; }
         public decimal precio { get; set; }
     }
