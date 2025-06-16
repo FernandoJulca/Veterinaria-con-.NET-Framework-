@@ -257,10 +257,11 @@ INSERT INTO PRODUCTO (IdProducto, Imagen, Nombre, Categoria, Precio, Stock, flgE
 (18, NULL, 'Juguete Mordedor Dental', 5, 12.00, 50, 1, 0),
 (19, NULL, 'Ratón de Peluche con Catnip', 5, 18.00, 50, 1, 0),
 (20, NULL, 'Juguete Interactivo con Sonido', 5, 16.00, 50, 1, 0);
+go
 
 CREATE TABLE VENTAS(
 	IdVenta int primary key,
-	Fecha datetime,
+	Fecha datetime not null default getdate(),
 	Total decimal(10,2),
 	IdCliente int foreign key references CLIENTES(IdCliente)
 );
@@ -270,8 +271,8 @@ CREATE TABLE DETALLEVENTA(
 	IdDetalle int primary key,
 	IdVenta int foreign key references VENTAS(IdVenta),
 	IdProducto int foreign key references PRODUCTO(IdProducto),
-	Cantidad int,
-	Precio decimal(10,2)
+	Cantidad int not null,
+	Precio decimal(10,2) not null
 );
 GO
 
@@ -719,6 +720,35 @@ BEGIN
 	UPDATE RAZA
 	SET flgEliminado = 1
 	WHERE IdRaza = @IdRaza
+END
+GO
+
+/* PROCEDURES DE VENTA */
+
+CREATE OR ALTER PROC usp_agregar_venta
+@IdVenta int output,
+@Total decimal(10,2),
+@IdCliente int
+AS
+BEGIN
+	SET @IdVenta  = ISNULL((SELECT MAX(IdVenta) FROM VENTAS), 0) + 1;
+	INSERT INTO VENTAS(IdVenta,Fecha,Total,IdCliente) Values
+	(@IdVenta,GETDATE(),@Total,@IdCliente)
+END
+GO
+
+
+CREATE OR ALTER PROC usp_agregar_detalle_venta
+
+@IdVenta int,
+@IdProducto int,
+@Cantidad int,
+@Precio decimal(10,2)
+AS
+BEGIN
+	DECLARE @IdDetalle INT = ISNULL((SELECT MAX(IdDetalle) FROM DETALLEVENTA), 0) + 1;
+	INSERT INTO DETALLEVENTA(IdDetalle,IdVenta,IdProducto,Cantidad,Precio) Values
+	(@IdDetalle,@IdVenta,@IdProducto,@Cantidad,@Precio)
 END
 GO
 
