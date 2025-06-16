@@ -289,11 +289,8 @@
     <Content Include="Views\Admin\AdminVeterinario\Edit.cshtml" />
     <Content Include="Views\Admin\AdminVeterinario\ListaVeterinario.cshtml" />
     <Content Include="Views\Admin\ListaCliente.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Carro\ProcesarCompra.cshtml" />
     <Content Include="Views\Carro\Mensaje.cshtml" />
-=======
->>>>>>> desarrolloAndy
     <Content Include="Views\Usuario\Perfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
