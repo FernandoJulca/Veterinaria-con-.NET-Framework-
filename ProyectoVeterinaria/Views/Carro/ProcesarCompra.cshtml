@@ -1,54 +1,63 @@
-﻿
-@model List<Dominio.Entidad.Entidad.Carro>
-
+﻿@model List<Dominio.Entidad.Entidad.Carro>
 
 @{
     ViewBag.Title = "Resumen de Compra";
     decimal total = 0;
 }
 
-<h2>Resumen de tu compra</h2>
 
-@if (Model.Count == 0)
-{
-    <p>No hay productos en el carrito.</p>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Imagen</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                total += item.SubTotal;
+<div class="container my-5">
+    <h2 class="text-success mb-4"><i class="bi bi-bag-check-fill me-2"></i>Resumen de tu compra</h2>
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-warning text-center">
+            <i class="bi bi-info-circle-fill me-2"></i>No hay productos en el carrito.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-success text-center">
                 <tr>
-                    <td>
-                        @if (item.Imagen != null)
-                        {
-                            var base64 = Convert.ToBase64String(item.Imagen);
-                            <img src="data:image/png;base64,@base64" width="60" />
-                        }
-                    </td>
-                    <td>@item.Nombre</td>
-                    <td>$@item.Precio</td>
-                    <td>@item.Cantidad</td>
-                    <td>$@item.SubTotal</td>
+                    <th style="width: 130px;">Imagen</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
                 </tr>
-            }
-            <tr>
-                <td colspan="4" class="text-end"><strong>Total:</strong></td>
-                <td><strong>$@total</strong></td>
-            </tr>
-        </tbody>
-    </table>
-    <a href="@Url.Action("ConfirmarCompra", "Carro")" class="btn btn-primary">Confirmar Pedido</a>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    total += item.SubTotal;
+                    <tr>
+                        <td class="text-center">
+                            <img src="@(item.Imagen != null
+                                ? $"data:image/png;base64,{Convert.ToBase64String(item.Imagen)}"
+                                : $"/imagenes/Productos/P{item.IdProducto}.jpg")"
+                                 alt="Imagen del producto"
+                                 class="img-fluid rounded"
+                                 style="max-height: 100px;"
+                                 onerror="this.onerror=null; this.src='/Imagenes/no-imagen.png';" />
+                        </td>
+                        <td>@item.Nombre</td>
+                        <td class="text-end">S/.@item.Precio.ToString("F2")</td>
+                        <td class="text-center">@item.Cantidad</td>
+                        <td class="text-end">S/.@item.SubTotal.ToString("F2")</td>
+                    </tr>
+                }
+                <tr class="table-light fw-bold">
+                    <td colspan="4" class="text-end">Total:</td>
+                    <td class="text-end">S/.@total.ToString("F2")</td>
+                </tr>
+            </tbody>
+        </table>
 
-}
+        <div class="text-end mt-4">
+            <a href="@Url.Action("ConfirmarCompra", "Carro")" class="btn btn-success btn-lg">
+                <i class="bi bi-check-circle me-1"></i> Confirmar Pedido
+            </a>
+        </div>
+    }
+</div>

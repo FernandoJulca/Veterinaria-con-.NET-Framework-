@@ -49,7 +49,7 @@
     <Compile Include="EstadoDTO.cs" />
     <Compile Include="ProductoDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RazaDTO.cs" />
+    <Compile Include="ReservaDTO.cs" />
     <Compile Include="SedeDTO.cs" />
     <Compile Include="ServicioDTO.cs" />
     <Compile Include="VentasDTO.cs" />

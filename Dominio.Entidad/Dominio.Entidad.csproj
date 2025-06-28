@@ -42,19 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstraccion\IAnimal.cs" />
     <Compile Include="Abstraccion\ICategoria.cs" />
     <Compile Include="Abstraccion\ICliente.cs" />
     <Compile Include="Abstraccion\IEspecialidad.cs" />
     <Compile Include="Abstraccion\IEspecie.cs" />
     <Compile Include="Abstraccion\IEstado.cs" />
     <Compile Include="Abstraccion\IProducto.cs" />
-    <Compile Include="Abstraccion\IRaza.cs" />
+    <Compile Include="Abstraccion\IReserva.cs" />
     <Compile Include="Abstraccion\ISede.cs" />
     <Compile Include="Abstraccion\IServicio.cs" />
     <Compile Include="Abstraccion\IVenta.cs" />
     <Compile Include="Abstraccion\IVeterinario.cs" />
-    <Compile Include="Entidad\Animal.cs" />
     <Compile Include="Entidad\Carro.cs" />
     <Compile Include="Entidad\Categoria.cs" />
     <Compile Include="Entidad\Cliente.cs" />
@@ -64,7 +62,7 @@
     <Compile Include="Entidad\Estado.cs" />
     <Compile Include="Entidad\ListadoProductos.cs" />
     <Compile Include="Entidad\Producto.cs" />
-    <Compile Include="Entidad\Raza.cs" />
+    <Compile Include="Entidad\Reserva.cs" />
     <Compile Include="Entidad\Sede.cs" />
     <Compile Include="Entidad\Servicio.cs" />
     <Compile Include="Entidad\Venta.cs" />

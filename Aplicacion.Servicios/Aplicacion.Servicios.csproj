@@ -74,7 +74,7 @@
     <Compile Include="GestionEspecie.cs" />
     <Compile Include="GestionEstados.cs" />
     <Compile Include="GestionProductos.cs" />
-    <Compile Include="GestionRaza.cs" />
+    <Compile Include="GestionReserva.cs" />
     <Compile Include="GestionSedes.cs" />
     <Compile Include="GestionServicios.cs" />
     <Compile Include="GestionVenta.cs" />

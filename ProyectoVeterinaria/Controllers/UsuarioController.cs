@@ -84,6 +84,7 @@ namespace ProyectoVeterinaria.Controllers
         {
             int clienteId = (int)Session["ClienteId"];
             var historialCompra = await _gestionClientes.HistorialCompras(clienteId);
+            var historialCita = await _gestionClientes.Historial_Citas(clienteId);
             var cliente = await _gestionClientes.ObtenerCliente(clienteId);
 
             if (cliente == null)
@@ -94,6 +95,7 @@ namespace ProyectoVeterinaria.Controllers
 
             ViewBag.Cliente = cliente;
             ViewBag.HistorialCompras = historialCompra;
+            ViewBag.HistorialCitas = historialCita;
             return View();
         }
     }

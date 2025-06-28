@@ -2,6 +2,7 @@
     ViewBag.Title = "Mi Perfil";
     var usuario = ViewBag.Cliente;
     var compras = ViewBag.HistorialCompras as List<Dominio.Entidad.Entidad.Venta>;
+    var reserva = ViewBag.HistorialCitas as List<Dominio.Entidad.Entidad.Reserva>;
 }
 
 <style>
@@ -56,22 +57,17 @@
             <dt class="col-sm-3">Dirección:</dt>
             <dd class="col-sm-9 text-dark">@usuario.Direccion</dd>
         </dl>
-        <div class="mt-3">
-            <a href="@Url.Action("EditarPerfil", "Cuenta")" class="btn btn-primary me-2">Editar Perfil</a>
-            <a href="@Url.Action("CambiarPassword", "Cuenta")" class="btn btn-secondary">Cambiar Contraseña</a>
-        </div>
     </section>
 
-    <!-- Historial de Compras -->
     <section>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="historial-heading text-success">🛒 Historial de Compras</h3>
-            <button class="btn btn-outline-success btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistorial">
+            <button class="btn btn-outline-success btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCompras" aria-expanded="false" aria-controls="collapseCompras">
                 Ver / Ocultar
             </button>
         </div>
 
-        <div class="collapse" id="collapseHistorial">
+        <div class="collapse" id="collapseCompras">
             @if (compras != null && compras.Count > 0)
             {
                 foreach (var venta in compras)
@@ -96,9 +92,9 @@
                                 {
                                     <tr>
                                         <td>@detalle.nombreProducto</td>
-                                        <td>S/. @((detalle.precio / detalle.cantidad).ToString("0.00"))</td>
-                                        <td>@detalle.cantidad</td>
                                         <td>S/. @detalle.precio.ToString("0.00")</td>
+                                        <td>@detalle.cantidad</td>
+                                        <td>S/. @((detalle.precio * detalle.cantidad).ToString("0.00"))</td>
                                     </tr>
                                 }
                             </tbody>
@@ -111,6 +107,41 @@
                 <p class="text-muted">No tienes compras registradas.</p>
             }
         </div>
+
+
+
+    </section>
+    <section>
+        <<div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="historial-heading text-success">📅 Historial de Citas</h3>
+            <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCitas" aria-expanded="false" aria-controls="collapseCitas">
+                Ver / Ocultar
+            </button>
+        </div>
+
+        <div class="collapse" id="collapseCitas">
+            @if (reserva != null && reserva.Count > 0)
+            {
+                foreach (var cita in reserva)
+                {
+                    <div class="mb-4">
+                        <div class="border-bottom pb-2 mb-2">
+                            <h5 class="text-info mb-1">📅 Reserva del @cita.fecha.ToString("dd/MM/yyyy")</h5>
+                            <p><strong>Motivo:</strong> @cita.motivo</p>
+                            <p><strong>Animal:</strong> @cita.nombreAnimal</p>
+                            <p><strong>Nombre Mascota:</strong> @cita.nombreMascota</p>
+                            <p><strong>Servicio:</strong> @cita.nombreServicio</p>
+                            <p><strong>Veterinario:</strong> @cita.nombreVeterinario</p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No tienes citas registradas.</p>
+            }
+        </div>
+
     </section>
 
 </main>
