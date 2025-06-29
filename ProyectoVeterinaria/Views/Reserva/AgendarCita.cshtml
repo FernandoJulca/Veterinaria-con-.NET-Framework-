@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Reservar Cita";
     Layout = null;
+    var today = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
     var clienteNombre = ViewBag.ClienteNombre as string;
 }
 
@@ -114,7 +115,7 @@
 
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.fecha, "Fecha")
-                                @Html.TextBoxFor(m => m.fecha, new { @class = "form-control", type = "date", required = "required" })
+                                @Html.TextBoxFor(m => m.fecha, new { @class = "form-control", type = "date", min = today, required = "required" })
                             </div>
                         </div>
 
