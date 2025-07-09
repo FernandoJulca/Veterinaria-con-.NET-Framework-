@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls.WebParts;
 using Aplicacion.Servicios;
 using Dominio.Entidad.Abstraccion;
 using Dominio.Entidad.Entidad;
@@ -102,13 +103,13 @@ namespace ProyectoVeterinaria.Controllers
 
             if (tipoCliente == null)
             {
-                TempData["mensaje"] = "Es necesario iniciar sesión para realizar la compra.";
-                return RedirectToAction("IniciarSesion", "Usuario"); // Redirige al login
+                TempData["ErrorMessage"] = "Es necesario iniciar sesión para realizar la compra";
+                return RedirectToAction("IniciarSesion", "Usuario"); 
             }
 
             if (carrito == null || carrito.Count == 0)
             {
-                TempData["mensaje"] = "No hay productos en el carrito.";
+                TempData["ErrorMessage"] = "No hay productos en el carrito.";
                 return RedirectToAction("Productos", "Producto");
             }
 
@@ -119,11 +120,8 @@ namespace ProyectoVeterinaria.Controllers
                 Session["carrito"] = null;
             }
 
-            TempData["mensaje"] = resultado;
+            TempData["GoodMessage"] = resultado;
             return RedirectToAction("Productos", "Producto");
         }
-
-
-
     }
 }

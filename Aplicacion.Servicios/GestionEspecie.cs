@@ -48,10 +48,5 @@ namespace Aplicacion.Servicios
             return new SelectList(raza, "IdEspecie", "NombreEspecie");
         }
 
-        public async Task<SelectList> ListarEspeciePost(Raza reg)
-        {
-            IEnumerable<Especie> raza = await _Especie.Listar();
-            return new SelectList(raza, "IdEspecie", "NombreEspecie", reg.IdEspecie);
-        }
     }
 }

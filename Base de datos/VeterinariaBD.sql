@@ -146,68 +146,18 @@ INSERT INTO ESPECIE (IdEspecie, Descripcion, flgEliminado) VALUES
 (6, 'Hurón', 0)
 GO
 
-CREATE TABLE RAZA (
-	IdRaza INT PRIMARY KEY,
-	Descripcion NVARCHAR(50),
-	IdEspecie INT FOREIGN KEY REFERENCES ESPECIE(IdEspecie),
-	flgEliminado BIT
-);
-GO
-
-INSERT INTO RAZA (IdRaza, Descripcion, IdEspecie, flgEliminado) VALUES
-(1, 'Labrador Retriever', 1, 0),
-(2, 'Bulldog', 1, 0),
-(3, 'Golden Retriever', 1, 0),
-(4, 'Pastor Alemán', 1, 0),
-(5, 'Siames', 2, 0),
-(6, 'Persa', 2, 0),
-(7, 'Maine Coon', 2, 0),
-(8, 'Angora', 3, 0),
-(9, 'Cabeza de León', 3, 0),
-(10, 'Ruso', 4, 0),
-(12, 'Cobaya Común', 5, 0),
-(13, 'Hurón Europeo', 6, 0)
-GO
-
-
-CREATE TABLE ANIMALES(
-	IdAnimal int primary key,
-	Nombre nvarchar(50),
-	Especie int foreign key references ESPECIE(IdEspecie),
-	IdRaza INT FOREIGN KEY REFERENCES RAZA(IdRaza),
-	Sexo char(1),
-	Edad int,
-	IdCliente int foreign key references CLIENTES(IdCliente),
-	flgEliminado bit
-);
-GO
-
-INSERT INTO ANIMALES (IdAnimal, Nombre, Especie, IdRaza, Sexo, Edad, IdCliente, flgEliminado) VALUES
-(1, 'Fido', 1, 1, 'M', 4, 1, 0),
-(2, 'Luna', 2, 6, 'F', 3, 2, 0),
-(3, 'Bunny', 3, 9, 'F', 2, 3, 0),
-(4, 'Toby', 1, 3, 'M', 5, 1, 0),
-(5, 'Misi', 2, 5, 'F', 1, 2, 0),
-(6, 'Rex', 1, 4, 'M', 6, 3, 0),
-(7, 'Nina', 5, 12, 'F', 2, 1, 0),
-(8, 'Pipo', 4, 10, 'M', 1, 2, 0),
-(9, 'Hurón', 6, 13, 'M', 3, 3, 0),
-(10, 'Coco', 1, 2, 'M', 2, 1, 0);
-GO
-
 CREATE TABLE ATENCIONES (
 	IdAtencion INT PRIMARY KEY,
-	Fecha DATETIME,
+	Fecha DATE,
 	Motivo NVARCHAR(200),
-	Diagnostico NVARCHAR(200),
-	Tratamiento NVARCHAR(200),
-	IdAnimal INT FOREIGN KEY REFERENCES ANIMALES(IdAnimal),
+	IdCliente INT FOREIGN KEY REFERENCES CLIENTES(IdCliente),
+	IdEspecie INT FOREIGN KEY REFERENCES ESPECIE(IdEspecie),
+	NombreMascota Varchar(50),
 	IdServicio INT FOREIGN KEY REFERENCES SERVICIOS(IdServicios),
 	IdVeterinario INT FOREIGN KEY REFERENCES VETERINARIOS(IdVeterinario),
 	flgEliminado BIT
 );
 GO
-
 
 CREATE TABLE CATEGORIA(
 	IdCategoria int primary key,
@@ -676,53 +626,6 @@ BEGIN
 END
 GO
 
-/* PROCEDURES DE RAZA */
-CREATE OR ALTER PROC usp_listar_raza
-AS
-BEGIN
-	SELECT R.IdRaza, R.Descripcion, E.IdEspecie, E.Descripcion
-	FROM RAZA R
-	JOIN ESPECIE E
-	ON E.IdEspecie = R.IdEspecie
-	WHERE R.flgEliminado = 0
-END
-GO
-
-CREATE OR ALTER PROC usp_create_raza
-	@Descripcion NVARCHAR(50),
-	@IdEspecie INT
-AS
-BEGIN
-	DECLARE @idRaza INT = ISNULL((SELECT MAX(IdRaza) FROM RAZA), 0) + 1;
-
-	INSERT INTO RAZA (IdRaza, Descripcion, IdEspecie, flgEliminado)
-	VALUES (@idRaza, @Descripcion, @IdEspecie, 0)
-END
-GO
-
-CREATE OR ALTER PROC usp_update_raza
-	@IdRaza INT,
-	@Descripcion NVARCHAR(50),
-	@IdEspecie INT
-AS
-BEGIN
-	UPDATE RAZA
-	SET Descripcion = @Descripcion,
-		IdEspecie = @IdEspecie
-	WHERE IdRaza = @IdRaza
-END
-GO
-
-CREATE OR ALTER PROC usp_delete_raza
-	@IdRaza INT
-AS
-BEGIN
-	UPDATE RAZA
-	SET flgEliminado = 1
-	WHERE IdRaza = @IdRaza
-END
-GO
-
 /* PROCEDURES DE VENTA */
 
 CREATE OR ALTER PROC usp_agregar_venta
@@ -839,6 +742,58 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER PROCEDURE usp_historial_compras_admin
+AS
+BEGIN
+    SELECT 
+        v.IdVenta,
+        v.Fecha,
+        v.Total,
+		c.Nombre as NombreCliente,
+        c.Apellido as ApellidoCliente,
+        d.IdDetalle,
+		p.Nombre as NombreProducto,
+        d.Cantidad,
+        p.Precio
+    FROM VENTAS v
+    INNER JOIN DETALLEVENTA d ON v.IdVenta = d.IdVenta
+    INNER JOIN PRODUCTO p ON d.IdProducto = p.IdProducto
+    INNER JOIN CLIENTES c ON v.IdCliente = c.IdCliente
+    ORDER BY v.Fecha DESC;
+END
+GO
+/*Reservar Atencion*/
+CREATE OR ALTER PROC usp_historial_reservas_admin
+AS
+	BEGIN
+		Select A.IdAtencion, A.Fecha, A.Motivo,c.Nombre as NombreCliente,c.Apellido as ApellidoCliente,
+				E.Descripcion AS Animal,A.NombreMascota,S.Descripcion,
+				CONCAT_WS(' ',V.Nombre,V.Apellido) AS Veterinario
+		FROM ATENCIONES A
+		JOIN ESPECIE E ON A.IdEspecie = E.IdEspecie
+		JOIN CLIENTES C ON A.IdCliente = C.IdCliente
+		JOIN SERVICIOS S ON A.IdServicio = S.IdServicios
+		JOIN VETERINARIOS V ON A.IdVeterinario = V.IdVeterinario
+		ORDER BY A.Fecha DESC;
+	END
+GO
+
+CREATE OR ALTER PROC usp_crear_reserva
+	@Fecha DATE,
+	@Motivo NVARCHAR(200),
+	@IdCliente INT,
+	@IdEspecie INT,
+	@NombreMascota VARCHAR(50),
+	@IdServicio INT,
+	@IdVeterinario INT
+AS
+	BEGIN
+		DECLARE @IdAtencion INT = ISNULL((SELECT MAX(IdAtencion) FROM ATENCIONES), 0) + 1;
+		INSERT INTO ATENCIONES(IdAtencion,Fecha,Motivo,IdCliente,IdEspecie,NombreMascota,IdServicio,IdVeterinario,flgEliminado)
+		VALUES (@IdAtencion,@Fecha,@Motivo,@IdCliente,@IdEspecie,@NombreMascota,@IdServicio,@IdVeterinario,0)
+	END
+GO
+
 /*Perfil de cliente*/
 CREATE OR ALTER PROC usp_historial_compras
 	@idCliente int
@@ -852,6 +807,21 @@ AS
 	END
 GO
 
+CREATE OR ALTER PROC usp_historial_citas
+	@idCliente int
+AS
+	BEGIN
+		Select A.IdAtencion, A.Fecha, A.Motivo,
+				E.Descripcion AS Animal,A.NombreMascota,S.Descripcion,
+				CONCAT_WS(' ',V.Nombre,V.Apellido) AS Veterinario
+		FROM ATENCIONES A
+		JOIN ESPECIE E ON A.IdEspecie = E.IdEspecie
+		JOIN SERVICIOS S ON A.IdServicio = S.IdServicios
+		JOIN VETERINARIOS V ON A.IdVeterinario = V.IdVeterinario
+		Where A.IdCliente = @idCliente
+	END
+GO
+
 CREATE OR ALTER PROC usp_obtener_cliente
 	@idCliente int
 AS
@@ -862,24 +832,4 @@ BEGIN
 	where IdCliente = @idCliente 
 END
 GO
-
-exec usp_historial_compras 5
-exec usp_obtener_cliente 5
-
-/*CREATE OR ALTER PROC usp_historial_reservas pendiente
-	@idCliente int
-AS
-	BEGIN
-		Select v.IdVenta,V.Fecha,v.Total,d.IdDetalle, p.Nombre,p.Precio,
-		d.cantidad from VENTAS V
-		join DETALLEVENTA D on v.IdVenta = d.IdVenta
-		join PRODUCTO P on d.IdProducto = p.IdProducto
-		Where v.IdCliente = @idCliente
-	END
-GO*/
-
-select * from ATENCIONES
-select * from ventas
-select * from detalleVenta
-select * from PRODUCTO
-select * from clientes
+select * from CLIENTES

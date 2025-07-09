@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Dominio.Entidad.Entidad.Reserva>
+
+@{
+    ViewBag.Title = "Historial de Reservas";
+    ViewBag.Menu = "Reservas";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (Model != null && Model.Any())
+{
+    <div class="accordion my-4" id="accordionReservas">
+        @foreach (var cita in Model)
+        {
+            var citaId = "cita" + cita.idAtencion;
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading@(cita.idAtencion)">
+                    <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapse@(cita.idAtencion)"
+                            aria-expanded="false"
+                            aria-controls="collapse@(cita.idAtencion)">
+                        Cita #: @cita.idAtencion - Cliente: @cita.nombreCliente @cita.apellidoCliente - Fecha: @cita.fecha.ToString("dd/MM/yyyy")
+                    </button>
+                </h2>
+                <div id="collapse@(cita.idAtencion)"
+                     class="accordion-collapse collapse"
+                     aria-labelledby="heading@(cita.idAtencion)"
+                     data-bs-parent="#accordionReservas">
+
+                    <div class="accordion-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Motivo:</strong> @cita.motivo</li>
+                            <li class="list-group-item"><strong>Animal:</strong> @cita.nombreAnimal</li>
+                            <li class="list-group-item"><strong>Nombre de la Mascota:</strong> @cita.nombreMascota</li>
+                            <li class="list-group-item"><strong>Servicio:</strong> @cita.nombreServicio</li>
+                            <li class="list-group-item"><strong>Veterinario:</strong> @cita.nombreVeterinario</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        No hay citas registradas.
+    </div>
+}

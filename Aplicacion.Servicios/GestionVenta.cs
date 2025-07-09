@@ -25,5 +25,10 @@ namespace Aplicacion.Servicios
         {
             return await _Venta.AgregarVenta(idCliente,carrito);
         }
+
+        public async Task<List<Venta>> HistorialComprasAdmin()
+        {
+            return await _Venta.HistorialComprasAdmin();
+        }
     }
 }

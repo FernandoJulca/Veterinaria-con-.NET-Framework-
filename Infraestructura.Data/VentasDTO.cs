@@ -50,6 +50,56 @@ namespace Infraestructura.Data
             return Ventas;
         }
 
+        public async Task<List<Venta>> HistorialComprasAdmin()
+        {
+            List<Venta> historia = new List<Venta>();
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                {
+                    await cnn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("usp_historial_compras_admin", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                int idVenta = reader.GetInt32(reader.GetOrdinal("IdVenta"));
+                                var venta = historia.FirstOrDefault(v => v.IdVenta == idVenta);
+                                if (venta == null)
+                                {
+                                    venta = new Venta
+                                    {
+                                        IdVenta = idVenta,
+                                        Fecha = reader.GetDateTime(reader.GetOrdinal("Fecha")),
+                                        Total = reader.GetDecimal(reader.GetOrdinal("Total")),
+                                        NombreCliente = reader.GetString(reader.GetOrdinal("NombreCliente")),
+                                        ApellidoCliente = reader.GetString(reader.GetOrdinal("ApellidoCliente")),
+                                        Detalles = new List<DetalleVenta>()
+                                    };
+                                    historia.Add(venta);
+                                }
+
+                                var detalle = new DetalleVenta
+                                {
+                                    idDetalleVenta = reader.GetInt32(reader.GetOrdinal("IdDetalle")),
+                                    nombreProducto = reader.GetString(reader.GetOrdinal("NombreProducto")),
+                                    precio = reader.GetDecimal(reader.GetOrdinal("Precio")),
+                                    cantidad = reader.GetInt32(reader.GetOrdinal("Cantidad"))
+                                };
+                                venta.Detalles.Add(detalle);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar el historial", ex);
+            }
+            return historia;
+        }
 
         public async Task<string> AgregarVenta(int idCliente, List<Carro> carrito)
         {

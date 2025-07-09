@@ -119,13 +119,13 @@
     <Compile Include="Controllers\Admin\AdminEspecialidadController.cs" />
     <Compile Include="Controllers\Admin\AdminEspecieController.cs" />
     <Compile Include="Controllers\Admin\AdminProductoController.cs" />
-    <Compile Include="Controllers\Admin\AdminRazaController.cs" />
     <Compile Include="Controllers\Admin\AdminSedeController.cs" />
     <Compile Include="Controllers\Admin\AdminServicioController.cs" />
     <Compile Include="Controllers\Admin\AdminVeterinarioController.cs" />
     <Compile Include="Controllers\CarroController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
+    <Compile Include="Controllers\ReservaController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -278,11 +278,6 @@
     <Content Include="Views\Admin\AdminEspecie\Details.cshtml" />
     <Content Include="Views\Admin\AdminEspecie\Edit.cshtml" />
     <Content Include="Views\Admin\AdminEspecie\ListaEspecie.cshtml" />
-    <Content Include="Views\Admin\AdminRaza\Create.cshtml" />
-    <Content Include="Views\Admin\AdminRaza\Delete.cshtml" />
-    <Content Include="Views\Admin\AdminRaza\Details.cshtml" />
-    <Content Include="Views\Admin\AdminRaza\Edit.cshtml" />
-    <Content Include="Views\Admin\AdminRaza\ListaRaza.cshtml" />
     <Content Include="Views\Admin\AdminVeterinario\Create.cshtml" />
     <Content Include="Views\Admin\AdminVeterinario\Delete.cshtml" />
     <Content Include="Views\Admin\AdminVeterinario\Details.cshtml" />
@@ -290,8 +285,10 @@
     <Content Include="Views\Admin\AdminVeterinario\ListaVeterinario.cshtml" />
     <Content Include="Views\Admin\ListaCliente.cshtml" />
     <Content Include="Views\Carro\ProcesarCompra.cshtml" />
-    <Content Include="Views\Carro\Mensaje.cshtml" />
     <Content Include="Views\Usuario\Perfil.cshtml" />
+    <Content Include="Views\Admin\ListaPedidos.cshtml" />
+    <Content Include="Views\Reserva\AgendarCita.cshtml" />
+    <Content Include="Views\Admin\ListarReservas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -367,12 +364,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

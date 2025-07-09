@@ -13,22 +13,22 @@ namespace Infraestructura.Data
 {
     public class ClienteDTO : ICliente
     {
-        public async Task<Cliente> IniciarSesion(string correo,string contrasenia)
+        public async Task<Cliente> IniciarSesion(string correo, string contrasenia)
         {
             Cliente cli = null;
             string message = "";
             try
             {
-                using(SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
                 {
                     await cnn.OpenAsync();
-                    using(SqlCommand cmd = new SqlCommand("usp_iniciar_session", cnn))
+                    using (SqlCommand cmd = new SqlCommand("usp_iniciar_session", cnn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@Correo", correo);
                         cmd.Parameters.AddWithValue("@Contrasenia", contrasenia);
 
-                        using(SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                         {
                             while (await reader.ReadAsync())
                             {
@@ -49,7 +49,7 @@ namespace Infraestructura.Data
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 message = ex.Message;
             }
@@ -103,7 +103,7 @@ namespace Infraestructura.Data
             string mensaje = "";
             try
             {
-                using(SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
                 {
                     await cnn.OpenAsync();
                     using (SqlCommand cmd = new SqlCommand("usp_registrar_usuario", cnn))
@@ -124,7 +124,7 @@ namespace Infraestructura.Data
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 mensaje = ex.Message;
             }
@@ -174,16 +174,16 @@ namespace Infraestructura.Data
             List<Venta> historia = new List<Venta>();
             try
             {
-                using(SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
                 {
                     await cnn.OpenAsync();
                     using (SqlCommand cmd = new SqlCommand("usp_historial_compras", cnn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                        using(SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                         {
-                            while(await reader.ReadAsync())
+                            while (await reader.ReadAsync())
                             {
                                 int idVenta = reader.GetInt32(reader.GetOrdinal("IdVenta"));
                                 var venta = historia.FirstOrDefault(v => v.IdVenta == idVenta);
@@ -212,7 +212,51 @@ namespace Infraestructura.Data
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar el historial", ex);
+            }
+            return historia;
+        }
+
+        public async Task<List<Reserva>> Historial_Citas(int idCliente)
+        {
+            List<Reserva> historia = new List<Reserva>();
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cadena"].ConnectionString))
+                {
+                    await cnn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("usp_historial_citas", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                int IdAtencion = reader.GetInt32(reader.GetOrdinal("IdAtencion"));
+                                var atencion = historia.FirstOrDefault(v => v.idAtencion == IdAtencion);
+                                if (atencion == null)
+                                {
+                                    atencion = new Reserva
+                                    {
+                                        idAtencion = IdAtencion,
+                                        fecha = reader.GetDateTime(reader.GetOrdinal("Fecha")),
+                                        motivo = reader.GetString(reader.GetOrdinal("Motivo")),
+                                        nombreAnimal = reader.GetString(reader.GetOrdinal("Animal")),
+                                        nombreMascota = reader.GetString(reader.GetOrdinal("NombreMascota")),
+                                        nombreServicio = reader.GetString(reader.GetOrdinal("Descripcion")),
+                                        nombreVeterinario = reader.GetString(reader.GetOrdinal("Veterinario"))
+                                    };
+                                    historia.Add(atencion);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
             {
                 throw new Exception("Error al listar el historial", ex);
             }

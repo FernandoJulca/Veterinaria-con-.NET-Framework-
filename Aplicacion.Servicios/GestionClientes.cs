@@ -38,5 +38,10 @@ namespace Aplicacion.Servicios
         {
             return await clienteDTO.ObtenerCliente(idCliente);
         }
+
+        public async Task<List<Reserva>> Historial_Citas(int idCliente)
+        {
+            return await clienteDTO.Historial_Citas(idCliente);
+        }
     }
 }

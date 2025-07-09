@@ -13,7 +13,7 @@ namespace Dominio.Entidad.Entidad
 
         public byte[] Imagen { get; set; }
 
-        
+        public string ImagenBase64 { get; set; }
 
         public int Cantidad { get; set; }
         public decimal Precio { get; set; }
