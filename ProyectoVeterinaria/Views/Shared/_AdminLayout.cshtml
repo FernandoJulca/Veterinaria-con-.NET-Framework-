@@ -45,7 +45,6 @@
                 <a href="@Url.Action("ListaCategoria", "AdminCategoria")" class="nav-link px-3 @(ViewBag.Menu == "Categorias" ? "active" : "")"><i class="fas fa-tags"></i> Categorias</a>
                 <a href="@Url.Action("ListaEspecialidad", "AdminEspecialidad")" class="nav-link px-3 @(ViewBag.Menu == "Especialidades" ? "active" : "")"><i class="fas fa-star"></i> Especialidades</a>
                 <a href="@Url.Action("ListaEspecie", "AdminEspecie")" class="nav-link px-3 @(ViewBag.Menu == "Especies" ? "active" : "")"><i class="fas fa-paw"></i> Especies</a>
-                <a href="@Url.Action("ListaRaza", "AdminRaza")" class="nav-link px-3 @(ViewBag.Menu == "Razas" ? "active" : "")"><i class="fas fa-dog"></i> Razas</a>
                 <a href="@Url.Action("ListaSede", "AdminSede")" class="nav-link px-3 @(ViewBag.Menu == "Sedes" ? "active" : "")"><i class="fas fa-map-marker-alt"></i> Sedes</a>
                 <a href="@Url.Action("ListaServicio", "AdminServicio")" class="nav-link px-3 @(ViewBag.Menu == "Servicios" ? "active" : "")"><i class="fas fa-concierge-bell"></i> Servicios</a>
                 <a href="@Url.Action("ListaVeterinario", "AdminVeterinario")" class="nav-link px-3 @(ViewBag.Menu == "Veterinarios" ? "active" : "")"><i class="fas fa-user-md"></i> Veterinarios</a>
@@ -55,7 +54,11 @@
         <a href="@Url.Action("ListaCliente", "Admin")" class="mt-3 @(ViewBag.Menu == "Clientes" ? "active" : "")">
             <i class="fas fa-users"></i> Clientes
         </a>
-        <a href="#" class="@(ViewBag.Menu == "Pedidos" ? "active" : "")"><i class="fas fa-shopping-cart"></i> Pedidos</a>
+        <a href=@Url.Action("ListaPedidos", "Admin") class="@(ViewBag.Menu == "Pedidos" ? "active" : "")"><i class="fas fa-shopping-cart"></i> Pedidos</a>
+        <a href="@Url.Action("ListarReservas", "Admin")"
+           class="@(ViewBag.Menu == "Reservas" ? "active" : "")">
+            <i class="fas fa-calendar-check me-2"></i> Ver Reservas
+        </a>
         <a href="@Url.Action("CerrarSesion", "Usuario")" class="mt-auto text-danger">
             <i class="fas fa-sign-out-alt"></i> Cerrar sesión
         </a>

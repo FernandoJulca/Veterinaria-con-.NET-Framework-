@@ -16,8 +16,8 @@
 
                 data.forEach(function (producto) {
                     const imagenHtml = producto.ImagenBase64
-                        ? `<img src="${producto.ImagenBase64}" alt="Imagen" class="img-thumbnail me-2" style="width: 50px; height: 50px;" />`
-                        : '';
+                        ? `data:image/png;base64,${producto.ImagenBase64}`
+                        : `/imagenes/Productos/P${producto.IdProducto}.jpg`;
 
                     const subtotal = producto.SubTotal.toFixed(2);
                     total += producto.SubTotal;
@@ -25,7 +25,10 @@
                     list.append(`
                         <li class="list-group-item d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
-                                ${imagenHtml}
+                                <img src="${imagenHtml}" class="card-img-top rounded-top-4" alt="${producto.NombreProducto}"
+                     style="object-fit: cover; height: 3
+                    80px; width:80px;"
+                     onerror="this.onerror=null; this.src='/imagenes/no-imagen.png';">
                                 <div>
                                     <strong>${producto.Nombre}</strong><br />
                                     Cantidad: ${producto.Cantidad} - Precio: $${producto.Precio} <br />
