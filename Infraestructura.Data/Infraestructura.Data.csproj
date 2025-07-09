@@ -43,9 +43,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoriaDTO.cs" />
+    <Compile Include="ClienteDTO.cs" />
+    <Compile Include="EspecialidadDTO.cs" />
+    <Compile Include="EspecieDTO.cs" />
     <Compile Include="EstadoDTO.cs" />
     <Compile Include="ProductoDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReservaDTO.cs" />
+    <Compile Include="SedeDTO.cs" />
+    <Compile Include="ServicioDTO.cs" />
+    <Compile Include="VentasDTO.cs" />
+    <Compile Include="VeterinariaDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dominio.Entidad\Dominio.Entidad.csproj">

@@ -8,7 +8,7 @@ using Dominio.Repositorio;
 
 namespace Dominio.Entidad.Abstraccion
 {
-    internal interface ICategoria : IRepositorioGET<Categoria>
+    public interface ICategoria : IRepositorioGET<Categoria>, IRepositorioCRUD<Categoria>
     {
     }
 }

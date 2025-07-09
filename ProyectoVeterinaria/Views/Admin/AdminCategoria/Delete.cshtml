@@ -1,0 +1,51 @@
+﻿@model Dominio.Entidad.Entidad.Categoria
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Categorias";
+    ViewBag.Title = "Eliminar Categoría";
+}
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <h2 class="mb-4 text-danger">
+            <i class="fas fa-trash-alt"></i> ¿Estás seguro que deseas eliminar esta categoría?
+        </h2>
+
+        <dl class="row">
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.IdCategoria)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.IdCategoria)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.NombreCategoria)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.NombreCategoria)
+            </dd>
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+                <a href="@Url.Action("ListaCategoria")" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancelar
+                </a>
+            </div>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+    {
+        <div class="alert alert-info mt-3">
+            @ViewBag.mensaje
+        </div>
+    }
+</div>

@@ -1,0 +1,143 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var nombre = Session["ClienteNombre"] as string ?? "Admin";
+    var apellido = Session["ClienteApellido"] as string ?? "";
+    var usuario = $"{nombre} {apellido}".Trim();
+    ViewBag.Title = "Dashboard";
+    ViewBag.Menu = "Dashboard";
+
+}
+@using Newtonsoft.Json
+
+<h2 class="mb-4">Bienvenido @usuario, al Panel de Administración 🐶</h2>
+
+<h4><i class="fas fa-sliders-h"></i> Módulos de gestión</h4>
+<div id="dashboardCarousel" class="carousel slide mb-5 mx-5" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <div class="col">
+                    <div class="card text-white bg-primary h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-box"></i> Productos</h5>
+                            <p class="card-text">Administra los productos disponibles.</p>
+                            <a href="@Url.Action("ListaProductos", "AdminProducto")" class="btn btn-light btn-sm">Ver productos</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-success h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-tags"></i> Categorías</h5>
+                            <p class="card-text">Organiza los productos por categoría.</p>
+                            <a href="@Url.Action("ListaCategoria", "AdminCategoria")" class="btn btn-light btn-sm">Ver categorías</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-info h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-users"></i> Clientes</h5>
+                            <p class="card-text">Consulta los usuarios registrados.</p>
+                            <a href="@Url.Action("ListaCliente", "Admin")" class="btn btn-light btn-sm">Ver clientes</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-warning h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-stethoscope"></i> Especialidades</h5>
+                            <p class="card-text">Gestiona las especialidades veterinarias disponibles.</p>
+                            <a href="@Url.Action("ListaEspecialidad", "AdminEspecialidad")" class="btn btn-light btn-sm">Ver especialidades</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <div class="col">
+                    <div class="card text-white bg-secondary h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-user-md"></i> Veterinarios</h5>
+                            <p class="card-text">Gestiona los veterinarios registrados.</p>
+                            <a href="@Url.Action("ListaVeterinario", "AdminVeterinario")" class="btn btn-light btn-sm">Ver veterinarios</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-dark h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-dog"></i> Especies</h5>
+                            <p class="card-text">Gestiona las especies disponibles.</p>
+                            <a href="@Url.Action("ListaEspecie", "AdminEspecie")" class="btn btn-light btn-sm">Ver especies</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-warning h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-clinic-medical"></i> Servicios</h5>
+                            <p class="card-text">Revisa los servicios ofrecidos.</p>
+                            <a href="@Url.Action("ListaServicio", "AdminServicio")" class="btn btn-light btn-sm">Ver servicios</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-white bg-info h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-store-alt"></i> Sedes</h5>
+                            <p class="card-text">Administra las sedes de atención.</p>
+                            <a href="@Url.Action("ListaSede", "AdminSede")" class="btn btn-light btn-sm">Ver sedes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-dark rounded-circle position-absolute top-50 start-0 translate-middle-y ms-3 z-1" type="button" data-bs-target="#dashboardCarousel" data-bs-slide="prev">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <button class="btn btn-dark rounded-circle position-absolute top-50 end-0 translate-middle-y me-3 z-1" type="button" data-bs-target="#dashboardCarousel" data-bs-slide="next">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+
+</div>
+<hr class="my-3" />
+<div class="row">
+    <h4><i class="fas fa-chart-line"></i> Ventas por Mes</h4>
+    <div class="card mb-4">
+        <div class="card-body">
+            <canvas id="ventasChart"
+                    data-labels='@Html.Raw(JsonConvert.SerializeObject(ViewBag.ventasMes))'
+                    data-valores='@Html.Raw(JsonConvert.SerializeObject(ViewBag.ventasTotal))'
+                    height="300"></canvas>
+        </div>
+    </div>
+</div>
+<hr class="my-3" />
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h4><i class="fas fa-chart-pie"></i> Estadísticas rápidas</h4>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Total de productos
+                <span class="badge bg-primary rounded-pill">@ViewBag.productos</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Total de clientes
+                <span class="badge bg-success rounded-pill">@ViewBag.clientes</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-md-6">
+        <h4 class="mb-3"><i class="fas fa-bolt"></i> Acciones rápidas</h4>
+        <a href="@Url.Action("Create", "AdminProducto")" class="btn btn-outline-primary w-100 mb-2">➕ Registrar nuevo producto</a>
+        <a href="@Url.Action("Create", "AdminCategoria")" class="btn btn-outline-success w-100 mb-2">📁 Crear nueva categoría</a>
+    </div>
+</div>
+<script src="~/JavaScripts/IndexAdminJS.js"></script>
+   
+

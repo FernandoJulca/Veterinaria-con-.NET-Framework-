@@ -1,33 +1,75 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using Dominio.Entidad.Entidad;
+@{
+    dynamic sedePrincipal = null;
+    foreach (var sede in ViewBag.sedes)
+    {
+        if (sede.IdSede == 1)
+        {
+            sedePrincipal = sede;
+            break;
+        }
+    }
+    ViewBag.Title = "Index";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+<main class="container-main">
+
+    <!-- Sección de Servicios -->
+    <section id="servicios" class="servicios-section my-3">
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <div class="servicios-container">
+            @foreach (var servicio in ((IEnumerable<dynamic>)ViewBag.servicios).Take(5))
+            {
+                <div class="servicio-card">
+                    <img src="~/imagenes/Servicios/S@(servicio.IdServicio).jpg" alt="@servicio.Descripcion" />
+                    <h3>@servicio.Descripcion</h3>
+                </div>
+            }
+        </div>
     </section>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <!-- Sección de Veterinarios -->
+    <section id="veterinarios" class="veterinarios-section my-3">
+        <h2 class="section-title">Nuestro Equipo Veterinario</h2>
+        <div class="cards-container">
+            @foreach (var veterinario in ((IEnumerable<dynamic>)ViewBag.veterinarios).Take(4))
+            {
+                <div class="card-rounded">
+                    <img src="@(string.IsNullOrEmpty(veterinario.ImagenBase64)
+            ? $"/imagenes/Veterinarios/V{veterinario.IdVeterinario}.jpg"
+            : $"data:image/png;base64,{veterinario.ImagenBase64}")" alt="@veterinario.Nombre" class="card-photo" />
+                    <h3>@veterinario.Nombre</h3>
+                    <p>@veterinario.Especialidad</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    @if (sedePrincipal != null)
+    {
+        <section id="sede-principal" class="sede-section">
+            <h2 class="section-title">Nuestra Sede Principal</h2>
+            <div class="sede-container">
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=..."
+                            width="100%"
+                            height="300"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+                <div class="sede-details">
+                    <h4 class="sede-nombre">@sedePrincipal.Nombre</h4>
+                    <p><span class="label">Dirección:</span> @sedePrincipal.Direccion</p>
+                    <p><span class="label">Teléfono:</span> @sedePrincipal.Telefono</p>
+                    <a href="@Url.Action("Sedes","Home")" class="btn-ver-sedes">Ver más Sedes</a>
+                </div>
+            </div>
         </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
-    </div>
+
+    }
+
 </main>

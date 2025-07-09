@@ -1,0 +1,49 @@
+﻿@model Dominio.Entidad.Entidad.Sede
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Sedes";
+    ViewBag.Title = "Detalle de Sede";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-info-circle text-info"></i> Detalle de la Sede</h2>
+    <a href="@Url.Action("ListaSede")" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Volver al listado
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row">
+
+            <dt class="col-sm-3 fw-bold">ID</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.IdSede)</dd>
+
+            <dt class="col-sm-3 fw-bold">Nombre</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Nombre)</dd>
+
+            <dt class="col-sm-3 fw-bold">Imagen</dt>
+            <dd class="col-sm-9">
+                <img src="@(string.IsNullOrEmpty(Model.ImagenBase64)
+                                ? $"/imagenes/Sedes/S{Model.IdSede}.jpg"
+                                : $"data:image/png;base64,{Model.ImagenBase64}")"
+                     alt="Imagen de sede"
+                     class="img-thumbnail"
+                     style="max-width: 350px; height: auto; object-fit: cover;"
+                     onerror="this.onerror=null; this.src='/imagenes/no-imagen.png';" />
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">Dirección</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Direccion)</dd>
+
+            <dt class="col-sm-3 fw-bold">Teléfono</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Telefono)</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-4">
+    @Html.ActionLink("Editar", "Edit", new { id = Model.IdSede }, new { @class = "btn btn-warning me-2" })
+    @Html.ActionLink("Volver al listado", "ListaSede", null, new { @class = "btn btn-secondary" })
+</div>

@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Sedes";
+}
+
+<main class="container mb-5">
+    <section class="sedes-hero">
+        <h1 class="section-title page-title">Nuestras Sedes</h1>
+        <p class="subtitle">Conoce nuestras diferentes ubicaciones y cómo contactarnos.</p>
+    </section>
+
+    <section class="sedes-list">
+        <div class="sedes-grid">
+            @foreach (var sede in ViewBag.sedes)
+            {
+                <div class="sede-card">
+                    <img src="@(string.IsNullOrEmpty(sede.ImagenBase64)
+            ? $"/imagenes/Sedes/S{sede.IdSede}.jpg"
+            : $"data:image/png;base64,{sede.ImagenBase64}")" alt="@sede.Nombre" class="sede-img" />
+                    <div class="sede-info">
+                        <h4 class="sede-name">@sede.Nombre</h4>
+                        <p><span class="label">Dirección:</span> @sede.Direccion</p>
+                        <p><span class="label">Teléfono:</span> @sede.Telefono</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</main>

@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "Nosotros";
+}
+<style>
+    .mision-vision-valores {
+        margin: 4rem 0;
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    .mvv-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .mvv-card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        padding: 2rem 1.5rem;
+        width: 280px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .mvv-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+    .mvv-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #43a047;
+    }
+
+    .mvv-card h3 {
+        font-size: 1.4rem;
+        color: #6a1b9a;
+        margin-bottom: 0.8rem;
+    }
+
+    .mvv-card p {
+        font-size: 0.95rem;
+        color: #555;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+</style>
+<main class="container">
+
+    <!-- Introducción -->
+    <section class="intro-section">
+        <h2 class="section-title">Sobre Nosotros</h2>
+        <p class="intro-text">
+            En Clínica Veterinaria Patitas Felices, nos dedicamos con amor y compromiso al bienestar de tus mascotas.
+            Contamos con más de 10 años de experiencia y un equipo especializado para brindar atención de alta calidad.
+        </p>
+    </section>
+
+    <!-- Misión, Visión y Valores -->
+    <section class="mision-vision-valores">
+        <h2 class="section-title">Misión, Visión y Valores</h2>
+        <div class="mvv-cards">
+            <div class="mvv-card">
+                <div class="mvv-icon">🎯</div>
+                <h3>Misión</h3>
+                <p>
+                    Ofrecer servicios veterinarios integrales y de excelencia, asegurando el bienestar y salud de cada mascota.
+                </p>
+            </div>
+            <div class="mvv-card">
+                <div class="mvv-icon">🌟</div>
+                <h3>Visión</h3>
+                <p>
+                    Ser la clínica veterinaria líder en cuidado animal, reconocida por nuestra calidad humana y profesionalismo.
+                </p>
+            </div>
+            <div class="mvv-card">
+                <div class="mvv-icon">❤️</div>
+                <h3>Valores</h3>
+                <p>
+                    Compromiso, pasión, respeto por la vida, ética profesional y amor por los animales.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- Veterinarios -->
+    <section class="veterinarios-nosotros">
+        <h2 class="section-title">Conoce a Nuestro Equipo</h2>
+        <div class="cards-container">
+            @foreach (var veterinario in ViewBag.veterinarios)
+            {
+                <div class="card-rounded">
+                    <img src="@(string.IsNullOrEmpty(veterinario.ImagenBase64)
+            ? $"/imagenes/Veterinarios/V{veterinario.IdVeterinario}.jpg"
+            : $"data:image/png;base64,{veterinario.ImagenBase64}")" alt="@veterinario.Nombre" class="card-photo" />
+                    <h3>@veterinario.Nombre</h3>
+                    <p>@veterinario.Especialidad</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- Frase final -->
+    <section class="frase-final">
+        <p>"Porque ellos también son parte de tu familia."</p>
+    </section>
+
+</main>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Dominio.Entidad.Entidad.Especialidad>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Especialidades";
+    ViewBag.Title = "Lista de Especialidades";
+}
+
+<div class="d-flex justify-content-between mb-3">
+    <div aria-label="Paginación de especialidades" class="mt-3">
+        <div class="pagination justify-content-center gap-1">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <button type="button"
+                        class="btn btn-sm mx-1 btn-pagina button-paginado @(i == ViewBag.CurrentPage ? "pagina-activa" : "")"
+                        onclick="window.location='@Url.Action("ListaEspecialidad", new { page = i })'">
+                    @i
+                </button>
+            }
+        </div>
+    </div>
+    <div class="d-flex align-items-center">
+        <a href="@Url.Action("Create")" class="btn btn-outline-success">
+            <i class="fas fa-plus-circle"></i> Agregar Especialidad
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle shadow-sm rounded">
+        <thead class="table-primary text-center">
+            <tr>
+                <th><i class="fas fa-hashtag"></i><br />@Html.DisplayNameFor(model => model.First().IdEspecialidad)</th>
+                <th><i class="fas fa-stethoscope"></i><br />@Html.DisplayNameFor(model => model.First().NombreEspecialidad)</th>
+                <th><i class="fas fa-cogs"></i><br />Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@item.IdEspecialidad</td>
+                    <td>@item.NombreEspecialidad</td>
+                    <td class="text-center">
+                        <a href="@Url.Action("Edit", new { id = item.IdEspecialidad })" class="btn btn-sm btn-outline-warning me-1" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="@Url.Action("Details", new { id = item.IdEspecialidad })" class="btn btn-sm btn-outline-info me-1" title="Detalles">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = item.IdEspecialidad })" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,50 @@
+﻿@model Dominio.Entidad.Entidad.Categoria
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Categorias";
+    ViewBag.Title = "Editar Categoría";
+}
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <h2 class="mb-4 text-warning">
+            <i class="fas fa-edit"></i> Editar Categoría
+        </h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.IdCategoria)
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Código de Categoría:</label>
+                <input class="form-control" value="@Model.IdCategoria" disabled />
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.NombreCategoria, htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.EditorFor(model => model.NombreCategoria, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese nombre actualizado" } })
+                <div>
+                    @Html.ValidationMessageFor(model => model.NombreCategoria, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+                <a href="@Url.Action("ListaCategoria")" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancelar
+                </a>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.mensaje as string))
+        {
+            <div class="alert alert-info mt-3">
+                @ViewBag.mensaje
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model Dominio.Entidad.Entidad.Especialidad
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Especialidades";
+    ViewBag.Title = "Eliminar Especialidad";
+}
+
+<h2 class="mb-4 text-danger"><i class="fas fa-trash-alt"></i> Eliminar Especialidad</h2>
+
+<div class="alert alert-warning" role="alert">
+    <h5><i class="fas fa-exclamation-triangle"></i> ¿Estás seguro que deseas eliminar esta especialidad?</h5>
+    <p class="mb-0">Esta acción no se puede deshacer.</p>
+</div>
+
+<div class="card shadow-sm border-0 mb-3">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4 fw-bold text-secondary">
+                @Html.DisplayNameFor(model => model.IdEspecialidad)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.IdEspecialidad)
+            </dd>
+
+            <dt class="col-sm-4 fw-bold text-secondary">
+                @Html.DisplayNameFor(model => model.NombreEspecialidad)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.NombreEspecialidad)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="text-end">
+        <a href="@Url.Action("ListaEspecialidad")" class="btn btn-secondary me-2">
+            <i class="fas fa-arrow-left"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i> Eliminar
+        </button>
+    </div>
+}

@@ -10,5 +10,7 @@ namespace Dominio.Entidad.Abstraccion
 {
     public interface ICliente : IRepositorioGET<Cliente>
     {
+        Task<Cliente> IniciarSesion(string correo, string contrasenia);
+        Task<string> RegistrarCliente(Cliente c);
     }
 }

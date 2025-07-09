@@ -9,7 +9,6 @@ namespace Dominio.Repositorio
     public interface IRepositorioGET<T> where T : class
     {
         Task<IEnumerable<T>> Listar();
-
     }
 
 }

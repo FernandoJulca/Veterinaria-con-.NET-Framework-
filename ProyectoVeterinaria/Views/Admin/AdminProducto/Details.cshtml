@@ -1,0 +1,59 @@
+﻿@model Dominio.Entidad.Entidad.Producto
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Menu = "Productos";
+    ViewBag.Title = "Detalles del Producto";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h2><i class="fas fa-paw"></i> Detalles del Producto</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Detalles del producto -->
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.IdProducto)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.IdProducto)</dd>
+
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.NombreProducto)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.NombreProducto)</dd>
+
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.NombreCategoria)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.NombreCategoria)</dd>
+
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Precio)</dt>
+                        <dd class="col-sm-7">$ @Html.DisplayFor(model => model.Precio)</dd>
+
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Stock)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Stock)</dd>
+
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.NombreEstado)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.NombreEstado)</dd>
+                    </dl>
+                </div>
+
+                <!-- Imagen del producto -->
+                <div class="col-md-6 text-center">
+                    <h5><i class="fas fa-image"></i> Imagen del Producto</h5>
+                    <img              src="@(string.IsNullOrEmpty(Model.ImagenBase64)
+? $"/imagenes/Productos/P{Model.IdProducto}.jpg"
+: $"data:image/png;base64,{Model.ImagenBase64}")"
+                         class="img-fluid rounded shadow-sm" style="width:400px; height:250px;" onerror="this.onerror=null; this.src='/Imagenes/no-imagen.png';" />
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a class="btn btn-primary me-2" href="@Url.Action("Edit", new { id = Model.IdProducto })">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <a class="btn btn-secondary" href="@Url.Action("ListaProductos")">
+                    <i class="fas fa-arrow-left"></i> Volver al listado
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
